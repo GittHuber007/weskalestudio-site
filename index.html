@@ -1434,10 +1434,9 @@ const enVue = (el, f) => new IntersectionObserver(([e]) => f(e.isIntersecting), 
 })();
 
 /* 5 bis · AUDIT EN DIRECT : les scores viennent de Google PageSpeed Insights,
-   sur le site reel du visiteur. Renseigner CLE une fois le domaine connu :
-   sans cle, le service partage peut etre sature. */
+   sur le site reel du visiteur. La cle reste dans le relais Cloudflare
+   (outils/audit-worker.js), jamais dans la page. */
 (() => {
-  const CLE = "AIzaSyCTcp5C-TqEnvZ4wa9w7wjLFDtHrRh-6Z8";
   const el = document.getElementById("audit"), f = document.getElementById("audF"), champ = f.querySelector("input"), bt = f.querySelector("button");
   const etat = document.getElementById("audE"), suite = document.getElementById("audS"), lecture = document.getElementById("audL");
   const ja = [...el.querySelectorAll(".ja")], ETAPES = ["connecting to the website", "loading pages", "measuring speed", "checking SEO", "calculating scores"];
@@ -1464,11 +1463,9 @@ const enVue = (el, f) => new IntersectionObserver(([e]) => f(e.isIntersecting), 
     suite.hidden = true; ja.forEach((j) => pose(j, null)); el.classList.add("charge"); bt.disabled = true;
     let k = 0; etat.textContent = ETAPES[0];
     clearInterval(msg); msg = setInterval(() => { k = Math.min(k + 1, ETAPES.length - 1); etat.textContent = ETAPES[k]; }, 10000);
-    const q = new URLSearchParams({ url, strategy: "mobile", locale: "en" });
-    for (const c of ["performance", "seo", "accessibility"]) q.append("category", c);
-    if (CLE) q.set("key", CLE);
+    const q = new URLSearchParams({ url, locale: "en" });
     try {
-      const r = await fetch("https://www.googleapis.com/pagespeedonline/v5/runPagespeed?" + q, { signal: ctl.signal });
+      const r = await fetch("https://weskale-audit.weskalestudio.workers.dev/?" + q, { signal: ctl.signal });
       if (r.status === 429) return fin("service busy, please try again in a moment");
       if (!r.ok) return fin("this website could not be analyzed, please check the address");
       const d = (await r.json()).lighthouseResult, c = d.categories;
