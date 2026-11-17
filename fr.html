@@ -495,6 +495,7 @@ em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.0
   .vue *,.vue *::after{animation:none!important}.va i{transform:scaleY(.5)}
 }
 </style>
+<link rel="stylesheet" href="/concepts/_galerie/section.css?v=1">
 </head><body>
 <canvas id="ruban" aria-hidden="true"></canvas>
 <div class="vc" id="vc" aria-hidden="true">
@@ -510,7 +511,7 @@ em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.0
 
 <nav class="nav"><div class="dedans nav__in">
   <a class="logo" href="#top"><span class="logo__m">W</span> Weskale Studio</a>
-  <div class="nav__liens"><a href="#services">Sites</a><a href="#methode">Vidéos</a><a href="#bande">Agents IA</a><a href="#preuves">Expertise</a><a href="#tarifs">Tarifs</a></div>
+  <div class="nav__liens"><a href="#services">Sites</a><a href="#methode">Vidéos</a><a href="#bande">Agents IA</a><a href="#concepts">Conceptions</a><a href="#preuves">Expertise</a><a href="#tarifs">Tarifs</a></div>
   <div class="nav__fin">
     <span class="statut"><i></i>tous systèmes opérationnels</span>
     <span class="lang"><a href="index.html" hreflang="en" lang="en">EN</a><a class="on" href="fr.html" hreflang="fr">FR</a></span>
@@ -747,6 +748,29 @@ em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.0
   <p class="mono" style="margin-top:22px">démonstration simulée, situations et réponses données à titre d'exemple</p>
 </div></section>
 
+<!-- CONCEPTS -->
+<section class="wk-concepts" id="concepts" data-base="/concepts/" data-vignettes="/concepts/_galerie/vignettes/" aria-labelledby="wk-concepts-titre">
+  <div class="wk-dedans">
+    <span class="wk-pastille">concepts</span>
+    <div class="wk-tete">
+      <h2 id="wk-concepts-titre" data-wk-mots>Un site par métier, <em>chacun sa marque</em>.</h2>
+      <p class="wk-rev">Des concepts conçus par Weskale Studio pour des marques fictives. <strong>Cliquez sur une carte : le site s'ouvre dans un nouvel onglet.</strong></p>
+    </div>
+  </div>
+
+  <nav class="wk-filtre" aria-label="Filtrer par univers">
+    <div class="wk-dedans">
+      <div class="wk-filtre__in">
+        <ul class="wk-filtre__l" data-wk="puces"></ul>
+        <p class="wk-filtre__n wk-mono" data-wk="compte" aria-live="polite">25 / 25 concepts</p>
+      </div>
+    </div>
+  </nav>
+
+  <div class="wk-dedans" data-wk="univers"></div>
+  <noscript><p class="wk-dedans" style="color:#9aa396">Activez JavaScript pour afficher les concepts.</p></noscript>
+</section>
+
 <!-- 7 · EXPERTISE -->
 <section id="preuves"><div class="dedans">
   <span class="pastille">expertise</span>
@@ -877,7 +901,7 @@ em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.0
   <div class="etat"><span>tous systèmes opérationnels</span><span>première réponse sous 48 h</span><span>un seul interlocuteur</span></div>
   <div class="pied__g">
     <div><div class="logo"><span class="logo__m">W</span> Weskale Studio</div><p>Sites, vidéos et agents IA pour les entreprises.</p></div>
-    <div class="pied__c"><b>services</b><a href="#services">Sites</a><a href="#methode">Vidéos</a><a href="#bande">Agents IA</a></div>
+    <div class="pied__c"><b>services</b><a href="#services">Sites</a><a href="#methode">Vidéos</a><a href="#bande">Agents IA</a><a href="#concepts">Conceptions</a></div>
     <div class="pied__c"><b>studio</b><a href="#preuves">Expertise</a><a href="#tarifs">Tarifs</a><a href="#contact">Démarrer</a></div>
     <div class="pied__c"><b>contact</b><a href="#contact">Formulaire</a><a href="https://wa.me/447367017770">WhatsApp</a><a href="https://www.instagram.com/weskalestudio/">Instagram</a></div>
   </div>
@@ -1768,5 +1792,7 @@ f.innerHTML = '<p style="margin:0;padding:10px 16px;font-weight:500;color:#fffff
   } catch { b.disabled = false; b.textContent = "Réessayer"; }
 });
 </script>
+<script defer src="/concepts/_galerie/sites.js?v=1"></script>
+<script defer src="/concepts/_galerie/section.js?v=1"></script>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "854c4d48a8c7478ebb8c030fe7335bfa"}'></script>
 </body></html>

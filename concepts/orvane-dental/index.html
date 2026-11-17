@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f4efe7">
+<title>Orvane Dental · Cosmetic dentistry in Jumeirah, Dubai</title>
+<meta name="description" content="Orvane Dental, a concept for a cosmetic dental clinic in Jumeirah, Dubai: an unhurried patient experience, simple online booking and an assistant that answers and books, 24 hours a day. Fictional brand, Weskale Studio concept.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23f4efe7%27/%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%278.5%27 fill=%27none%27 stroke=%27%23a37b45%27 stroke-width=%272.2%27/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/img/hero.webp" media="(min-width: 761px)">
+<link rel="preload" as="image" href="assets/img/hero-m.webp" media="(max-width: 760px)">
+<link rel="stylesheet" href="css/style.css?v=defil1">
+<script>(function(h){h.classList.add("js");try{var l=localStorage.getItem("orvane.lang");if(l==="fr"||l==="en")h.lang=l;}catch(e){}setTimeout(function(){if(!h.classList.contains("ready")){h.classList.add("ready");h.classList.remove("js");}},6000);})(document.documentElement);</script>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <p class="loader__mark">Orvane</p>
+  <p class="loader__line"><i id="loaderBar"></i></p>
+  <p class="loader__sub">Dental · Jumeirah</p>
+</div>
+
+<header class="nav" id="nav">
+  <a href="#top" class="nav__logo" data-i18n-aria="nav.home" aria-label="Orvane Dental, back to the top"><span class="nav__ring" aria-hidden="true"></span><b>Orvane</b><small>Dental</small></a>
+  <nav class="nav__links" data-i18n-aria="nav.main" aria-label="Main navigation">
+    <a href="#experience" data-i18n="nav.exp">The experience</a>
+    <a href="#treatments" data-i18n="nav.care">Treatments</a>
+    <a href="#assistant" data-i18n="nav.assist">24 h assistant</a>
+  </nav>
+  <div class="nav__end">
+    <div class="lang" role="group" data-i18n-aria="nav.lang" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button><span aria-hidden="true">/</span><button type="button" data-lang="fr" aria-pressed="false">FR</button>
+    </div>
+    <a href="#book" class="nav__cta" data-i18n="nav.book">Book</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- 1. Ouverture : un visage, un sourire qui naît sous le défilement -->
+  <section class="film" id="film" data-i18n-aria="film.aria" aria-label="Inside the clinic, then a smile, frame by frame"
+    data-seq-d="assets/seq/d/" data-count-d="180"
+    data-seq-m="assets/seq/m/" data-count-m="90">
+    <div class="film__stage">
+      <div class="film__cam" id="filmCam">
+        <picture class="film__still" id="filmStill">
+          <source media="(max-width: 760px)" srcset="assets/img/hero-m.webp">
+          <img src="assets/img/hero.webp" data-i18n-alt="film.alt" alt="An Orvane treatment room in Dubai: pearl white walls, the ORVANE name in brass, a smiling patient talking with her dentist, palm trees behind the window" fetchpriority="high">
+        </picture>
+      </div>
+      <div class="film__smile" id="filmSmile">
+        <canvas class="film__cv" id="filmCv" aria-hidden="true"></canvas>
+      </div>
+      <div class="film__grade" aria-hidden="true"></div>
+      <div class="film__dim" id="filmDim" aria-hidden="true"></div>
+
+      <div class="film__hero" id="filmHero">
+        <p class="eyebrow" data-in data-i18n="hero.eyebrow">Cosmetic dentistry · Jumeirah, Dubai</p>
+        <h1 class="film__title">
+          <span class="ln"><span data-i18n="hero.l1">A smile,</span></span>
+          <span class="ln"><em data-i18n="hero.l2">unhurried.</em></span>
+        </h1>
+        <p class="film__lead" data-in data-i18n="hero.lead">A cosmetic dental clinic where every visit is planned around you: time to talk, time to see, and care that never feels rushed.</p>
+        <div class="film__ctas" data-in>
+          <a href="#book" class="btn btn--brass" data-i18n="hero.book">Book a visit</a>
+          <a href="#experience" class="btn btn--ghost" id="enterBtn" data-i18n="hero.enter">The experience</a>
+        </div>
+      </div>
+
+      <div class="film__ch film__ch--l film__ch--ink" data-ch="0">
+        <p class="film__num" data-i18n="ch0.n">I · Arrival</p>
+        <p class="film__txt" data-i18n="ch0.t">Soft light, pearl walls. <em>You are expected.</em></p>
+      </div>
+      <div class="film__ch film__ch--r" data-ch="1">
+        <p class="film__num" data-i18n="ch1.n">II · Consultation</p>
+        <p class="film__txt" data-i18n="ch1.t">We look at your smile together, <em>before anything is decided.</em></p>
+      </div>
+      <div class="film__ch film__ch--b" data-ch="2">
+        <p class="film__num" data-i18n="ch2.n">III · The result</p>
+        <p class="film__txt" data-i18n="ch2.t">A smile that still looks like yours, <em>only rested.</em></p>
+      </div>
+
+      <div class="film__end" id="filmEnd">
+        <p class="film__word" aria-hidden="true">Orvane</p>
+        <p class="film__sign" data-i18n="film.end">Cosmetic dentistry, <em>Jumeirah.</em></p>
+      </div>
+
+      <div class="film__rail" aria-hidden="true">
+        <span data-rail="0" data-i18n="rail.0">Arrival</span><span data-rail="1" data-i18n="rail.1">Consultation</span><span data-rail="2" data-i18n="rail.2">Result</span>
+        <i><b id="railBar"></b></i>
+      </div>
+      <p class="film__cue" id="filmCue" aria-hidden="true"><span data-i18n="film.cue">Scroll</span><i></i></p>
+    </div>
+  </section>
+
+  <!-- 2. Le propos -->
+  <section class="intro" id="intro">
+    <p class="eyebrow" data-i18n="intro.eyebrow">The patient experience</p>
+    <p class="intro__text" id="introText" data-i18n="intro.text">At Orvane, the visit matters as much as the result. Each appointment is unhurried, each step is explained, and nothing is decided until you have seen it for yourself.</p>
+  </section>
+
+  <!-- 3. L'expérience : trois écrans, un mot chacun -->
+  <section class="exp" id="experience" data-i18n-aria="exp.aria" aria-label="The experience, in three steps">
+    <div class="exp__stage">
+      <article class="exp__layer" data-layer="0">
+        <img class="exp__vid" src="assets/img/listen.webp" data-i18n-alt="exp1.alt" alt="In the treatment room, the patient talks with her dentist before anything begins" loading="lazy">
+        <div class="exp__shade" aria-hidden="true"></div>
+        <div class="exp__txt">
+          <p class="exp__n">01</p>
+          <h2 class="exp__word" data-i18n="exp1.w">Listen.</h2>
+          <p class="exp__p" data-i18n="exp1.p">The first visit is a conversation. Your dentist asks what you would like to change, and what you would rather keep.</p>
+        </div>
+      </article>
+      <article class="exp__layer" data-layer="1">
+        <video class="exp__vid" muted loop playsinline preload="metadata" poster="assets/img/see.webp" aria-hidden="true"><source src="assets/video/see.mp4" type="video/mp4"></video>
+        <div class="exp__shade" aria-hidden="true"></div>
+        <div class="exp__txt">
+          <p class="exp__n">02</p>
+          <h2 class="exp__word" data-i18n="exp2.w">See.</h2>
+          <p class="exp__p" data-i18n="exp2.p">Scans and photos are reviewed with you on screen. You see the plan, step by step, before it begins.</p>
+        </div>
+      </article>
+      <article class="exp__layer" data-layer="2">
+        <video class="exp__vid" muted loop playsinline preload="metadata" poster="assets/img/care.webp" aria-hidden="true"><source src="assets/video/care.mp4" type="video/mp4"></video>
+        <div class="exp__shade" aria-hidden="true"></div>
+        <div class="exp__txt">
+          <p class="exp__n">03</p>
+          <h2 class="exp__word" data-i18n="exp3.w">Care.</h2>
+          <p class="exp__p" data-i18n="exp3.p">Gentle hands and soft light. Each gesture is explained as it happens, and you can pause at any moment.</p>
+        </div>
+      </article>
+      <div class="exp__dots" aria-hidden="true"><i data-dot="0" class="on"></i><i data-dot="1"></i><i data-dot="2"></i></div>
+    </div>
+  </section>
+
+  <!-- 4. Les soins -->
+  <section class="care" id="treatments">
+    <div class="care__head">
+      <p class="eyebrow" data-i18n="care.eyebrow">Treatments</p>
+      <h2 class="h2" data-i18n="care.h">Six treatments, <em>one approach.</em></h2>
+    </div>
+    <ol class="care__list" id="careList"></ol>
+    <p class="note" data-i18n="care.note">Sample prices for the demonstration. Each plan is confirmed after the consultation.</p>
+  </section>
+
+  <!-- 5. Réservation et assistant -->
+  <section class="book" id="book">
+    <div class="book__head">
+      <p class="eyebrow" data-i18n="book.eyebrow">Book a visit</p>
+      <h2 class="h2" data-i18n="book.h">Choose a time. <em>We take care of the rest.</em></h2>
+    </div>
+
+    <div class="book__grid">
+      <form class="bk" id="bk" novalidate>
+        <fieldset class="bk__group">
+          <legend class="lbl" data-i18n="bk.treat">Treatment</legend>
+          <div class="chips" id="bkTreat" role="radiogroup" data-i18n-aria="bk.treat" aria-label="Treatment"></div>
+        </fieldset>
+        <fieldset class="bk__group">
+          <legend class="lbl" data-i18n="bk.day">Day</legend>
+          <div class="days" id="bkDays" role="radiogroup" data-i18n-aria="bk.day" aria-label="Day"></div>
+        </fieldset>
+        <fieldset class="bk__group">
+          <legend class="lbl" data-i18n="bk.time">Time</legend>
+          <div class="chips chips--time" id="bkTimes" role="radiogroup" data-i18n-aria="bk.time" aria-label="Time"></div>
+          <p class="bk__legend"><span class="lg"></span><span data-i18n="bk.taken">Already booked</span></p>
+        </fieldset>
+        <div class="bk__fields">
+          <label class="field"><span class="lbl" data-i18n="bk.name">Name</span><input id="bkName" autocomplete="name" data-i18n-ph="bk.namePh" placeholder="Your name"></label>
+          <label class="field"><span class="lbl" data-i18n="bk.phone">Phone or email</span><input id="bkContact" autocomplete="email" data-i18n-ph="bk.phonePh" placeholder="So we can confirm"></label>
+        </div>
+        <div class="bk__foot">
+          <p class="bk__sum" id="bkSum" aria-live="polite"></p>
+          <button type="submit" class="btn btn--brass" data-i18n="bk.confirm">Request this visit</button>
+        </div>
+        <p class="bk__msg" id="bkMsg" role="status" aria-live="polite"></p>
+        <p class="note" data-i18n="bk.note">Demonstration: nothing is sent and no appointment is created.</p>
+      </form>
+
+      <aside class="assist" id="assistant" data-i18n-aria="as.aria" aria-label="The phone assistant">
+        <p class="eyebrow" data-i18n="as.eyebrow">Answers and books, 24 hours a day</p>
+        <h3 class="assist__h" data-i18n="as.h">Calling after hours? <em>An assistant answers.</em></h3>
+        <p class="assist__p" data-i18n="as.p">Day and night, an assistant answers the clinic's phone. It understands the request, offers the free times and books the visit, then sends the confirmation. When a question needs a dentist, the team calls back.</p>
+        <div class="call" id="call">
+          <div class="call__top">
+            <span class="call__live"><i></i><span data-i18n="as.live">Assistant · on the line</span></span>
+            <span class="call__tag" data-i18n="as.tag">Simulated exchange</span>
+          </div>
+          <ol class="call__lines" id="callLines" aria-live="off"></ol>
+          <button type="button" class="call__replay" id="callReplay" data-i18n="as.replay">Replay</button>
+        </div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer class="foot" id="visit">
+  <div class="foot__bg" aria-hidden="true"><img src="assets/img/fin.webp" alt="" loading="lazy"></div>
+  <div class="foot__grid">
+    <div>
+      <p class="eyebrow" data-i18n="foot.h1">Visit</p>
+      <p class="foot__txt" data-i18n="foot.p1">Jumeirah, Dubai. The exact address and parking details are sent with your confirmation.</p>
+    </div>
+    <div>
+      <p class="eyebrow" data-i18n="foot.h2">Hours</p>
+      <p class="foot__txt" data-i18n="foot.p2">Saturday to Thursday, 9 am to 9 pm. Outside these hours, the assistant takes your call and books your visit.</p>
+    </div>
+  </div>
+  <p class="foot__mark" aria-hidden="true">Orvane</p>
+  <div class="foot__base">
+    <p data-i18n="foot.concept">Weskale Studio concept · fictional brand. Treatments, prices, hours and the exchange shown are examples for the demonstration. Videos: Mixkit.</p>
+    <p><a href="#top" data-i18n="foot.top">Back to the top</a></p>
+  </div>
+</footer>
+
+<div class="badge" data-i18n="badge">Weskale Studio concept · fictional brand</div>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer src="js/i18n.js"></script>
+<script defer src="js/booking.js"></script>
+<script defer src="js/main.js?v=defil1"></script>
+</body>
+</html>

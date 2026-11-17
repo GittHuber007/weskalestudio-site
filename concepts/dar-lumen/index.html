@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#08111d">
+<title>Dar Lumen · Prestige real estate in Casablanca</title>
+<meta name="description" content="Dar Lumen, a prestige real estate agency concept in Casablanca. Fictional brand, Weskale Studio concept.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%2308111d%27/%3E%3Crect x=%277%27 y=%2713%27 width=%2718%27 height=%276%27 fill=%27%23c8a46c%27/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=defil1">
+<link rel="preload" as="image" href="assets/hero.webp" media="(min-aspect-ratio: 9/10)">
+<link rel="preload" as="image" href="assets/hero-m.webp" media="(max-aspect-ratio: 9/10)">
+<script>
+document.documentElement.classList.add("js");
+try { var l = localStorage.getItem("darlumen-lang"); if (l === "fr" || l === "en") document.documentElement.lang = l; } catch (e) {}
+</script>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <p class="loader__mark">DAR LUMEN</p>
+  <p class="loader__count"><span id="ldNum">0</span></p>
+  <i class="loader__line"><b id="ldBar"></b></i>
+</div>
+
+<header class="nav" id="nav">
+  <a href="#top" class="nav__logo" id="navLogo" data-i18n-aria="nav.home" aria-label="Dar Lumen, back to top">DAR LUMEN</a>
+  <nav class="nav__links" data-i18n-aria="nav.label" aria-label="Main navigation">
+    <a href="#biens" data-i18n="nav.biens">Properties</a>
+    <a href="#estimation" data-i18n="nav.estim">Valuation</a>
+  </nav>
+  <div class="lang" role="group" data-i18n-aria="lang.label" aria-label="Language">
+    <button type="button" data-lang="en" aria-pressed="true" aria-label="English">EN</button>
+    <span aria-hidden="true">/</span>
+    <button type="button" data-lang="fr" aria-pressed="false" aria-label="Français">FR</button>
+  </div>
+  <a href="#visite" class="nav__cta"><span class="l" data-i18n="nav.cta">Private viewing</span><span class="s" data-i18n="nav.ctaS">Viewing</span></a>
+</header>
+
+<main id="top">
+
+  <!-- Ouverture : plan-séquence du drone, piloté par le défilement -->
+  <section class="film" id="film" data-i18n-aria="film.label" aria-label="Arrival at Villa Horizon">
+    <div class="film__stage">
+      <div class="film__media" id="filmMedia">
+        <picture class="film__still" id="filmStill">
+          <source media="(max-aspect-ratio: 9/10)" srcset="assets/hero-m.webp">
+          <img src="assets/hero.webp" data-i18n-alt="film.alt" alt="White contemporary villa at blue hour, infinity pool, palm trees and ocean, brass Dar Lumen sign in the foreground" fetchpriority="high">
+        </picture>
+        <canvas id="filmCanvas" aria-hidden="true"></canvas>
+      </div>
+      <div class="film__shade"></div>
+      <div class="film__low" id="filmLow"></div>
+      <div class="film__night" id="filmNight"></div>
+
+      <div class="film__brand">
+        <h1 class="mark" id="heroMark"><span class="mark__in">DAR LUMEN</span></h1>
+        <p class="film__tag" id="heroTag" data-i18n="film.tag">Prestige real estate in Casablanca</p>
+      </div>
+
+      <div class="beat beat--left" data-beat="0.16 0.40">
+        <p class="beat__k" data-i18n="b1.k">01 · Arrival</p>
+        <p class="beat__t" data-i18n="b1.t">A house is discovered <em>in the order</em> it is lived in.</p>
+        <p class="beat__s" data-i18n="b1.s">The pool, the facade, then the threshold. Every property is filmed at the hour its lights come on.</p>
+      </div>
+
+      <div class="beat beat--right" data-beat="0.44 0.70">
+        <p class="beat__k">02 · Villa Horizon, Aïn Diab</p>
+        <dl class="facts">
+          <div><dt data-i18n="f.surf">Living area</dt><dd>640 m²</dd></div>
+          <div><dt data-i18n="f.rooms">Bedrooms</dt><dd>5</dd></div>
+          <div><dt data-i18n="f.land">Plot</dt><dd data-i18n="f.landV">1,450 m²</dd></div>
+          <div><dt data-i18n="f.price">Example price</dt><dd data-i18n="f.priceV">MAD 24.5 M</dd></div>
+        </dl>
+      </div>
+
+      <div class="beat beat--last" data-beat="0.74 0.92">
+        <p class="beat__k" data-i18n="b3.k">03 · The viewing</p>
+        <p class="beat__t" data-i18n="b3.t">The rest is seen <em>by appointment.</em></p>
+      </div>
+
+      <div class="film__hud" id="filmHud">
+        <span data-i18n="film.scroll">Scroll</span>
+        <i class="film__track"><b id="filmBar"></b></i>
+        <span class="film__frame" id="filmFrame">000</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recherche de biens -->
+  <section class="sec biens" id="biens">
+    <div class="sec__head">
+      <p class="kicker" data-rv data-i18n="bi.k">November selection</p>
+      <h2 class="big" data-rv data-i18n="bi.h">The <em>properties</em></h2>
+      <p class="sec__lead" data-rv data-i18n="bi.lead">Six houses and apartments in Casablanca. One is shown on film here. The others are presented by appointment, with the full file.</p>
+    </div>
+
+    <form class="filters" id="filters" data-i18n-aria="bi.form" aria-label="Search properties" data-rv>
+      <label class="fld">
+        <span class="lbl" data-i18n="l.zone">Neighbourhood</span>
+        <select name="zone" id="fZone">
+          <option value="" data-i18n="o.all">All</option>
+        </select>
+      </label>
+      <label class="fld">
+        <span class="lbl" data-i18n="l.type">Type</span>
+        <select name="type" id="fType">
+          <option value="" data-i18n="o.all">All</option>
+          <option value="villa" data-i18n="t.villa">Villa</option>
+          <option value="appart" data-i18n="t.appart">Apartment</option>
+          <option value="maison" data-i18n="t.maison">Townhouse</option>
+        </select>
+      </label>
+      <label class="fld">
+        <span class="lbl" data-i18n="l.max">Maximum budget</span>
+        <select name="max" id="fMax">
+          <option value="0" data-i18n="o.nolimit">No limit</option>
+          <option value="8000000" data-i18n="o.8">MAD 8 M</option>
+          <option value="15000000" data-i18n="o.15">MAD 15 M</option>
+          <option value="20000000" data-i18n="o.20">MAD 20 M</option>
+        </select>
+      </label>
+      <p class="filters__count" aria-live="polite"><b id="fCount">6</b> <span id="fCountLbl">properties</span></p>
+    </form>
+
+    <ol class="list" id="list"></ol>
+    <p class="list__empty" id="listEmpty" data-i18n="bi.empty" hidden>No property matches. Widen the budget or the neighbourhood.</p>
+    <figure class="peek" id="peek" aria-hidden="true"><img src="assets/villa-detail.webp" alt="" loading="lazy"></figure>
+  </section>
+
+  <!-- Estimation -->
+  <section class="sec estim" id="estimation">
+    <div class="sec__head">
+      <p class="kicker" data-rv data-i18n="es.k">You are selling</p>
+      <h2 class="big" data-rv data-i18n="es.h">A <em>valuation</em></h2>
+      <p class="sec__lead" data-rv data-i18n="es.lead">An initial range straight away, based on example prices per square metre. The real valuation is done on site, with an adviser.</p>
+    </div>
+    <form class="est" id="est" novalidate data-rv>
+      <div class="est__in">
+        <label class="fld">
+          <span class="lbl" data-i18n="l.zone">Neighbourhood</span>
+          <select name="zone" id="eZone"></select>
+        </label>
+        <fieldset class="fld">
+          <legend class="lbl" data-i18n="l.ptype">Property type</legend>
+          <div class="seg">
+            <label><input type="radio" name="type" value="1" checked><span data-i18n="t.villa">Villa</span></label>
+            <label><input type="radio" name="type" value="0.88"><span data-i18n="t.appart">Apartment</span></label>
+            <label><input type="radio" name="type" value="0.94"><span data-i18n="t.maison">Townhouse</span></label>
+          </div>
+        </fieldset>
+        <label class="fld">
+          <span class="lbl"><span data-i18n="l.surf">Living area</span> <output id="eSurfOut">420 m²</output></span>
+          <input type="range" name="surf" id="eSurf" min="80" max="1200" step="10" value="420">
+        </label>
+        <fieldset class="fld">
+          <legend class="lbl" data-i18n="l.opts">Features</legend>
+          <div class="seg seg--wrap">
+            <label><input type="checkbox" name="opt" value="0.08"><span data-i18n="o.sea">Sea view</span></label>
+            <label><input type="checkbox" name="opt" value="0.05"><span data-i18n="o.pool">Pool</span></label>
+            <label><input type="checkbox" name="opt" value="-0.1"><span data-i18n="o.works">Work needed</span></label>
+          </div>
+        </fieldset>
+      </div>
+      <div class="est__out">
+        <p class="lbl" data-i18n="es.range">Indicative range</p>
+        <p class="est__range"><span id="eLow">0</span><i data-i18n="es.to">to</i><span id="eHigh">0</span></p>
+        <p class="note" data-i18n="es.note">Demonstration calculation. It does not replace an on-site valuation.</p>
+        <button type="submit" class="btn" data-i18n="es.btn">Request an on-site valuation</button>
+        <p class="msg" id="eMsg" aria-live="polite"></p>
+      </div>
+    </form>
+  </section>
+
+  <!-- Visite privée -->
+  <section class="sec visit" id="visite">
+    <figure class="visit__img" data-rv>
+      <img src="assets/plaque.webp" data-i18n-alt="vi.alt" alt="Brass Dar Lumen sign on a white wall, pool and ocean at blue hour" loading="lazy">
+    </figure>
+    <div class="visit__panel">
+      <p class="kicker" data-rv data-i18n="nav.cta">Private viewing</p>
+      <h2 class="big big--s" data-rv data-i18n="vi.h">Choose <em>the hour</em></h2>
+      <form class="vf" id="vf" novalidate data-rv>
+        <label class="fld">
+          <span class="lbl" data-i18n="l.bien">Property</span>
+          <select name="bien" id="vBien"></select>
+        </label>
+        <div class="fld">
+          <span class="lbl" id="vDaysLbl" data-i18n="l.day">Day</span>
+          <div class="days" id="vDays" role="radiogroup" aria-labelledby="vDaysLbl"></div>
+        </div>
+        <div class="fld">
+          <span class="lbl" id="vSlotsLbl" data-i18n="l.time">Time</span>
+          <div class="slots" id="vSlots" role="radiogroup" aria-labelledby="vSlotsLbl"></div>
+        </div>
+        <div class="vf__row">
+          <label class="fld"><span class="lbl" data-i18n="l.name">Name</span><input name="nom" autocomplete="name" data-i18n-ph="ph.name" placeholder="Your name"></label>
+          <label class="fld"><span class="lbl" data-i18n="l.tel">Phone</span><input name="tel" type="tel" autocomplete="tel" placeholder="06 00 00 00 00"></label>
+        </div>
+        <button type="submit" class="btn btn--brass" data-i18n="vi.btn">Book the viewing</button>
+        <p class="msg" id="vMsg" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <p class="foot__mark" aria-hidden="true">DAR LUMEN</p>
+  <div class="foot__row">
+    <p data-i18n="ft.what">Prestige real estate<br>Casablanca</p>
+    <p><a href="#biens" data-i18n="nav.biens">Properties</a> · <a href="#estimation" data-i18n="nav.estim">Valuation</a> · <a href="#visite" data-i18n="nav.cta">Private viewing</a></p>
+    <p class="foot__concept" data-i18n="ft.concept">Weskale Studio concept · fictional brand.<br>Properties, prices and visuals are examples generated for the demonstration.</p>
+  </div>
+</footer>
+
+<div class="badge" data-i18n="badge">Weskale Studio concept · fictional brand</div>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer src="js/main.js?v=defil1"></script>
+</body>
+</html>

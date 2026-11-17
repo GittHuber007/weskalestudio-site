@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#070605">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23070605'/%3E%3Crect x='15' y='4' width='2' height='24' rx='1' fill='%23f3e6cf'/%3E%3C/svg%3E">
+<title>LUEUR · Event agency in Paris</title>
+<meta name="description" content="LUEUR, event agency in Paris: scenography, light and production for launches, private dinners and brand evenings. Weskale Studio concept, fictional brand.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=defil1">
+<link rel="preload" as="image" href="assets/hero.webp" media="(min-width: 760px)">
+<link rel="preload" as="image" href="assets/hero-m.webp" media="(max-width: 759px)">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <span class="beam loader__beam"></span>
+  <p class="loader__brand">LUEUR</p>
+  <p class="loader__count"><span id="loadCount">000</span></p>
+</div>
+
+<p class="badge" role="note" data-i18n="badge">Weskale Studio concept · fictional brand</p>
+
+<header class="nav" id="nav">
+  <a class="nav__logo" href="#top" data-i18n-aria-label="nav.home" aria-label="LUEUR, back to top"><span class="nav__mark" aria-hidden="true"></span>LUEUR</a>
+  <nav class="nav__links" data-i18n-aria-label="nav.main" aria-label="Main navigation">
+    <a href="#formats" data-i18n="nav.formats">Formats</a>
+    <a href="#methode" data-i18n="nav.method">Method</a>
+    <a href="#projet" data-i18n="nav.project">Your project</a>
+  </nav>
+  <div class="lang" role="group" data-i18n-aria-label="nav.lang" aria-label="Language">
+    <button type="button" data-lang="en" aria-pressed="true" lang="en">EN</button><span aria-hidden="true">/</span><button type="button" data-lang="fr" aria-pressed="false" lang="fr">FR</button>
+  </div>
+  <a class="btn btn--light nav__cta" href="#projet" data-i18n="nav.cta">Start a project</a>
+</header>
+
+<main id="top">
+
+  <!-- OPENING: the camera drifts beneath a light installation, driven by scroll -->
+  <section class="scene" id="scene" data-i18n-aria-label="scene.label" aria-label="Opening: beneath a light installation">
+    <div class="scene__stage">
+      <picture class="scene__fallback">
+        <source media="(max-width: 759px)" srcset="assets/hero-m.webp">
+        <img src="assets/hero.webp" data-i18n-alt="scene.alt" alt="A grand Haussmann-style hall at night, hundreds of glowing globes overhead, guests in evening wear and LUEUR projected on the stage screen" width="2400" height="1340">
+      </picture>
+      <canvas class="scene__canvas" id="sceneCanvas" role="img" data-i18n-aria-label="scene.canvas" aria-label="The camera crosses the ballroom towards the stage, where a speaker stands before the LUEUR screen"></canvas>
+      <div class="scene__shade"></div>
+
+      <div class="hero" id="hero">
+        <p class="eyebrow" data-i18n="hero.eyebrow">Event agency · Paris</p>
+        <h1 class="hero__title" id="heroTitle">
+          <span class="ln"><span data-i18n="hero.l1">We write</span></span>
+          <span class="ln"><span><em data-i18n="hero.l2">with light.</em></span></span>
+        </h1>
+        <div class="hero__side">
+          <p class="hero__sub" data-i18n="hero.sub">Scenography, light and production for launches, private dinners and brand evenings. An empty venue in the morning, an evening remembered at night.</p>
+          <div class="hero__cta">
+            <a class="btn btn--light" href="#projet" data-i18n="hero.cta1">Tell us about your event</a>
+            <a class="btn btn--line" href="#formats" data-i18n="hero.cta2">Our formats</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="caps" aria-hidden="true">
+        <div class="cap" data-in="0.26" data-out="0.48">
+          <p class="cap__k">01</p>
+          <p class="cap__t"><span class="ln"><span data-i18n="cap1.a">Drawn</span></span><span class="ln"><span><em data-i18n="cap1.b">on the plan.</em></span></span></p>
+          <p class="cap__d" data-i18n="cap1.d">Every light source is placed on the venue plan before a single cable is laid.</p>
+        </div>
+        <div class="cap cap--r" data-in="0.53" data-out="0.74">
+          <p class="cap__k">02</p>
+          <p class="cap__t"><span class="ln"><span data-i18n="cap2.a">Tuned</span></span><span class="ln"><span><em data-i18n="cap2.b">by night.</em></span></span></p>
+          <p class="cap__d" data-i18n="cap2.d">On site, at the exact hour of your evening, until the room looks like no other.</p>
+        </div>
+        <div class="cap cap--name" data-in="0.8" data-out="1.01">
+          <p class="cap__k" data-i18n="cap3.k">Scenography · Light · Production</p>
+          <p class="cap__t cap__t--xl"><span class="ln"><span>LUEUR</span></span></p>
+          <p class="cap__d" data-i18n="cap3.d">Paris, and wherever your evening takes place.</p>
+        </div>
+      </div>
+
+      <div class="hud" aria-hidden="true">
+        <span class="hud__l" data-i18n="hud">Scene</span>
+        <span class="hud__bar"><i id="hudBar"></i></span>
+        <span class="hud__n"><span id="hudNum">001</span> / <span id="hudTot">190</span></span>
+      </div>
+      <p class="scroll-cue" aria-hidden="true"><span></span><b data-i18n="cue">Scroll</b></p>
+    </div>
+  </section>
+
+  <!-- MANIFESTO, typed by scroll -->
+  <section class="mani" id="manifeste" data-i18n-aria-label="mani.label" aria-label="Our approach">
+    <div class="mani__stage">
+      <span class="beam beam--h mani__beam" id="maniBeam"></span>
+      <p class="mani__text" id="maniText" data-i18n="mani">A venue is booked.<br><em>An evening is written.</em></p>
+    </div>
+  </section>
+
+  <!-- FORMATS: one format per screen, stacked -->
+  <section class="formats" id="formats" data-i18n-aria-label="formats.label" aria-label="Our formats">
+    <article class="fmt" data-n="01">
+      <div class="fmt__media">
+        <video class="fmt__video" muted loop playsinline preload="none" poster="assets/v/reveal.webp" data-src="assets/v/reveal.mp4" data-i18n-aria-label="f1.alt" aria-label="A silhouette opens its arms beneath beams of light falling through the haze of a vast hall"></video>
+      </div>
+      <div class="fmt__shade"></div>
+      <div class="fmt__in">
+        <p class="fmt__k"><span>LUEUR</span><span>01 / 04</span></p>
+        <h2 class="fmt__word" data-i18n="f1.w">Reveal.</h2>
+        <div class="fmt__side">
+          <p class="eyebrow" data-i18n="f1.e">Product launches and shows</p>
+          <p class="fmt__d" data-i18n="f1.d">One object, one beam, one silence before the light comes up. We write the reveal to the second.</p>
+        </div>
+      </div>
+    </article>
+    <article class="fmt" data-n="02">
+      <div class="fmt__media">
+        <video class="fmt__video" muted loop playsinline preload="none" poster="assets/v/perform.webp" data-src="assets/v/perform.mp4" data-i18n-aria-label="f2.alt" aria-label="A ballerina turns slowly in a gilded room beneath a chandelier"></video>
+      </div>
+      <div class="fmt__shade"></div>
+      <div class="fmt__in">
+        <p class="fmt__k"><span>LUEUR</span><span>02 / 04</span></p>
+        <h2 class="fmt__word" data-i18n="f2.w">Perform.</h2>
+        <div class="fmt__side">
+          <p class="eyebrow" data-i18n="f2.e">Shows and performances</p>
+          <p class="fmt__d" data-i18n="f2.d">One performer, one light, a room that falls silent. Choreography, music and timing written for your guests.</p>
+        </div>
+      </div>
+    </article>
+    <article class="fmt" data-n="03">
+      <div class="fmt__media">
+        <video class="fmt__video" muted loop playsinline preload="none" poster="assets/v/host.webp" data-src="assets/v/host.mp4" data-i18n-aria-label="f3.alt" aria-label="A dinner table dressed with white flowers and candlelight, seen up close"></video>
+      </div>
+      <div class="fmt__shade"></div>
+      <div class="fmt__in">
+        <p class="fmt__k"><span>LUEUR</span><span>03 / 04</span></p>
+        <h2 class="fmt__word" data-i18n="f3.w">Host.</h2>
+        <div class="fmt__side">
+          <p class="eyebrow" data-i18n="f3.e">Private dinners and galas</p>
+          <p class="fmt__d" data-i18n="f3.d">Thirty guests or three hundred. The best light of an evening falls on faces, not on walls.</p>
+        </div>
+      </div>
+    </article>
+    <article class="fmt" data-n="04">
+      <div class="fmt__media">
+        <video class="fmt__video" muted loop playsinline preload="none" poster="assets/v/gather.webp" data-src="assets/v/gather.mp4" data-i18n-aria-label="f4.alt" aria-label="A crowd lit in warm light, facing the stage"></video>
+      </div>
+      <div class="fmt__shade"></div>
+      <div class="fmt__in">
+        <p class="fmt__k"><span>LUEUR</span><span>04 / 04</span></p>
+        <h2 class="fmt__word" data-i18n="f4.w">Gather.</h2>
+        <div class="fmt__side">
+          <p class="eyebrow" data-i18n="f4.e">Brand evenings and concerts</p>
+          <p class="fmt__d" data-i18n="f4.d">Arrival, stage, late hours: one continuous evening, with no dead time between the moments.</p>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- METHOD -->
+  <section class="method" id="methode">
+    <div class="method__head">
+      <p class="eyebrow" data-i18n="m.eyebrow">Method</p>
+      <h2 class="h2" data-reveal><span data-i18n="m.h1">From the first idea</span><br><em data-i18n="m.h2">to the last guest.</em></h2>
+    </div>
+    <ol class="method__list">
+      <li data-reveal><span class="method__n">01</span><h3 data-i18n="s1.t">Listen</h3><p data-i18n="s1.d">Your guests, your message, your budget. A meeting, then a visit of the venue at the hour of the evening.</p></li>
+      <li data-reveal><span class="method__n">02</span><h3 data-i18n="s2.t">Concept</h3><p data-i18n="s2.d">Plans, light moods, guest journey and a detailed estimate, presented in one session.</p></li>
+      <li data-reveal><span class="method__n">03</span><h3 data-i18n="s3.t">Production</h3><p data-i18n="s3.d">Venue, suppliers, technical crew and permits. One contact person from start to finish.</p></li>
+      <li data-reveal><span class="method__n">04</span><h3 data-i18n="s4.t">The evening</h3><p data-i18n="s4.d">Build, rehearsal, show and strike. We stay until the last guest has left. You simply receive.</p></li>
+    </ol>
+  </section>
+
+  <!-- PROJECT REQUEST -->
+  <section class="project" id="projet">
+    <div class="project__head">
+      <p class="eyebrow" data-i18n="p.eyebrow">Your project</p>
+      <h2 class="h2" data-reveal><span data-i18n="p.h1">Tell us about</span><br><em data-i18n="p.h2">your evening.</em></h2>
+      <p class="project__lead" data-i18n="p.lead">A few answers are enough for a first conversation. A producer replies within two working days.</p>
+    </div>
+    <form class="pf" id="pf" novalidate>
+      <fieldset class="pf__set">
+        <legend data-i18n="p.type">Type of event</legend>
+        <div class="pills" id="pType"></div>
+      </fieldset>
+      <fieldset class="pf__set">
+        <legend><span data-i18n="p.guests">Guests</span> <output id="pGuestsOut" for="pGuests">120</output></legend>
+        <input type="range" id="pGuests" min="20" max="1000" step="10" value="120" data-i18n-aria-label="p.guests" aria-label="Guests">
+      </fieldset>
+      <fieldset class="pf__set">
+        <legend data-i18n="p.budget">Budget in mind</legend>
+        <div class="pills" id="pBudget"></div>
+      </fieldset>
+      <div class="pf__grid">
+        <div class="f"><label for="pMonth" data-i18n="p.month">Planned month</label><input type="month" id="pMonth"></div>
+        <div class="f"><label for="pCity" data-i18n="p.city">City</label><input id="pCity" value="Paris" autocomplete="off"></div>
+        <div class="f"><label for="pName" data-i18n="p.name">Name</label><input id="pName" autocomplete="off"></div>
+        <div class="f"><label for="pMail" data-i18n="p.mail">Email</label><input id="pMail" type="email" inputmode="email" autocomplete="off"></div>
+        <div class="f f--wide"><label for="pIdea" data-i18n="p.idea">Your idea in one sentence</label><textarea id="pIdea" rows="2" data-i18n-placeholder="p.ideaPh" placeholder="A dinner for forty guests to reveal a new collection"></textarea></div>
+      </div>
+      <p class="pf__err" id="pErr" role="alert"></p>
+      <div class="pf__foot">
+        <button class="btn btn--light" type="submit" data-i18n="p.send">Send the request</button>
+        <p class="note" data-i18n="p.note">Demo website: nothing is sent and nothing is stored.</p>
+      </div>
+    </form>
+  </section>
+</main>
+
+<footer class="foot">
+  <span class="beam beam--h foot__beam"></span>
+  <p class="foot__brand" aria-hidden="true">LUEUR</p>
+  <div class="foot__row">
+    <p data-i18n="foot.city">Paris, France<br>Events in France and abroad</p>
+    <p><a href="#formats" data-i18n="nav.formats">Formats</a><br><a href="#methode" data-i18n="nav.method">Method</a><br><a href="#projet" data-i18n="nav.project">Your project</a></p>
+    <p class="foot__legal"><span data-i18n="badge">Weskale Studio concept · fictional brand</span>.<br><span data-i18n="foot.legal">Demo website: formats, budgets and requests are examples. Footage from the Mixkit free library, graded for this demo. The people shown are not linked to the brand.</span></p>
+  </div>
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle" hidden>
+  <div class="modal__veil" data-mclose></div>
+  <div class="modal__panel">
+    <span class="beam beam--h modal__beam"></span>
+    <p class="eyebrow" data-i18n="d.eyebrow">Example request received</p>
+    <h3 id="mTitle"><span data-i18n="d.title">Thank you</span><span id="mName"></span>.</h3>
+    <p class="modal__ref"><span data-i18n="d.ref">Reference</span> <b id="mRef"></b></p>
+    <p id="mRecap"></p>
+    <p class="note" data-i18n="d.note">Demo: nothing has been sent.</p>
+    <button class="btn btn--light btn--block" type="button" data-mclose data-i18n="d.close">Close</button>
+  </div>
+</div>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer src="js/i18n.js"></script>
+<script defer src="js/main.js?v=defil2"></script>
+</body>
+</html>

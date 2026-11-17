@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#050505">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23050505'/%3E%3Crect x='6' y='8' width='20' height='2' fill='%23f6f1e7'/%3E%3Cpath d='M9 13h3.4L16 21.6 19.6 13H23l-5.6 11h-2.8z' fill='%23f6f1e7'/%3E%3C/svg%3E">
+<title>VELLORIA · Exceptional car rental in Dubai</title>
+<meta name="description" content="VELLORIA, exceptional car rental in Dubai, delivered to your hotel, your villa or the airport. Concept Weskale Studio, marque fictive.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=defil1">
+<link rel="preload" as="image" href="assets/hero.webp" media="(min-width: 760px)">
+<link rel="preload" as="image" href="assets/hero-m.webp" media="(max-width: 759px)">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <span class="ramp loader__ramp"></span>
+  <p class="loader__brand">VELLORIA</p>
+  <p class="loader__count"><span id="loadCount">000</span></p>
+</div>
+
+<p class="badge" role="note">Concept Weskale Studio · marque fictive</p>
+
+<header class="nav" id="nav">
+  <a class="nav__logo" href="#top" data-i18n-aria-label="nav.home" aria-label="VELLORIA, back to top">VELLORIA</a>
+  <nav class="nav__links" data-i18n-aria-label="nav.main" aria-label="Main navigation">
+    <a href="#flotte" data-i18n="nav.fleet">Fleet</a>
+    <a href="#deroule" data-i18n="nav.steps">Process</a>
+    <a href="#reserver" data-i18n="nav.reserve">Reserve</a>
+  </nav>
+  <div class="lang" role="group" data-i18n-aria-label="nav.lang" aria-label="Language">
+    <button type="button" data-lang="en" aria-pressed="true" lang="en">EN</button><span aria-hidden="true">/</span><button type="button" data-lang="fr" aria-pressed="false" lang="fr">FR</button>
+  </div>
+  <a class="btn btn--light nav__cta" href="#reserver" data-i18n="nav.reserve">Reserve</a>
+</header>
+
+<main id="top">
+
+  <!-- OPENING + ORBIT: one shot, driven by scroll -->
+  <section class="scene" id="scene" data-i18n-aria-label="scene.label" aria-label="Opening: the car in the showroom">
+    <div class="scene__stage">
+      <picture class="scene__fallback">
+        <source media="(max-width: 759px)" srcset="assets/hero-m.webp">
+        <img src="assets/hero.webp" data-i18n-alt="scene.alt" alt="Black VELLORIA hypercar in a smoky showroom, under a ramp of light" width="2400" height="1340">
+      </picture>
+      <canvas class="scene__canvas" id="sceneCanvas" role="img" data-i18n-aria-label="scene.canvas" aria-label="The camera circles the car, from front three quarter to profile"></canvas>
+      <div class="scene__shade"></div>
+
+      <div class="hero" id="hero">
+        <p class="eyebrow" data-i18n="hero.eyebrow">Exceptional car rental · Dubai</p>
+        <h1 class="hero__title" id="heroTitle">
+          <span class="ln"><span data-i18n="hero.l1">The keys</span></span>
+          <span class="ln"><span data-i18n="hero.l2">to the</span></span>
+          <span class="ln"><span data-i18n="hero.l3">night.</span></span>
+        </h1>
+        <div class="hero__side">
+          <p class="hero__sub" data-i18n="hero.sub">Exceptional cars delivered to your hotel, your villa or the airport, at the time you choose. One advisor, from the first message to the return of the keys.</p>
+          <div class="hero__cta">
+            <a class="btn btn--light" href="#reserver" data-i18n="hero.cta1">Reserve a car</a>
+            <a class="btn btn--line" href="#flotte" data-i18n="hero.cta2">View the fleet</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="caps" aria-hidden="true">
+        <div class="cap" data-in="0.2" data-out="0.42">
+          <p class="cap__k">01</p>
+          <p class="cap__t"><span class="ln"><span data-i18n="cap1.a">Prepared</span></span><span class="ln"><span data-i18n="cap1.b">before every handover.</span></span></p>
+          <p class="cap__d" data-i18n="cap1.d">Washed by hand, full tank, cabin set to the temperature you choose.</p>
+        </div>
+        <div class="cap cap--r" data-in="0.46" data-out="0.68">
+          <p class="cap__k">02</p>
+          <p class="cap__t"><span class="ln"><span data-i18n="cap2.a">Delivered</span></span><span class="ln"><span data-i18n="cap2.b">on the hour.</span></span></p>
+          <p class="cap__d" data-i18n="cap2.d">To your hotel, your villa or the arrivals terminal, anywhere in Dubai.</p>
+        </div>
+        <div class="cap cap--name" data-in="0.74" data-out="1.01">
+          <p class="cap__k" data-i18n="cap3.k">VELLORIA · Model 01</p>
+          <p class="cap__t cap__t--xl"><span class="ln"><span>Noctis</span></span></p>
+          <p class="cap__d" data-i18n="cap3.d">Hypercar · two seats · rear mid-engine</p>
+        </div>
+      </div>
+
+      <div class="hud" aria-hidden="true">
+        <span class="hud__l" data-i18n="hud">Orbit</span>
+        <span class="hud__bar"><i id="hudBar"></i></span>
+        <span class="hud__n"><span id="hudNum">001</span> / <span id="hudTot">192</span></span>
+      </div>
+      <p class="scroll-cue" aria-hidden="true"><span></span><b data-i18n="cue">Scroll</b></p>
+    </div>
+  </section>
+
+  <!-- MANIFESTO -->
+  <section class="mani" id="manifeste" data-i18n-aria-label="mani.label" aria-label="Our approach">
+    <div class="mani__stage">
+      <span class="ramp mani__ramp" id="maniRamp"></span>
+      <p class="mani__text" id="maniText" data-i18n="mani">A car is rented.<br>An evening is prepared.</p>
+    </div>
+  </section>
+
+  <!-- FLEET: one car per screen -->
+  <section class="fleet" id="flotte">
+    <article class="model" id="model-noctis">
+      <div class="model__name" aria-hidden="true"><span>Noc</span><span>tis</span></div>
+      <figure class="model__media">
+        <img src="assets/noctis.webp" data-i18n-alt="model.alt" alt="Profile of the VELLORIA Noctis, a black hypercar in a smoky showroom" width="1280" height="720" loading="lazy">
+      </figure>
+      <div class="model__info">
+        <p class="eyebrow" data-i18n="model.eyebrow">The fleet · Model 01</p>
+        <h2 class="model__title">VELLORIA Noctis</h2>
+        <p class="model__desc" data-i18n="model.desc">The house hypercar. Low, wide and black from end to end, made for the coast road once the heat has gone.</p>
+        <dl class="specs">
+          <div><dt data-i18n="spec.seats">Seats</dt><dd>2</dd></div>
+          <div><dt data-i18n="spec.engine">Engine</dt><dd data-i18n="spec.engineV">Rear mid-engine</dd></div>
+          <div><dt data-i18n="spec.box">Gearbox</dt><dd data-i18n="spec.boxV">Paddle shift</dd></div>
+        </dl>
+        <div class="model__foot">
+          <p class="price"><span data-i18n="price.from">From</span> <b data-price="noctis"></b> <span data-i18n="price.day">per day</span></p>
+          <button class="btn btn--light" type="button" data-pick="noctis" data-i18n="model.pick">Choose the Noctis</button>
+        </div>
+      </div>
+    </article>
+
+    <div class="also">
+      <p class="eyebrow" data-i18n="also">Also in the fleet</p>
+      <ul class="also__list" id="alsoList"></ul>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="steps" id="deroule">
+    <div class="steps__head">
+      <p class="eyebrow" data-i18n="steps.eyebrow">The process</p>
+      <h2 class="h2" data-reveal data-i18n="steps.h">From request<br>to returned keys.</h2>
+    </div>
+    <ol class="steps__list">
+      <li data-reveal>
+        <span class="steps__n">01</span>
+        <h3 data-i18n="s1.t">You choose</h3>
+        <p data-i18n="s1.d">The car, the dates, the time and the delivery address. An advisor calls you back to confirm.</p>
+      </li>
+      <li data-reveal>
+        <span class="steps__n">02</span>
+        <h3 data-i18n="s2.t">It waits for you</h3>
+        <p data-i18n="s2.d">Washed by hand, full tank, parked outside your hotel, your villa or the arrivals terminal.</p>
+      </li>
+      <li data-reveal>
+        <span class="steps__n">03</span>
+        <h3 data-i18n="s3.t">You return the keys</h3>
+        <p data-i18n="s3.d">At the same place or elsewhere in Dubai. The deposit is released after the inspection.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- RESERVATION -->
+  <section class="resa" id="reserver">
+    <div class="resa__head">
+      <p class="eyebrow" data-i18n="resa.eyebrow">Reserve</p>
+      <h2 class="h2" data-reveal data-i18n="resa.h">Your evening,<br>arranged.</h2>
+    </div>
+    <form class="rv" id="rvForm" novalidate>
+      <fieldset class="rv__cars">
+        <legend data-i18n="f.car">Car</legend>
+        <div class="rv__carlist" id="rvCars"></div>
+      </fieldset>
+      <div class="rv__grid">
+        <div class="f"><label for="rFrom" data-i18n="f.from">Pick-up</label><input type="date" id="rFrom" required></div>
+        <div class="f"><label for="rTo" data-i18n="f.to">Return</label><input type="date" id="rTo" required></div>
+        <div class="f"><label for="rWhere" data-i18n="f.where">Delivery</label>
+          <select id="rWhere">
+            <option value="marina">Dubai Marina</option>
+            <option value="downtown">Downtown Dubai</option>
+            <option value="palm">Palm Jumeirah</option>
+            <option value="dxb" data-i18n="f.dxb">DXB airport, arrivals</option>
+          </select></div>
+        <div class="f"><label for="rTime" data-i18n="f.time">Time</label><select id="rTime"></select></div>
+      </div>
+      <label class="toggle"><input type="checkbox" id="rChauffeur"><span class="toggle__ui" aria-hidden="true"></span><span><span data-i18n="f.chauffeur">With a chauffeur</span> <small id="chfPrice"></small></span></label>
+      <div class="rv__grid">
+        <div class="f"><label for="rName" data-i18n="f.name">Name</label><input id="rName" autocomplete="off"></div>
+        <div class="f"><label for="rTel" data-i18n="f.tel">Phone</label><input id="rTel" type="tel" inputmode="tel" autocomplete="off"></div>
+      </div>
+      <div class="rv__sum">
+        <p class="rv__car" id="rvCar">Noctis</p>
+        <div class="rv__lines" id="rvLines"></div>
+        <div class="rv__total"><span data-i18n="f.total">Estimated total</span><b id="rvTotal">0</b></div>
+        <p class="rv__err" id="rvErr" role="alert"></p>
+        <button class="btn btn--light btn--block" type="submit" data-i18n="f.send">Send the request</button>
+        <p class="note" data-i18n="f.note">Example prices. This demo books nothing and takes no payment.</p>
+      </div>
+    </form>
+  </section>
+</main>
+
+<footer class="foot">
+  <span class="ramp foot__ramp"></span>
+  <p class="foot__brand" aria-hidden="true">VELLORIA</p>
+  <div class="foot__row">
+    <p data-i18n="foot.city">Dubai, United Arab Emirates<br>Delivery across the city</p>
+    <p><a href="#flotte" data-i18n="nav.fleet">Fleet</a><br><a href="#deroule" data-i18n="nav.steps">Process</a><br><a href="#reserver" data-i18n="nav.reserve">Reserve</a></p>
+    <p class="foot__legal">Concept Weskale Studio · marque fictive.<br><span data-i18n="foot.legal">Demo website: cars, prices and bookings are examples. Generated visuals, with no link to any car manufacturer.</span></p>
+  </div>
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle" hidden>
+  <div class="modal__veil" data-mclose></div>
+  <div class="modal__panel">
+    <p class="eyebrow" data-i18n="m.eyebrow">Example request received</p>
+    <h3 id="mTitle" data-i18n="m.title">An advisor<br>will call you.</h3>
+    <p class="modal__ref"><span data-i18n="m.ref">Reference</span> <b id="mRef"></b></p>
+    <p id="mRecap"></p>
+    <p class="note" data-i18n="m.note">Demo: nothing is booked and no payment is requested.</p>
+    <button class="btn btn--light btn--block" type="button" data-mclose data-i18n="m.close">Close</button>
+  </div>
+</div>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer src="js/i18n.js?v=defil1"></script>
+<script defer src="js/main.js?v=defil1"></script>
+</body>
+</html>

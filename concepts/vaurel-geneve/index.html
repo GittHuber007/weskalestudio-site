@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<script>
+  /* Langue : anglais par defaut, francais si choisi (localStorage, ou ?lang=fr si le stockage est bloque) */
+  (function () {
+    var l = null;
+    try { l = localStorage.getItem("vaurel-lang"); } catch (e) {}
+    var q = /[?&]lang=(en|fr)\b/.exec(location.search);
+    if (q) l = q[1];
+    document.documentElement.lang = l === "fr" ? "fr" : "en";
+  })();
+</script>
+<title>Vaurel Genève · Haute horlogerie</title>
+<meta name="description" content="Vaurel, a fictional watch house in Geneva. A Weskale Studio concept.">
+<meta name="theme-color" content="#030303">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23030303%22/%3E%3Ctext x=%2216%22 y=%2223%22 font-family=%22Georgia%22 font-size=%2220%22 fill=%22%23cdb37f%22 text-anchor=%22middle%22%3EV%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Manrope:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=defil2">
+</head>
+<body>
+<div class="loader" aria-hidden="true">
+  <div class="loader__mark"><span>VAUREL</span><small>Genève</small></div>
+  <div class="loader__line"><i></i></div>
+  <div class="loader__count"><span class="loader__num">000</span></div>
+</div>
+
+<header class="nav">
+  <nav class="nav__left" aria-label="Sections" data-i18n-attr="aria-label:nav.sections">
+    <a href="#eclatee" data-i18n="nav.exploded">Exploded view</a>
+    <a href="#calibre" data-i18n="nav.calibre">Calibre</a>
+    <a href="#cadrans" data-i18n="nav.dials">Dials</a>
+  </nav>
+  <a class="nav__mark" href="#top" aria-label="Vaurel, back to top" data-i18n-attr="aria-label:nav.home">VAUREL<small>Genève</small></a>
+  <div class="nav__right">
+    <div class="lang" role="group" aria-label="Language" data-i18n-attr="aria-label:lang.label">
+      <button type="button" data-lang="en" lang="en" aria-label="English">EN</button><span aria-hidden="true">/</span><button type="button" data-lang="fr" lang="fr" aria-label="Français">FR</button>
+    </div>
+    <a class="nav__cta" href="#rendez-vous" data-magnetic="0.25"><span class="cta__long" data-i18n="nav.cta">Private viewing</span><span class="cta__short" data-i18n="nav.ctaShort">Viewing</span></a>
+  </div>
+</header>
+
+<main id="top">
+  <!-- 1. Ouverture : le chronographe (sequence assets/seq-chrono/, voir assets/emplacements.json) -->
+  <section class="hero" aria-label="Chronograph in yellow gold" data-i18n-attr="aria-label:hero.aria">
+    <div class="hero__pin">
+      <div class="hero__media">
+        <img class="hero__img" src="assets/hero.webp" srcset="assets/hero-m.webp 1000w, assets/hero.webp 2400w" sizes="(max-width: 759px) 1000px, 100vw" alt="Vaurel chronograph in yellow gold, black dial with three counters, resting on a slab of black marble" data-i18n-attr="alt:hero.alt">
+        <canvas class="hero__gl" aria-hidden="true"></canvas>
+        <canvas class="hero__seq" aria-hidden="true"></canvas>
+      </div>
+      <div class="hero__veil"></div>
+      <div class="hero__shut"></div>
+      <div class="hero__copy">
+        <p class="eyebrow"><span class="dot"></span><span data-i18n="hero.eyebrow">Maison Vaurel · Geneva</span></p>
+        <h1 class="hero__title" data-i18n="hero.title"><span class="line">Chronograph</span><span class="line"><em>in yellow gold</em></span></h1>
+        <p class="hero__sub" data-i18n="hero.sub">Three counters, a tachymeter scale engraved in the gold and a black lacquered dial. A 40 mm case on a solid gold bracelet.</p>
+        <a class="btn" href="#eclatee" data-magnetic="0.3"><span data-i18n="hero.btn">Open the watch</span><i class="btn__line"></i></a>
+      </div>
+      <div class="hero__note">
+        <p class="eyebrow"><span class="dot"></span><span data-i18n="hero.noteK">Tachymeter bezel</span></p>
+        <p class="hero__noteT" data-i18n="hero.noteT">Engraved in the gold, the scale reads an average speed over one kilometre, using the chronograph.</p>
+      </div>
+      <p class="hero__ref" aria-hidden="true" data-i18n="hero.ref"><span>Ref.</span> V.40 Chronograph</p>
+      <div class="hero__scroll" aria-hidden="true"><span data-i18n="hero.scroll">Scroll</span><i></i></div>
+    </div>
+  </section>
+
+  <!-- 2. Vue eclatee : sequence assets/seq-eclatee/ si deposee, sinon image fixe assets/eclatee.webp.
+       Sans l'une ni l'autre, la section reste masquee. -->
+  <section class="eclatee" id="eclatee" aria-label="Exploded view of the chronograph" data-i18n-attr="aria-label:ex.aria" data-linked hidden>
+    <div class="eclatee__pin">
+      <img class="eclatee__still" alt="Exploded view of the Vaurel chronograph, layer by layer" data-i18n-attr="alt:ex.alt">
+      <canvas class="eclatee__canvas" aria-hidden="true"></canvas>
+      <div class="eclatee__veil"></div>
+      <div class="eclatee__head">
+        <p class="eyebrow"><span class="dot"></span><span data-i18n="ex.eyebrow">Exploded view</span></p>
+        <h2 class="eclatee__title" data-i18n="ex.title">Layer by layer</h2>
+      </div>
+      <svg class="eclatee__lines" aria-hidden="true"></svg>
+      <ol class="eclatee__cards">
+        <li class="xcard" data-pt="0">
+          <p class="xcard__k" data-i18n="ex.c1k">Case and bezel</p>
+          <p class="xcard__v" data-i18n="ex.c1v">18k gold</p>
+          <p class="xcard__d" data-i18n="ex.c1d">Case, bezel and bracelet in solid yellow gold, polished and brushed by hand.</p>
+        </li>
+        <li class="xcard" data-pt="1">
+          <p class="xcard__k" data-i18n="ex.c2k">Movement</p>
+          <p class="xcard__v">Calibre V.21</p>
+          <p class="xcard__d" data-i18n="ex.c2d">Mechanical movement with chronograph, 31 jewels, bridges decorated by hand.</p>
+        </li>
+        <li class="xcard" data-pt="2">
+          <p class="xcard__k" data-i18n="ex.c3k">Power reserve</p>
+          <p class="xcard__v">72 h</p>
+          <p class="xcard__d" data-i18n="ex.c3d">Three days of autonomy once fully wound.</p>
+        </li>
+      </ol>
+      <p class="eclatee__note" data-i18n="ex.note">Fictional product. Figures shown for illustration.</p>
+      <div class="eclatee__shut"></div>
+    </div>
+  </section>
+
+  <!-- 3. Le calibre : sequence video pilotee par le defilement -->
+  <section class="calibre" id="calibre" aria-label="Calibre V.21" data-linked>
+    <div class="calibre__pin">
+      <img class="calibre__fallback" src="assets/m-onyx.webp" alt="" aria-hidden="true">
+      <canvas class="calibre__canvas" aria-hidden="true"></canvas>
+      <div class="calibre__veil"></div>
+      <div class="calibre__steps">
+        <article class="step" data-step="0">
+          <p class="step__n" data-i18n="cal.s1n">I · The dial</p>
+          <h2 class="step__t">Onyx</h2>
+          <p class="step__d" data-i18n="cal.s1d">A polished black stone with applied gold indices. This is the dial of the Onyx model, in a 39 mm case.</p>
+        </article>
+        <article class="step" data-step="1">
+          <p class="step__n" data-i18n="cal.s2n">II · Beneath</p>
+          <h2 class="step__t" data-i18n="cal.s2t">The movement</h2>
+          <p class="step__d" data-i18n="cal.s2d">The dial fades away. Rhodium plated bridges, gold wheels, rubies set in their chatons, screws blued in the flame.</p>
+        </article>
+        <article class="step" data-step="2">
+          <p class="step__n">III · Calibre V.21</p>
+          <h2 class="step__t" data-i18n="cal.s3t">By hand</h2>
+          <p class="step__d" data-i18n="cal.s3d">Manual winding. Every bridge is bevelled and decorated by hand, then left on view in the Ossature model.</p>
+        </article>
+      </div>
+      <dl class="calibre__figs">
+        <div><dt>72<small>h</small></dt><dd data-i18n="cal.f1">Power reserve</dd></div>
+        <div><dt data-i18n="cal.f2v">28,800</dt><dd data-i18n="cal.f2">Vibrations per hour</dd></div>
+        <div><dt>31</dt><dd data-i18n="cal.f3">Jewels</dd></div>
+      </dl>
+      <div class="calibre__hud" aria-hidden="true">
+        <span class="hud__label">Calibre V.21</span>
+        <span class="hud__bar"><i></i></span>
+        <span class="hud__frame">000</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Atelier : typographie seule (photo optionnelle assets/atelier.webp) -->
+  <section class="atelier" id="atelier" aria-label="Workshop" data-i18n-attr="aria-label:at.aria">
+    <figure class="atelier__media" hidden>
+      <img class="atelier__img" alt="Hands of a watchmaker assembling a movement" data-i18n-attr="alt:at.alt" loading="lazy">
+    </figure>
+    <div class="atelier__inner">
+      <p class="eyebrow"><span class="dot"></span><span data-i18n="at.eyebrow">Workshop</span></p>
+      <p class="atelier__text" data-scrub-words data-i18n="at.text">A watch is judged by what nobody sees: the angle of a bridge, the blue of a screw, the regularity of a second.</p>
+      <ol class="atelier__list">
+        <li data-reveal><span>01</span><h3 data-i18n="at.l1t">Anglage</h3><p data-i18n="at.l1d">Every bridge edge filed to forty five degrees, then polished until it holds a single line of light.</p></li>
+        <li data-reveal><span>02</span><h3 data-i18n="at.l2t">Côtes de Genève</h3><p data-i18n="at.l2d">Parallel stripes drawn across the bridges in a single pass, without correction.</p></li>
+        <li data-reveal><span>03</span><h3 data-i18n="at.l3t">Blueing</h3><p data-i18n="at.l3d">Steel screws heated slowly until they turn a deep, even blue.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 5. Les cadrans : configurateur, meme montre, trois cadrans -->
+  <section class="cadrans" id="cadrans" aria-label="Choose a dial" data-i18n-attr="aria-label:cfg.aria">
+    <div class="cadrans__pin">
+      <div class="cadrans__stage">
+        <img class="cadrans__fallback" src="assets/hero.webp" alt="">
+        <canvas class="cadrans__gl" aria-hidden="true"></canvas>
+      </div>
+      <div class="cadrans__veil"></div>
+      <div class="cadrans__copy">
+        <p class="eyebrow"><span class="dot"></span><span data-i18n="cfg.eyebrow">Three dials</span> · <span class="ci__cur">01</span> / <span class="ci__tot">03</span></p>
+        <h2 class="cadrans__name" aria-live="polite">Chronograph</h2>
+        <dl class="cadrans__meta">
+          <div><dt data-i18n="cfg.case">Case</dt><dd data-k="case">18k yellow gold, 40 mm</dd></div>
+          <div><dt data-i18n="cfg.dial">Dial</dt><dd data-k="dial">Black lacquer, three counters</dd></div>
+          <div><dt data-i18n="cfg.price">Example price</dt><dd data-k="price">CHF 48,500</dd></div>
+        </dl>
+      </div>
+      <div class="cadrans__pick" role="tablist" aria-label="Dials" data-i18n-attr="aria-label:cfg.tabs"></div>
+    </div>
+  </section>
+
+  <!-- 6. Rendez-vous prive (demonstration) -->
+  <section class="rdv" id="rendez-vous" aria-label="Private viewing" data-i18n-attr="aria-label:rdv.aria">
+    <div class="rdv__inner">
+      <div class="rdv__intro">
+        <p class="eyebrow"><span class="dot"></span><span data-i18n="rdv.eyebrow">By appointment</span></p>
+        <h2 class="rdv__title" data-split-reveal data-i18n="rdv.title">See the watch on your wrist</h2>
+        <p class="rdv__lead" data-i18n="rdv.lead">Choose a salon, a model and a day. The house prepares the pieces in advance.</p>
+      </div>
+      <form class="vform" novalidate>
+        <label class="field"><span data-i18n="rdv.name">Name</span><input name="name" autocomplete="off" required placeholder="Your name" data-i18n-attr="placeholder:rdv.nameP"></label>
+        <label class="field"><span data-i18n="rdv.email">Email</span><input name="email" type="email" autocomplete="off" required placeholder="you@example.com" data-i18n-attr="placeholder:rdv.emailP"></label>
+        <label class="field"><span data-i18n="rdv.salon">Salon</span>
+          <select name="salon"><option value="geneve" data-i18n="rdv.geneve">Geneva</option><option value="paris">Paris</option><option value="dubai" data-i18n="rdv.dubai">Dubai</option></select>
+        </label>
+        <label class="field"><span data-i18n="rdv.model">Model</span>
+          <select name="model" class="vform__model"><option>Chronograph</option></select>
+        </label>
+        <div class="field field--days"><span data-i18n="rdv.day">Day</span><div class="days" role="radiogroup" aria-label="Day" data-i18n-attr="aria-label:rdv.day"></div></div>
+        <button class="btn btn--solid" type="submit" data-magnetic="0.2"><span data-i18n="rdv.send">Request the appointment</span></button>
+        <p class="vform__msg" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot__giant" aria-hidden="true">VAUREL</div>
+  <div class="foot__row">
+    <p data-i18n="foot.house">Vaurel Genève, haute horlogerie</p>
+    <p data-i18n="foot.concept">Weskale Studio concept · fictional brand</p>
+    <p data-i18n="foot.images">Images generated for this concept</p>
+  </div>
+</footer>
+
+<div class="badge" role="note" data-i18n="foot.concept">Weskale Studio concept · fictional brand</div>
+
+<script defer src="js/i18n.js?v=defil1"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer src="js/core.js?v=defil3"></script>
+<script defer src="js/main.js?v=defil1"></script>
+</body>
+</html>

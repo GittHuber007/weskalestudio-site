@@ -1,0 +1,62 @@
+/* Base commune : remise à zéro, curseur, badge, notifications, découpe du texte. */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+body{overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+img,video,canvas{display:block;max-width:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Découpe du texte : le masque cache le mot qui monte */
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:.2em .04em .08em;margin:-.2em -.04em -.08em}
+.wi{display:inline-block;will-change:transform}
+.c{display:inline-block;will-change:transform}
+
+/* Curseur */
+html.js:not(.touch):not(.rm) body{cursor:none}
+html.js:not(.touch):not(.rm) a,html.js:not(.touch):not(.rm) button,html.js:not(.touch):not(.rm) label{cursor:none}
+html.js:not(.touch):not(.rm) input,html.js:not(.touch):not(.rm) select,html.js:not(.touch):not(.rm) textarea{cursor:text}
+.cursor{position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:0;transition:opacity .3s}
+.cursor.on{opacity:1}
+.cursor__dot{position:absolute;left:0;top:0;width:6px;height:6px;border-radius:50%;background:var(--cursor,#fff);transform:translate(calc(var(--x) - 50%),calc(var(--y) - 50%))}
+.cursor__ring{position:absolute;left:0;top:0;width:38px;height:38px;border-radius:50%;border:1px solid var(--cursor,#fff);transform:translate(calc(var(--rx) - 50%),calc(var(--ry) - 50%));transition:width .45s cubic-bezier(.2,.8,.2,1),height .45s cubic-bezier(.2,.8,.2,1),background .3s,border-color .3s;display:grid;place-items:center;mix-blend-mode:difference}
+.cursor.hover .cursor__ring{width:64px;height:64px}
+.cursor.label .cursor__ring{width:96px;height:96px;background:var(--cursor,#fff);mix-blend-mode:normal}
+.cursor__label{font-style:normal;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--cursor-ink,#000);opacity:0;transition:opacity .2s}
+.cursor.label .cursor__label{opacity:1}
+
+/* Badge de concept, fixe et discret */
+.concept{position:fixed;left:16px;bottom:16px;z-index:9000;font:500 10.5px/1 var(--mono,ui-monospace,monospace);letter-spacing:.08em;text-transform:uppercase;padding:8px 11px;border-radius:999px;background:rgba(10,10,10,.62);color:rgba(255,255,255,.82);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);pointer-events:none}
+
+/* Notification */
+.toast{position:fixed;left:50%;bottom:28px;z-index:9500;transform:translate(-50%,140%);padding:14px 20px;border-radius:999px;background:var(--toast-bg,#111);color:var(--toast-ink,#fff);font-size:14px;box-shadow:0 20px 60px rgba(0,0,0,.35);transition:transform .6s cubic-bezier(.2,.8,.2,1);max-width:calc(100vw - 32px);text-align:center}
+.toast.on{transform:translate(-50%,0)}
+
+/* Photo WebGL : l'image reste dessous en repli */
+.glhost{position:relative;overflow:hidden}
+.glhost>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.glhost>canvas.gl{position:absolute;inset:0;width:100%!important;height:100%!important;opacity:0;transition:opacity .8s}
+.glhost.gl-on>canvas.gl{opacity:1}
+
+/* Grain photographique */
+.grain{position:fixed;inset:-50%;z-index:8000;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain 1.2s steps(6) infinite}
+@keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-4%,3%)}40%{transform:translate(3%,-2%)}60%{transform:translate(-2%,-4%)}80%{transform:translate(4%,2%)}100%{transform:translate(0,0)}}
+html.rm .grain{animation:none}
+
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+@media (max-width:760px){.concept{left:10px;bottom:10px;font-size:9.5px;padding:7px 9px}}
+
+/* Emplacements d'images en attente de génération : dégradé sombre de la teinte du site */
+.slot{position:relative;overflow:hidden;background:var(--slot,radial-gradient(120% 90% at 70% 35%,#2a2a2a 0%,#0d0d0d 70%))}
+.slot>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.slot--empty::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.05) 48%,transparent 66%);background-size:250% 100%;animation:slotsweep 6s ease-in-out infinite}
+.slot--empty::after{content:"Visuel en attente de génération";position:absolute;right:16px;bottom:14px;font:500 10px/1 var(--mono,ui-monospace,monospace);letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.34)}
+@keyframes slotsweep{0%{background-position:120% 0}100%{background-position:-120% 0}}
+
+/* Défilement : flous d'arrière-plan coupés pendant le mouvement, l'aspect au repos ne change pas. */
+html.is-scrolling .concept{background:rgba(10,10,10,.86);backdrop-filter:none;-webkit-backdrop-filter:none}

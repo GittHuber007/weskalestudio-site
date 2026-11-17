@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#eee6d8">
+<title>Clef d'Azur · Villas above the sea in Nice</title>
+<meta name="description" content="Clef d'Azur, an estate agency concept in Nice: villas above the Baie des Anges, property search and valuation. Fictional brand, Weskale Studio concept.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%23eee6d8%27/%3E%3Ccircle cx=%2716%27 cy=%2711%27 r=%275%27 fill=%27none%27 stroke=%27%230f2a47%27 stroke-width=%272.2%27/%3E%3Cpath d=%27M16 16v11m0-4h4m-4-3h3%27 stroke=%27%230f2a47%27 stroke-width=%272.2%27 fill=%27none%27/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300,50;0,9..144,400,50;1,9..144,300,50;1,9..144,400,50&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=defil1">
+<link rel="preload" as="image" href="assets/img/villa.webp" fetchpriority="high">
+<script>
+document.documentElement.classList.add("js");
+try { var l = localStorage.getItem("clefdazur-lang"); if (l === "fr" || l === "en") document.documentElement.lang = l; } catch (e) {}
+</script>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <p class="loader__word"><span>Clef</span> <em>d'Azur</em></p>
+  <p class="loader__meta"><span>Nice</span><span><b id="ldNum">0</b> %</span></p>
+  <i class="loader__line"><b id="ldBar"></b></i>
+</div>
+
+<header class="nav" id="nav">
+  <a href="#top" class="nav__logo" data-i18n-aria="nav.home" aria-label="Clef d'Azur, back to top">
+    <svg class="key" viewBox="0 0 24 40" aria-hidden="true"><circle cx="12" cy="9" r="6.5"/><path d="M12 15.5V37M12 30h5M12 25h4"/></svg>
+    <span>CLEF <em>D'AZUR</em></span>
+  </a>
+  <nav class="nav__links" data-i18n-aria="nav.label" aria-label="Main navigation">
+    <a href="#biens" data-i18n="nav.biens">Properties</a>
+    <a href="#estimation" data-i18n="nav.estim">Valuation</a>
+  </nav>
+  <div class="lang" role="group" data-i18n-aria="lang.label" aria-label="Language">
+    <button type="button" data-lang="en" aria-pressed="true" aria-label="English">EN</button>
+    <span aria-hidden="true">/</span>
+    <button type="button" data-lang="fr" aria-pressed="false" aria-label="Français">FR</button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Ouverture : la caméra part de la plaque du portail et recule jusqu'à la baie -->
+  <section class="film" id="film" data-i18n-aria="film.label" aria-label="From the gate of Villa Belvédère to the bay">
+    <div class="film__stage" id="stage">
+      <canvas id="filmCanvas" aria-hidden="true"></canvas>
+      <img class="film__still" id="filmStill" src="assets/img/villa.webp" data-i18n-alt="film.alt" alt="Belle Époque villa in pale stone above the bay of Nice at golden hour, umbrella pines, pool, engraved Clef d'Azur plate on the gate pillar" fetchpriority="high">
+      <div class="film__warm" id="filmWarm"></div>
+      <div class="film__shade"></div>
+
+      <div class="beat beat--a" data-beat="0 0.13">
+        <p class="kick" data-i18n="b1.k">Estate agency · Nice</p>
+        <p class="beat__t" data-i18n="b1.t">Every house <em>has its key.</em></p>
+      </div>
+
+      <h1 class="word" id="word" data-beat="0.19 0.47">
+        <span class="word__l"><span>Clef</span></span>
+        <span class="word__l word__l--2"><span><em>d'Azur</em></span></span>
+        <span class="word__s" data-i18n="film.tag">Villas above the Baie des Anges</span>
+      </h1>
+
+      <div class="beat beat--b" data-beat="0.52 0.74">
+        <p class="kick" data-i18n="b2.k">Villa Belvédère · Mont Boron</p>
+        <dl class="facts">
+          <div><dt data-i18n="f.surf">Living area</dt><dd>420 m²</dd></div>
+          <div><dt data-i18n="f.rooms">Bedrooms</dt><dd>6</dd></div>
+          <div><dt data-i18n="f.land">Garden</dt><dd data-i18n="f.landV">2,800 m²</dd></div>
+          <div><dt data-i18n="f.price">Example price</dt><dd data-i18n="f.priceV">€9.8M</dd></div>
+        </dl>
+      </div>
+
+      <div class="beat beat--c" data-beat="0.78 0.95">
+        <p class="beat__t beat__t--xl" data-i18n="b3.t">The view first. <em>Then the house.</em></p>
+      </div>
+
+      <div class="film__hud" id="filmHud" aria-hidden="true">
+        <span data-i18n="film.scroll">Scroll to open the gate</span>
+        <i class="film__track"><b id="filmBar"></b></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recherche de biens -->
+  <section class="sec biens" id="biens">
+    <div class="sec__head">
+      <p class="kick" data-rv data-i18n="bi.k">The selection</p>
+      <h2 class="big" data-rv data-i18n="bi.h">Six houses, <em>chosen for the view</em></h2>
+    </div>
+
+    <form class="filters" id="filters" data-i18n-aria="bi.form" aria-label="Search properties" data-rv>
+      <label class="fld">
+        <span class="lbl" data-i18n="l.zone">Area</span>
+        <select name="zone" id="fZone"><option value="" data-i18n="o.all">All</option></select>
+      </label>
+      <label class="fld">
+        <span class="lbl" data-i18n="l.type">Type</span>
+        <select name="type" id="fType">
+          <option value="" data-i18n="o.all">All</option>
+          <option value="villa" data-i18n="t.villa">Villa</option>
+          <option value="appart" data-i18n="t.appart">Apartment</option>
+        </select>
+      </label>
+      <label class="fld">
+        <span class="lbl" data-i18n="l.max">Maximum budget</span>
+        <select name="max" id="fMax">
+          <option value="0" data-i18n="o.nolimit">No limit</option>
+          <option value="2000000" data-i18n="o.2">€2M</option>
+          <option value="4000000" data-i18n="o.4">€4M</option>
+          <option value="10000000" data-i18n="o.10">€10M</option>
+        </select>
+      </label>
+      <label class="tog"><input type="checkbox" id="fSea"><span data-i18n="l.sea">Sea view only</span></label>
+      <p class="filters__count" aria-live="polite"><b id="fCount">6</b> <span id="fCountLbl">properties</span></p>
+    </form>
+
+    <ul class="cards" id="cards"></ul>
+    <p class="cards__empty" id="cardsEmpty" data-i18n="bi.empty" hidden>No property matches. Widen the budget or the area.</p>
+    <p class="cards__note" data-rv data-i18n="bi.note">Photos of the areas, taken from Wikimedia Commons. The houses are shown in full during the viewing.</p>
+  </section>
+
+  <!-- Interlude : la lumière du soir -->
+  <section class="light" id="lumiere" data-i18n-aria="li.label" aria-label="The evening light over the bay">
+    <div class="light__pin">
+      <figure class="light__img" id="lightImg">
+        <picture>
+          <source media="(max-width: 700px)" srcset="assets/img/lumiere-m.webp">
+          <img src="assets/img/lumiere.webp" data-i18n-alt="li.alt" alt="The Baie des Anges seen from Castle Hill in Nice at the end of the day, umbrella pine in the foreground" loading="lazy">
+        </picture>
+      </figure>
+      <div class="light__txt" id="lightTxt">
+        <p class="kick" data-i18n="li.k">Our viewing rule</p>
+        <p class="light__t" data-i18n="li.t">We never show a house on the Riviera <em>at noon.</em></p>
+        <p class="light__s" data-i18n="li.s">Viewings are set for the hour when the light reaches the terrace.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Estimation -->
+  <section class="sec estim" id="estimation">
+    <div class="estim__grid">
+      <div class="estim__head">
+        <p class="kick" data-rv data-i18n="es.k">You are selling</p>
+        <h2 class="big" data-rv data-i18n="es.h">What is <em>your view</em> worth?</h2>
+        <p class="lead" data-rv data-i18n="es.lead">A first range straight away, from example prices per square metre. The real valuation is done on site, with an adviser.</p>
+        <figure class="estim__img" data-rv>
+          <img src="assets/img/pins.webp" data-i18n-alt="es.alt" alt="Path under umbrella pines above the sea at Saint-Jean-Cap-Ferrat" loading="lazy">
+        </figure>
+      </div>
+      <form class="est" id="est" novalidate data-rv>
+        <label class="fld">
+          <span class="lbl" data-i18n="l.zone">Area</span>
+          <select name="zone" id="eZone"></select>
+        </label>
+        <fieldset class="fld">
+          <legend class="lbl" data-i18n="l.ptype">Property type</legend>
+          <div class="seg">
+            <label><input type="radio" name="type" value="1" checked><span data-i18n="t.villa">Villa</span></label>
+            <label><input type="radio" name="type" value="0.86"><span data-i18n="t.appart">Apartment</span></label>
+          </div>
+        </fieldset>
+        <label class="fld">
+          <span class="lbl"><span data-i18n="l.surf">Living area</span> <output id="eSurfOut">180 m²</output></span>
+          <input type="range" name="surf" id="eSurf" min="40" max="800" step="10" value="180">
+        </label>
+        <fieldset class="fld">
+          <legend class="lbl" data-i18n="l.opts">Features</legend>
+          <div class="seg seg--wrap">
+            <label><input type="checkbox" name="opt" value="0.12" checked><span data-i18n="o.sea">Sea view</span></label>
+            <label><input type="checkbox" name="opt" value="0.06"><span data-i18n="o.terr">Terrace</span></label>
+            <label><input type="checkbox" name="opt" value="0.05"><span data-i18n="o.pool">Pool</span></label>
+            <label><input type="checkbox" name="opt" value="-0.12"><span data-i18n="o.works">Work needed</span></label>
+          </div>
+        </fieldset>
+        <div class="est__out">
+          <p class="lbl" data-i18n="es.range">Indicative range</p>
+          <p class="est__range"><span id="eLow">0</span><i data-i18n="es.to">to</i><span id="eHigh">0</span></p>
+          <p class="note" data-i18n="es.note">Demonstration calculation with example prices. It does not replace an on-site valuation.</p>
+          <button type="submit" class="btn" data-i18n="es.btn">Request an on-site valuation</button>
+          <p class="msg" id="eMsg" aria-live="polite"></p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <p class="foot__word" aria-hidden="true">CLEF <em>D'AZUR</em></p>
+  <div class="foot__row">
+    <p data-i18n="ft.what">Estate agency<br>Nice · Riviera</p>
+    <p><a href="#biens" data-i18n="nav.biens">Properties</a> · <a href="#estimation" data-i18n="nav.estim">Valuation</a></p>
+    <p class="foot__concept" data-i18n="ft.concept">Weskale Studio concept · fictional brand.<br>Properties and prices are examples for the demonstration.</p>
+  </div>
+  <p class="foot__credits" data-i18n="ft.credits">Villa Belvédère: generated image. Area photos from Wikimedia Commons, cropped and compressed: 3602kiva (CC0), villlamania, Michel G, Leicester Holyday (CC BY 3.0), Olivier Cleynen (CC BY 4.0), Jorge Franganillo, miketnorton (CC BY 2.0).</p>
+</footer>
+
+<div class="badge" data-i18n="badge">Weskale Studio concept · fictional brand</div>
+
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dwTitle" hidden>
+  <div class="drawer__scrim" id="dwScrim"></div>
+  <div class="drawer__panel" id="dwPanel">
+    <button type="button" class="drawer__close" id="dwClose" data-i18n="dw.close">Close</button>
+    <figure class="drawer__img"><img id="dwImg" src="assets/img/villa-s.webp" alt=""><figcaption id="dwCap"></figcaption></figure>
+    <p class="kick" id="dwZone"></p>
+    <h3 class="drawer__t" id="dwTitle"></h3>
+    <p class="drawer__p" id="dwPrice"></p>
+    <dl class="drawer__f" id="dwFacts"></dl>
+    <p class="drawer__d" id="dwDesc"></p>
+    <form class="vf" id="vf" novalidate>
+      <p class="lbl" id="vSlotsLbl" data-i18n="vi.when">Viewing at the hour of the evening light</p>
+      <div class="slots" id="vSlots" role="radiogroup" aria-labelledby="vSlotsLbl"></div>
+      <div class="vf__row">
+        <label class="fld"><span class="lbl" data-i18n="l.name">Name</span><input name="nom" autocomplete="name" data-i18n-ph="ph.name" placeholder="Your name"></label>
+        <label class="fld"><span class="lbl" data-i18n="l.tel">Phone</span><input name="tel" type="tel" autocomplete="tel" placeholder="06 00 00 00 00"></label>
+      </div>
+      <button type="submit" class="btn" data-i18n="vi.btn">Request the viewing</button>
+      <p class="msg" id="vMsg" aria-live="polite"></p>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script src="js/main.js?v=defil1" defer></script>
+</body>
+</html>

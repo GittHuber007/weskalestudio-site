@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0b1019">
+<title>Horizon Atlas School · Private school in Rabat, from kindergarten to baccalaureate</title>
+<meta name="description" content="Horizon Atlas School, a concept for a private school in Rabat, from kindergarten to baccalaureate: the values we pass on, the fifteen-year path, admission request and school visit. Fictional brand, Weskale Studio concept.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 40 48%27%3E%3Crect width=%2740%27 height=%2748%27 fill=%27%230b1019%27/%3E%3Cpath fill=%27none%27 stroke=%27%23d6ad68%27 stroke-width=%273%27 d=%27M7 44V22C7 13 13 6 20 5c7 1 13 8 13 17v22%27/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/hero.webp" media="(min-width: 761px)">
+<link rel="preload" as="image" href="assets/hero-m.webp" media="(max-width: 760px)">
+<link rel="stylesheet" href="css/style.css?v=defil3">
+<script>(function(h){h.classList.add("js");try{var l=localStorage.getItem("horizonAtlas.lang");if(l==="fr"||l==="en")h.lang=l;}catch(e){}setTimeout(function(){if(!h.classList.contains("ready")){h.classList.add("ready");h.classList.remove("js");}},6000);})(document.documentElement);</script>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <svg class="loader__arch" viewBox="0 0 120 150"><path d="M10 148V70C10 34 32 8 60 3c28 5 50 31 50 67v78"/><path d="M26 148V74c0-26 15-46 34-50 19 4 34 24 34 50v74"/></svg>
+  <p class="loader__name">Horizon <em>Atlas</em></p>
+  <p class="loader__line"><i id="loaderBar"></i></p>
+</div>
+
+<header class="nav" id="nav">
+  <a href="#top" class="nav__logo" data-i18n-aria="nav.home" aria-label="Horizon Atlas School, back to the top">
+    <svg viewBox="0 0 40 48" aria-hidden="true"><path d="M4 46V22C4 11 11 3 20 2c9 1 16 9 16 20v24"/><path d="M12 46V24c0-6 3-11 8-13 5 2 8 7 8 13v22"/></svg>
+    <span><b>Horizon Atlas</b><small data-i18n="nav.sub">School · Rabat</small></span>
+  </a>
+  <nav class="nav__links" data-i18n-aria="nav.main" aria-label="Main navigation">
+    <a href="#valeurs" data-i18n="nav.values">What we pass on</a>
+    <a href="#parcours" data-i18n="nav.path">The path</a>
+    <a href="#admission" data-i18n="nav.visit">Visit</a>
+  </nav>
+  <div class="nav__end">
+    <div class="lang" role="group" data-i18n-aria="nav.lang" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true" lang="en">EN</button><span aria-hidden="true">/</span><button type="button" data-lang="fr" aria-pressed="false" lang="fr">FR</button>
+    </div>
+    <a href="#admission" class="nav__cta" data-i18n="nav.apply">Admissions</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- 1. Plan-séquence : on traverse la cour, on passe l'arche, on entre dans la bibliothèque -->
+  <section class="film" id="film" data-i18n-aria="film.aria" aria-label="Entering the school"
+    data-seq-d="assets/seq/d/" data-count-d="168"
+    data-seq-m="assets/seq/m/" data-count-m="84">
+    <div class="film__stage">
+      <div class="film__cam" id="filmCam">
+        <div class="film__box" id="filmBox">
+          <picture class="film__still" id="filmStill">
+            <source media="(max-width: 760px)" srcset="assets/hero-m.webp">
+            <img src="assets/hero.webp" data-i18n-alt="film.alt" alt="The Horizon Atlas campus at golden hour: white arcades, carved cedar, olive trees and a mirror pool, with HORIZON ATLAS in bronze letters above the entrance. In the distance, pupils in navy uniforms walk away, seen from behind." width="2400" height="1340" fetchpriority="high">
+          </picture>
+          <canvas class="film__gl" id="filmGl" aria-hidden="true"></canvas>
+        </div>
+      </div>
+      <canvas class="film__cv" id="filmCv" aria-hidden="true"></canvas>
+      <div class="film__grade" aria-hidden="true"></div>
+      <div class="film__glow" id="filmGlow" aria-hidden="true"></div>
+      <div class="film__dim" id="filmDim" aria-hidden="true"></div>
+
+      <div class="film__hero" id="filmHero">
+        <p class="eyebrow" data-in data-i18n="hero.eyebrow">Private school · Rabat · Kindergarten to baccalaureate</p>
+        <h1 class="film__title">
+          <span class="ln"><span data-in data-i18n="hero.l1">Raise</span></span>
+          <span class="ln"><em data-in data-i18n="hero.l2">the horizon.</em></span>
+        </h1>
+        <p class="film__lead" data-in data-i18n="hero.lead">Fifteen years to learn to think freely, to work with rigour and to look far ahead.</p>
+        <div class="film__ctas" data-in>
+          <a href="#admission" class="btn btn--gold" data-i18n="hero.apply">Apply for admission</a>
+          <a href="#admission" class="btn btn--ghost" data-visit data-i18n="hero.visit">Visit the school</a>
+        </div>
+      </div>
+
+      <div class="film__ch film__ch--l" data-ch="0">
+        <p class="film__num" data-i18n="ch0.n">I · The campus</p>
+        <p class="film__txt" data-i18n="ch0.t">Every day begins here, under the olive trees, before the first bell.</p>
+      </div>
+      <div class="film__ch film__ch--r" data-ch="1">
+        <p class="film__num" data-i18n="ch1.n">II · The threshold</p>
+        <p class="film__txt" data-i18n="ch1.t">One door, crossed every morning. On the other side, the work begins.</p>
+      </div>
+      <div class="film__ch film__ch--c" data-ch="2">
+        <p class="film__num" data-i18n="ch2.n">III · The library</p>
+        <p class="film__txt" data-i18n="ch2.t">Books handed down from one generation to the next. At the end of the aisle, the light.</p>
+      </div>
+
+      <p class="film__end" id="filmEnd" data-i18n="film.end">What is passed on here <em>lasts a lifetime.</em></p>
+
+      <div class="film__rail" aria-hidden="true">
+        <span data-rail="0" data-i18n="rail.0">Campus</span><span data-rail="1" data-i18n="rail.1">Threshold</span><span data-rail="2" data-i18n="rail.2">Library</span>
+        <i><b id="railBar"></b></i>
+      </div>
+      <p class="film__cue" id="filmCue" aria-hidden="true"><span data-i18n="film.cue">Scroll to enter</span><i></i></p>
+    </div>
+  </section>
+
+  <!-- 2. Ce que nous transmettons : un mot par écran -->
+  <section class="vals" id="valeurs" data-i18n-aria="vals.aria" aria-label="What we pass on">
+    <div class="vals__stage">
+      <p class="eyebrow vals__eyebrow" data-i18n="vals.eyebrow">What we pass on</p>
+      <div class="vals__media" aria-hidden="true">
+        <img src="assets/detail-classe.webp" alt="" loading="lazy" class="is-on">
+        <img src="assets/detail-eleves.webp" alt="" loading="lazy">
+        <img src="assets/detail-zellige.webp" alt="" loading="lazy">
+        <img src="assets/detail-bougainvillee.webp" alt="" loading="lazy">
+      </div>
+      <ol class="vals__list">
+        <li class="val" data-val="0"><span class="val__n">01</span><h2 class="val__w" data-i18n="v0.w">Curiosity</h2><p class="val__p" data-i18n="v0.p">Asking the right question before looking for the answer.</p></li>
+        <li class="val" data-val="1"><span class="val__n">02</span><h2 class="val__w" data-i18n="v1.w">Rigour</h2><p class="val__p" data-i18n="v1.p">Work done with care, checked, and carried through to the end.</p></li>
+        <li class="val" data-val="2"><span class="val__n">03</span><h2 class="val__w" data-i18n="v2.w">Respect</h2><p class="val__p" data-i18n="v2.p">Listening before answering. Taking care of the place and of one another.</p></li>
+        <li class="val" data-val="3"><span class="val__n">04</span><h2 class="val__w" data-i18n="v3.w">Openness</h2><p class="val__p" data-i18n="v3.p">Arabic, French and English every day: three ways of reading the world.</p></li>
+      </ol>
+      <div class="vals__dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div>
+    </div>
+  </section>
+
+  <!-- 3. Transmission : la présence humaine -->
+  <section class="pass" id="transmission">
+    <figure class="pass__fig">
+      <video id="passImg" src="assets/video/allee.mp4" poster="assets/video/allee.webp" muted loop playsinline preload="metadata" data-i18n-aria="pass.alt" aria-label="A woman walks slowly between two tall library shelves, towards the light of a window"></video>
+    </figure>
+    <div class="pass__body">
+      <p class="eyebrow" data-i18n="pass.eyebrow">Transmission</p>
+      <p class="pass__q" data-words data-i18n="pass.q">Behind every success, <em>a teacher who believed in it first.</em></p>
+      <p class="pass__p" data-i18n="pass.p">A school is first of all people. Teachers who know each pupil, notice a doubt before it becomes a difficulty, and ask a little more of those who can give it.</p>
+    </div>
+  </section>
+
+  <!-- 4. Le parcours -->
+  <section class="path" id="parcours">
+    <header class="path__head">
+      <p class="eyebrow" data-i18n="path.eyebrow">The path</p>
+      <h2 class="h2" data-i18n="path.h">Fifteen years <em>to grow.</em></h2>
+    </header>
+    <ol class="path__list">
+      <li class="cyc">
+        <figure class="cyc__fig"><img src="assets/path-1.webp" alt="" loading="lazy" width="828" height="1100"></figure>
+        <p class="cyc__age" data-i18n="c1.age">Ages 3 to 5</p>
+        <h3 class="cyc__h" data-i18n="c1.h">Kindergarten</h3>
+        <p class="cyc__p" data-i18n="c1.p">First times: holding a pencil, telling a story, counting the olive trees in the courtyard.</p>
+      </li>
+      <li class="cyc">
+        <figure class="cyc__fig"><img src="assets/path-2.webp" alt="" loading="lazy" width="826" height="1100"></figure>
+        <p class="cyc__age" data-i18n="c2.age">Ages 6 to 10</p>
+        <h3 class="cyc__h" data-i18n="c2.h">Primary</h3>
+        <p class="cyc__p" data-i18n="c2.p">Reading, writing, reasoning. Solid foundations, built with method and patience.</p>
+      </li>
+      <li class="cyc">
+        <figure class="cyc__fig"><img src="assets/path-3.webp" alt="" loading="lazy" width="780" height="1040"></figure>
+        <p class="cyc__age" data-i18n="c3.age">Ages 11 to 14</p>
+        <h3 class="cyc__h" data-i18n="c3.h">Middle school</h3>
+        <p class="cyc__p" data-i18n="c3.p">The age of big questions. Laboratory, debate, group projects: learning to argue and to cooperate.</p>
+      </li>
+      <li class="cyc">
+        <figure class="cyc__fig"><img src="assets/path-4.webp" alt="" loading="lazy" width="598" height="796"></figure>
+        <p class="cyc__age" data-i18n="c4.age">Ages 15 to 17</p>
+        <h3 class="cyc__h" data-i18n="c4.h">High school</h3>
+        <p class="cyc__p" data-i18n="c4.p">Specialities, guidance and the baccalaureate, with personal support towards higher education, in Morocco or abroad.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- 5. Demande d'admission et visite -->
+  <section class="enrol" id="admission">
+    <div class="enrol__intro">
+      <p class="eyebrow" data-i18n="en.eyebrow">Admission and visit</p>
+      <h2 class="h2" data-i18n="en.h">Four steps, <em>one meeting.</em></h2>
+      <p class="enrol__sub" data-i18n="en.sub">The request starts here, in a few minutes. It always ends with a visit of the school, as a family, and a meeting with the head of studies.</p>
+      <ol class="enrol__steps" aria-hidden="true">
+        <li class="is-on"><b>1</b><span data-i18n="st.1">The pupil</span></li>
+        <li><b>2</b><span data-i18n="st.2">Schooling</span></li>
+        <li><b>3</b><span data-i18n="st.3">The family</span></li>
+        <li><b>4</b><span data-i18n="st.4">The visit</span></li>
+      </ol>
+    </div>
+
+    <form class="wizard" id="wizard" novalidate>
+      <div class="wizard__bar"><i></i></div>
+      <div class="wizard__viewport">
+        <fieldset class="pane is-on" data-step="1">
+          <legend data-i18n="st.1">The pupil</legend>
+          <div class="row">
+            <label class="field"><span data-i18n="f.first">First name</span><input name="prenom" autocomplete="off" data-i18n-ph="f.firstPh" placeholder="Yasmine" required></label>
+            <label class="field"><span data-i18n="f.last">Last name</span><input name="nom" autocomplete="off" data-i18n-ph="f.lastPh" placeholder="Alaoui" required></label>
+          </div>
+          <label class="field"><span data-i18n="f.birth">Date of birth</span><input name="naissance" type="date" required></label>
+          <label class="field"><span data-i18n="f.year">Desired start</span>
+            <select name="rentree"><option value="2027" data-i18n="f.y27">September 2027</option><option value="2028" data-i18n="f.y28">September 2028</option></select>
+          </label>
+          <p class="hint" id="hint" aria-live="polite"></p>
+        </fieldset>
+
+        <fieldset class="pane" data-step="2">
+          <legend data-i18n="st.2">Schooling</legend>
+          <label class="field"><span data-i18n="f.level">Requested level</span><select name="niveau"></select></label>
+          <label class="field"><span data-i18n="f.school">Current school (optional)</span><input name="ecole" autocomplete="off" data-i18n-ph="f.schoolPh" placeholder="Name of the current school"></label>
+          <div class="field"><span data-i18n="f.langs">Languages spoken at home</span>
+            <div class="chips">
+              <label><input type="checkbox" name="langue" value="ar"><span data-i18n="l.ar">Arabic</span></label>
+              <label><input type="checkbox" name="langue" value="am"><span data-i18n="l.am">Amazigh</span></label>
+              <label><input type="checkbox" name="langue" value="fr"><span data-i18n="l.fr">French</span></label>
+              <label><input type="checkbox" name="langue" value="en"><span data-i18n="l.en">English</span></label>
+              <label><input type="checkbox" name="langue" value="es"><span data-i18n="l.es">Spanish</span></label>
+              <label><input type="checkbox" name="langue" value="ot"><span data-i18n="l.ot">Other</span></label>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="pane" data-step="3">
+          <legend data-i18n="st.3">The family</legend>
+          <label class="field"><span data-i18n="f.parent">Parent or legal guardian</span><input name="parent" autocomplete="off" data-i18n-ph="f.parentPh" placeholder="Full name" required></label>
+          <div class="row">
+            <label class="field"><span data-i18n="f.mail">Email</span><input name="email" type="email" autocomplete="off" data-i18n-ph="f.mailPh" placeholder="name@example.com" required></label>
+            <label class="field"><span data-i18n="f.tel">Phone</span><input name="tel" type="tel" autocomplete="off" placeholder="06 00 00 00 00" required></label>
+          </div>
+          <label class="check"><input type="checkbox" name="fratrie"><span data-i18n="f.sib">A brother or sister already attends the school</span></label>
+        </fieldset>
+
+        <fieldset class="pane" data-step="4">
+          <legend data-i18n="st.4">The visit</legend>
+          <p class="pane__lead" data-i18n="f.visitLead">Choose a moment to visit the school and meet the head of studies.</p>
+          <div class="slots" id="slots" role="radiogroup" data-i18n-aria="f.dayAria" aria-label="Visit date"></div>
+          <div class="times" id="times" role="radiogroup" data-i18n-aria="f.timeAria" aria-label="Visit time"></div>
+        </fieldset>
+
+        <div class="pane pane--done" data-step="5">
+          <svg viewBox="0 0 120 150" aria-hidden="true"><path class="d" d="M10 148V70C10 34 32 8 60 3c28 5 50 31 50 67v78"/><path class="d" d="M38 84l16 16 30-34"/></svg>
+          <p class="eyebrow" data-i18n="done.k">Request received</p>
+          <h3><span data-i18n="done.h">See you soon,</span> <em class="done__name"></em></h3>
+          <dl class="recap" id="recap"></dl>
+          <p class="note" data-i18n="done.note">Demonstration: no data has been sent or stored.</p>
+          <button class="btn btn--line" type="button" data-restart data-i18n="done.again">Start again</button>
+        </div>
+      </div>
+      <p class="wizard__error" id="wErr" role="alert"></p>
+      <div class="wizard__nav">
+        <button class="btn btn--line" type="button" data-prev data-i18n="w.back">Back</button>
+        <button class="btn btn--gold" type="button" data-next><span id="nextLabel" data-i18n="w.next">Continue</span></button>
+      </div>
+    </form>
+  </section>
+</main>
+
+<!-- 6. Finale -->
+<footer class="foot" id="bas">
+  <div class="foot__bg" aria-hidden="true"><img src="assets/cour.webp" alt="" loading="lazy"></div>
+  <p class="foot__claim" data-i18n="foot.claim">One day, they will cross this arch the other way. <em>Ready.</em></p>
+  <p class="foot__mark" aria-hidden="true">Horizon <em>Atlas</em></p>
+  <div class="foot__base">
+    <p data-i18n="foot.concept">Weskale Studio concept · fictional brand. School, levels, visit times and visuals are examples for the demonstration.</p>
+    <p><a href="#top" data-i18n="foot.top">Back to the entrance</a></p>
+  </div>
+</footer>
+
+<div class="badge" data-i18n="badge">Weskale Studio concept · fictional brand</div>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer src="js/i18n.js"></script>
+<script defer src="js/admission.js"></script>
+<script defer src="js/main.js?v=defil2"></script>
+</body>
+</html>

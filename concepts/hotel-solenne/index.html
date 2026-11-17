@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Hôtel Solenne · Biarritz · Facing the Atlantic</title>
+<meta name="description" content="Hôtel Solenne, an Art Deco hotel concept facing the ocean in Biarritz, with online booking. Fictional brand, Weskale Studio concept.">
+<meta name="theme-color" content="#110e0b">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%23110e0b%27/%3E%3Cpath d=%27M6 22a10 10 0 0 1 20 0%27 fill=%27none%27 stroke=%27%23c9a46a%27 stroke-width=%272%27/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Jost:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/img/hero.webp" media="(min-aspect-ratio: 1/1)">
+<link rel="preload" as="image" href="assets/img/hero-m.webp" media="(max-aspect-ratio: 1/1)">
+<link rel="stylesheet" href="css/site.css?v=defil1">
+<script>(function(){var h=document.documentElement;h.classList.add("js");if(matchMedia("(prefers-reduced-motion: reduce)").matches)h.classList.add("reduce");try{if(localStorage.getItem("solenne-lang")==="fr")h.lang="fr";}catch(e){}})();</script>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <p class="loader__name">Solenne</p>
+  <p class="loader__num"><span id="loaderNum">00</span></p>
+  <i class="loader__bar" id="loaderBar"></i>
+</div>
+
+<header class="nav" id="nav">
+  <nav class="nav__l" data-i18n-aria="navMain" aria-label="Main navigation">
+    <a href="#maison" data-i18n="navHouse">The house</a>
+    <a href="#chambres" data-i18n="navRooms">Rooms</a>
+  </nav>
+  <a href="#top" class="nav__logo" data-i18n-aria="navLogo" aria-label="Hôtel Solenne, back to top"><small>Hôtel</small>Solenne</a>
+  <div class="nav__r">
+    <div class="lang" role="group" data-i18n-aria="langGroup" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true" lang="en" aria-label="English">EN</button><span aria-hidden="true">/</span><button type="button" data-lang="fr" aria-pressed="false" lang="fr" aria-label="Français">FR</button>
+    </div>
+    <a href="#reserver" class="nav__cta" data-i18n="navBook">Book</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- 1. Opening: the arrival image, then the drone flight driven by scrolling -->
+  <section class="open" id="open" data-i18n-aria="openAria" aria-label="Arriving at Hôtel Solenne">
+    <div class="open__stage">
+      <picture class="open__img">
+        <source media="(max-aspect-ratio: 1/1)" srcset="assets/img/hero-m.webp">
+        <img src="assets/img/hero.webp" data-i18n-alt="heroAlt" alt="Hôtel Solenne, a white Art Deco facade facing the Atlantic at golden hour, its name in bronze letters on the facade" width="2400" height="1340" fetchpriority="high">
+      </picture>
+      <canvas class="open__seq" aria-hidden="true"></canvas>
+      <div class="open__veil"></div>
+
+      <div class="open__hero">
+        <p class="kick" data-i18n="kick">Biarritz · Basque coast</p>
+        <h1 class="open__title" data-i18n="title"><span class="ln"><span>Facing</span></span><span class="ln"><span><em>the Atlantic</em></span></span></h1>
+        <p class="open__lead" data-i18n="lead">An Art Deco hotel set on the sand, with rooms turned towards the open sea.</p>
+      </div>
+
+      <ol class="open__steps">
+        <li class="step"><span class="step__n">01</span><p class="step__t" data-i18n="s1t">From the beach</p><p class="step__d" data-i18n="s1d">You arrive from the sand, up the stone staircase.</p></li>
+        <li class="step"><span class="step__n">02</span><p class="step__t" data-i18n="s2t">The facade</p><p class="step__d" data-i18n="s2d">White, curved, turned towards the open sea. The name in bronze letters.</p></li>
+        <li class="step"><span class="step__n">03</span><p class="step__t" data-i18n="s3t">The terrace</p><p class="step__d" data-i18n="s3d">Breakfast is served facing the swell, while the beach is still empty.</p></li>
+      </ol>
+
+      <div class="open__cue" aria-hidden="true"><span data-i18n="cue">Scroll</span><i></i></div>
+      <div class="open__prog" aria-hidden="true"><i id="openBar"></i></div>
+    </div>
+  </section>
+
+  <!-- 2. Manifesto -->
+  <section class="mani" id="maison">
+    <p class="kick" data-i18n="maniKick">The house</p>
+    <p class="mani__t" data-words data-i18n="mani">A 1930s hotel set on the sand of Biarritz. Curves, bronze, tall windows. <em>And the ocean in every room.</em></p>
+  </section>
+
+  <!-- 3. The facade: an image that opens to full screen -->
+  <section class="face" data-i18n-aria="faceKick" aria-label="The facade">
+    <div class="face__pin">
+      <p class="face__word" aria-hidden="true">Solenne</p>
+      <figure class="face__frame">
+        <img src="assets/img/facade.webp" data-i18n-alt="faceAlt" alt="Detail of the facade: the name Hotel Solenne in bronze letters above the curved balconies" loading="lazy" width="1100" height="820">
+      </figure>
+      <div class="face__cap">
+        <p class="kick" data-i18n="faceKick">The facade</p>
+        <p class="face__t" data-i18n="faceT">Curved balconies, tall windows, bronze lettering. <em>Art Deco as it was drawn for the seafront.</em></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Two shots: the ocean, the staircase -->
+  <section class="chap">
+    <div class="chap__head">
+      <span class="chap__n">02</span>
+      <h2 class="h2" data-lines data-i18n="oceanH">The ocean<br><em>at the foot of the steps</em></h2>
+    </div>
+    <figure class="cine" data-cine>
+      <img src="assets/img/ocean.webp" data-i18n-alt="oceanAlt" alt="Atlantic waves on the beach at golden hour, rocks in the mist" loading="lazy" width="1300" height="560">
+    </figure>
+    <div class="chap__row">
+      <p class="chap__p" data-i18n="oceanP">The swell breaks a few metres from the front steps. Sea-facing rooms open their windows onto that sound, from sunrise to sunset.</p>
+    </div>
+    <figure class="cine cine--r" data-cine>
+      <img src="assets/img/terrasse.webp" data-i18n-alt="terrAlt" alt="The hotel's stone terrace and its two staircases leading down to the beach" loading="lazy" width="1300" height="620">
+    </figure>
+    <div class="chap__row chap__row--r">
+      <p class="chap__p" data-i18n="terrP">Two stone staircases lead from the terrace down to the beach. You go for a swim without crossing a street.</p>
+    </div>
+  </section>
+
+  <!-- 5. Rooms: a typographic list, sample prices -->
+  <section class="rooms" id="chambres">
+    <div class="rooms__head">
+      <span class="chap__n">03</span>
+      <h2 class="h2" data-lines data-i18n="roomsH">The rooms</h2>
+    </div>
+    <ul class="rooms__list" id="roomsList"></ul>
+    <p class="note" data-i18n="roomsNote">Sample prices per night, for demonstration only.</p>
+  </section>
+
+  <!-- 6. Booking -->
+  <section class="book" id="reserver">
+    <div class="book__head">
+      <span class="chap__n">04</span>
+      <h2 class="h2" data-lines data-i18n="bookH">Book<br><em>your nights</em></h2>
+      <p class="book__sub" data-i18n="bookSub">Tap your arrival night, then your last night.</p>
+    </div>
+
+    <div class="strip" id="strip" role="group" data-i18n-aria="stripAria" aria-label="Available nights"></div>
+
+    <form class="sum" id="sum" novalidate>
+      <fieldset class="sum__types">
+        <legend class="sum__lab" data-i18n="roomLab">Room</legend>
+        <div class="seg" id="types" role="radiogroup" data-i18n-aria="typeAria" aria-label="Room type"></div>
+      </fieldset>
+      <div class="sum__line">
+        <label class="sum__g"><span class="sum__lab" data-i18n="guestsLab">Guests</span>
+          <select id="guests"><option>1</option><option selected>2</option><option>3</option></select>
+        </label>
+        <label class="sum__opt"><input type="checkbox" id="optBreak"><span data-i18n="breakOpt">Breakfast facing the sea, €24 per person per night</span></label>
+      </div>
+      <p class="sum__dates" id="sumDates">Choose your nights.</p>
+      <div class="sum__rows" id="sumRows"></div>
+      <div class="sum__who">
+        <input id="sName" data-i18n-ph="namePh" placeholder="Your name" autocomplete="name" data-i18n-aria="nameAria" aria-label="Name">
+        <input id="sMail" type="email" data-i18n-ph="mailPh" placeholder="you@example.com" autocomplete="email" data-i18n-aria="mailAria" aria-label="Email address">
+        <button class="btn" type="submit" data-i18n="confirm">Confirm</button>
+      </div>
+      <p class="sum__msg" id="sumMsg" aria-live="polite"></p>
+      <p class="note" data-i18n="demoNote">Demonstration: no real booking, no payment.</p>
+    </form>
+  </section>
+</main>
+
+<footer class="foot">
+  <p class="foot__name" aria-hidden="true">Solenne</p>
+  <div class="foot__row">
+    <p data-i18n="footAddr">Hôtel Solenne<br>Biarritz, Basque coast</p>
+    <p class="foot__links"><a href="#maison" data-i18n="navHouse">The house</a><a href="#chambres" data-i18n="navRooms">Rooms</a><a href="#reserver" data-i18n="navBook">Book</a></p>
+    <p data-i18n="footConcept">Weskale Studio concept · fictional brand.<br>Hotel, prices and visuals are examples.</p>
+  </div>
+</footer>
+
+<div class="badge" data-i18n="badge">Weskale Studio concept · fictional brand</div>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer src="js/main.js?v=defil2"></script>
+</body>
+</html>

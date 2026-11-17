@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<script>
+  /* Langue : anglais par défaut, français si choisi (localStorage, ou ?lang=fr si le stockage est bloqué) */
+  (function () {
+    var l = null;
+    try { l = localStorage.getItem("ilvane-lang"); } catch (e) {}
+    var q = /[?&]lang=(en|fr)\b/.exec(location.search);
+    if (q) l = q[1];
+    document.documentElement.lang = l === "fr" ? "fr" : "en";
+  })();
+</script>
+<title>Maison Ilvane · High jewellery</title>
+<meta name="description" content="Maison Ilvane, a fictional high jewellery house. A Weskale Studio concept.">
+<meta name="theme-color" content="#0e0907">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%230e0907%22/%3E%3Cpath d=%22M16 6l8 8-8 12-8-12z%22 fill=%22none%22 stroke=%22%23e2b49a%22 stroke-width=%221.4%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400;1,6..96,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/ilvane.webp" media="(min-width: 760px)">
+<link rel="preload" as="image" href="assets/ilvane-m.webp" media="(max-width: 759px)">
+<link rel="stylesheet" href="css/style.css?v=defil1">
+</head>
+<body>
+<div class="loader" aria-hidden="true">
+  <svg class="loader__gem" viewBox="0 0 120 120">
+    <path class="gem__p" d="M30 44 L60 18 L90 44 L60 104 Z"/>
+    <path class="gem__p" d="M30 44 H90 M45 44 L60 18 L75 44 M45 44 L60 104 L75 44"/>
+  </svg>
+  <p class="loader__name"><span>Maison</span> <em>Ilvane</em></p>
+  <p class="loader__pct">0</p>
+</div>
+
+<header class="nav">
+  <a class="nav__mark" href="#top" data-i18n-attr="aria-label:nav.home" aria-label="Maison Ilvane, back to top"><small>Maison</small><em>Ilvane</em></a>
+  <nav class="nav__links" aria-label="Sections">
+    <a href="#piece" data-i18n="nav.piece">The piece</a>
+    <a href="#galerie" data-i18n="nav.gallery">Gallery</a>
+    <a href="#configurer" data-i18n="nav.compose">Compose</a>
+    <a href="#salons" data-i18n="nav.salons">Salons</a>
+  </nav>
+  <div class="nav__end">
+    <div class="lang" role="group" data-i18n-attr="aria-label:lang.label" aria-label="Language">
+      <button type="button" data-lang="en" lang="en" aria-label="English">EN</button><span aria-hidden="true">/</span><button type="button" data-lang="fr" lang="fr" aria-label="Français">FR</button>
+    </div>
+    <a class="nav__cta" href="#salons" data-magnetic="0.25" data-i18n="nav.cta">Appointment</a>
+  </div>
+</header>
+
+<main id="top">
+  <!-- Plan-séquence : la photo d'ouverture est la première image de la vidéo, puis la caméra tourne autour de la bague, recule et la pose sur son socle. -->
+  <section class="film" data-i18n-attr="aria-label:film.aria" aria-label="Ilvane solitaire, rose gold and diamond">
+    <div class="film__pin">
+      <img class="film__poster" src="assets/ilvane.webp" srcset="assets/ilvane-m.webp 1800w, assets/ilvane.webp 2400w" sizes="100vw" data-i18n-attr="alt:film.alt" alt="Rose gold solitaire with a round diamond, resting on a block of basalt, blurred diamonds in the background">
+      <canvas class="film__canvas" aria-hidden="true"></canvas>
+      <div class="film__glow" aria-hidden="true"></div>
+      <div class="film__veil" aria-hidden="true"></div>
+
+      <div class="film__hero">
+        <p class="eyebrow" data-i18n="film.eyebrow">High jewellery · Paris</p>
+        <h1 class="film__title" data-i18n="film.title"><span class="line">Brilliance,</span> <span class="line"><em>suspended</em></span></h1>
+        <p class="film__lead" data-i18n="film.lead">A round diamond, six rose gold prongs. Scroll, and the piece turns before your eyes.</p>
+      </div>
+      <div class="film__seal" aria-hidden="true">
+        <svg viewBox="0 0 120 120"><defs><path id="sealPath" d="M60 60 m-46 0 a46 46 0 1 1 92 0 a46 46 0 1 1 -92 0"/></defs>
+          <text><textPath href="#sealPath" textLength="286" lengthAdjust="spacing" data-i18n="film.seal">18k rose gold · Handmade in Paris ·</textPath></text>
+          <path d="M50 56 L60 46 L70 56 L60 74 Z M50 56 H70" fill="none"/>
+        </svg>
+      </div>
+      <div class="film__hint" aria-hidden="true"><span data-i18n="film.hint">Scroll</span><i></i></div>
+
+      <div class="film__steps">
+        <article class="fstep"><p class="fstep__n">i.</p><h2 class="fstep__t" data-i18n="step1.t">The stone</h2><p class="fstep__d" data-i18n="step1.d">A round brilliant cut diamond. Fifty seven facets, cut to send the light back to the eye.</p></article>
+        <article class="fstep"><p class="fstep__n">ii.</p><h2 class="fstep__t" data-i18n="step2.t">Six prongs</h2><p class="fstep__d" data-i18n="step2.d">Six fine prongs hold the stone high, so that light passes through it from every side.</p></article>
+        <article class="fstep"><p class="fstep__n">iii.</p><h2 class="fstep__t" data-i18n="step3.t">The band</h2><p class="fstep__d" data-i18n="step3.d">18k rose gold, smooth and mirror polished, tapering towards the stone until it fades from view.</p></article>
+      </div>
+      <div class="film__call" aria-hidden="true"><i class="fc__dot"></i><i class="fc__line"></i><p><b>57</b><span data-i18n="film.facets">facets</span></p></div>
+      <div class="film__meter" aria-hidden="true"><span class="fm__val">0°</span><span class="fm__bar"><i></i></span><span data-i18n="film.meter">A quarter turn</span></div>
+
+      <div class="film__product" id="piece">
+        <p class="eyebrow" data-i18n="prod.eyebrow">The piece</p>
+        <h2 class="fp__title">Solitaire <em>Ilvane</em></h2>
+        <p class="fp__d" data-i18n="prod.d">18k rose gold, a 2.0 carat round diamond, six prongs. A single stone, set high, on a band that steps aside.</p>
+        <ul class="fp__specs">
+          <li><span data-i18n="prod.metal">Metal</span><b data-i18n="prod.metalv">18k rose gold</b></li>
+          <li><span data-i18n="prod.stone">Stone</span><b data-i18n="prod.stonev">2.0 ct diamond</b></li>
+          <li><span data-i18n="prod.price">Example price</span><b data-i18n="prod.pricev">€24,800</b></li>
+        </ul>
+        <div class="fp__btns">
+          <a class="tbtn" href="#configurer" data-magnetic="0.2" data-i18n="prod.compose" data-i18n-attr="data-cursor:cur.compose" data-cursor="Compose">Compose yours</a>
+          <a class="tbtn tbtn--ghost" href="#salons" data-magnetic="0.2" data-i18n="prod.try" data-i18n-attr="data-cursor:cur.try" data-cursor="Try on">Try it in a salon</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="intro" data-i18n-attr="aria-label:intro.aria" aria-label="The house">
+    <p class="eyebrow" data-i18n="intro.eyebrow">The house</p>
+    <p class="intro__text" data-scrub-words data-i18n="intro.text">A stone does not shine on its own. It waits for a setting that holds it high enough, and fine enough, for light to pass through. Ilvane designs these settings one by one, around each stone.</p>
+  </section>
+
+  <section class="gal" id="galerie" data-i18n-attr="aria-label:gal.aria" aria-label="Gallery, one piece at a time">
+    <div class="gal__pin">
+      <div class="gal__head">
+        <p class="eyebrow" data-i18n="gal.eyebrow">The gallery</p>
+        <p class="gal__count"><b class="gc__i">01</b><span>/</span><span class="gc__n">04</span></p>
+      </div>
+      <div class="gal__view">
+        <div class="gal__arch">
+          <img class="gal__fallback" src="assets/g-aube.webp" alt="" aria-hidden="true">
+          <canvas class="gal__gl" aria-hidden="true"></canvas>
+        </div>
+      </div>
+      <div class="gal__names"></div>
+      <div class="gal__dots" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <section class="config" id="configurer" data-i18n-attr="aria-label:cfg.aria" aria-label="Compose your solitaire">
+    <div class="config__view">
+      <img class="config__fallback" src="assets/ilvane-logo.webp" data-i18n-attr="alt:cfg.alt" alt="Preview of the composed solitaire, resting on a basalt block engraved Maison Ilvane">
+      <canvas class="config__gl" aria-hidden="true"></canvas>
+      <p class="config__tag"><span class="ct__metal" data-i18n="cfg.rose">Rose gold</span> · <span class="ct__stone" data-i18n="cfg.diamond">Diamond</span> · <span class="ct__ct" data-i18n="cfg.ct20">2.0 ct</span></p>
+    </div>
+    <div class="config__panel">
+      <p class="eyebrow" data-i18n="cfg.eyebrow">Compose</p>
+      <h2 class="config__title" data-split-reveal data-i18n="cfg.title">Your solitaire</h2>
+      <fieldset class="opt">
+        <legend data-i18n="cfg.metal">Metal</legend>
+        <div class="swatches" data-k="metal">
+          <button type="button" class="sw is-on" data-v="0" style="--c:linear-gradient(135deg,#f6cdb4,#b8715a)" aria-pressed="true"><i></i><span data-i18n="cfg.rose">Rose gold</span></button>
+          <button type="button" class="sw" data-v="1" style="--c:linear-gradient(135deg,#f3d48f,#b8862f)" aria-pressed="false"><i></i><span data-i18n="cfg.yellow">Yellow gold</span></button>
+          <button type="button" class="sw" data-v="2" style="--c:linear-gradient(135deg,#f4f4f2,#a9abb0)" aria-pressed="false"><i></i><span data-i18n="cfg.white">White gold</span></button>
+        </div>
+      </fieldset>
+      <fieldset class="opt">
+        <legend data-i18n="cfg.stone">Stone</legend>
+        <div class="swatches" data-k="stone">
+          <button type="button" class="sw is-on" data-v="0" style="--c:radial-gradient(circle at 35% 30%,#fff,#cfd8e6 60%,#8c99ad)" aria-pressed="true"><i></i><span data-i18n="cfg.diamond">Diamond</span></button>
+          <button type="button" class="sw" data-v="1" style="--c:radial-gradient(circle at 35% 30%,#8fb1ff,#1d3f9e 60%,#0b1a4d)" aria-pressed="false"><i></i><span data-i18n="cfg.sapphire">Sapphire</span></button>
+          <button type="button" class="sw" data-v="2" style="--c:radial-gradient(circle at 35% 30%,#9ff0c4,#147a4a 60%,#063b22)" aria-pressed="false"><i></i><span data-i18n="cfg.emerald">Emerald</span></button>
+        </div>
+      </fieldset>
+      <fieldset class="opt">
+        <legend data-i18n="cfg.weight">Stone weight</legend>
+        <div class="seg" data-k="carat">
+          <button type="button" data-v="1" aria-pressed="false" data-i18n="cfg.ct10">1.0 ct</button>
+          <button type="button" data-v="1.5" aria-pressed="false" data-i18n="cfg.ct15">1.5 ct</button>
+          <button type="button" class="is-on" data-v="2" aria-pressed="true" data-i18n="cfg.ct20">2.0 ct</button>
+        </div>
+      </fieldset>
+      <label class="opt opt--size"><span data-i18n="cfg.size">Ring size (EU)</span>
+        <select class="size"><option>48</option><option>50</option><option>52</option><option selected>54</option><option>56</option><option>58</option></select>
+      </label>
+      <div class="config__total">
+        <p><span data-i18n="cfg.total">Indicative price</span><b class="price">€24,800</b></p>
+        <a class="btn" href="#salons" data-magnetic="0.25" data-i18n-attr="data-cursor:cur.try" data-cursor="Try on"><span data-i18n="prod.try">Try it in a salon</span></a>
+      </div>
+      <p class="config__note" data-i18n="cfg.note">Example prices for this demonstration. Yellow gold, white gold and coloured stones are a preview calculated from the rose gold photograph.</p>
+    </div>
+  </section>
+
+  <section class="craft" data-i18n-attr="aria-label:craft.aria" aria-label="Craftsmanship">
+    <div class="craft__frame"><img class="craft__img" src="assets/j-profil.webp" data-i18n-attr="alt:craft.alt" alt="The solitaire in profile: the stone held high by its prongs" loading="lazy"></div>
+    <div class="craft__copy">
+      <p class="eyebrow" data-i18n="craft.eyebrow">Craftsmanship</p>
+      <h2 class="craft__title" data-split-reveal data-i18n="craft.title">Three hundred hours for a ring that looks weightless.</h2>
+      <div class="craft__cols">
+        <p data-reveal data-i18n="craft.c1"><b>The drawing</b>Every setting begins as a gouache drawing, at actual size, around the chosen stone.</p>
+        <p data-reveal data-i18n="craft.c2"><b>The wax</b>The model is carved in wax, then cast in gold in the workshop.</p>
+        <p data-reveal data-i18n="craft.c3"><b>The setting</b>The prongs are raised and polished one by one, under the loupe, until they fade from view.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="salons" id="salons" data-i18n-attr="aria-label:sal.aria" aria-label="Salon appointment">
+    <div class="salons__in">
+      <div>
+        <p class="eyebrow" data-i18n="sal.eyebrow">Appointment</p>
+        <h2 class="salons__title" data-split-reveal data-i18n="sal.title">A private salon, a stone, and all the time it takes.</h2>
+        <p class="salons__lead" data-i18n="sal.lead">Choose a salon and a time. The piece you composed will be waiting for you on its stand.</p>
+      </div>
+      <form class="rform" novalidate>
+        <label class="f"><span data-i18n="sal.name">Name</span><input name="nom" autocomplete="off" data-i18n-attr="placeholder:sal.nameph" placeholder="Your name" required></label>
+        <label class="f"><span data-i18n="sal.mail">Email</span><input name="mail" type="email" autocomplete="off" data-i18n-attr="placeholder:sal.mailph" placeholder="you@example.com" required></label>
+        <label class="f"><span>Salon</span><select name="salon"><option>Paris, rue de la Paix</option><option>Monaco, avenue des Beaux-Arts</option><option data-i18n="sal.geneva">Geneva, rue du Rhône</option></select></label>
+        <div class="f f--slots"><span data-i18n="sal.slot">Time</span><div class="slots" role="radiogroup" data-i18n-attr="aria-label:sal.slot" aria-label="Time"></div></div>
+        <button class="btn btn--full" type="submit" data-magnetic="0.15"><span data-i18n="sal.submit">Request the appointment</span></button>
+        <p class="rform__msg" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p class="foot__giant" aria-hidden="true"><em>Ilvane</em></p>
+  <div class="foot__row">
+    <p data-i18n="foot.house">Maison Ilvane, high jewellery</p>
+    <p data-i18n="badge">Weskale Studio concept · fictional brand</p>
+    <p data-i18n="foot.visuals">Visuals generated for this concept</p>
+  </div>
+</footer>
+
+<div class="badge" role="note" data-i18n="badge">Weskale Studio concept · fictional brand</div>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer src="js/i18n.js?v=6"></script>
+<script defer src="js/core.js?v=defil4"></script>
+<script defer src="js/main.js?v=defil1"></script>
+</body>
+</html>

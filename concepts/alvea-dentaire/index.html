@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f2ede5">
+<title>Alvéa · Dental practice in Ixelles, Brussels</title>
+<meta name="description" content="Alvéa, a concept for a calm dental practice in Ixelles, Brussels: northern light, light oak, time to explain, and a simple online booking. Fictional brand, Weskale Studio concept.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%23f2ede5%27/%3E%3Cpath d=%27M9 25 16 7l7 18M12 18h8%27 fill=%27none%27 stroke=%27%232a241e%27 stroke-width=%272.2%27/%3E%3Cpath d=%27M17 3l3-2%27 stroke=%27%23b48a5a%27 stroke-width=%272.2%27/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Familjen+Grotesk:wght@400;500;600&family=Petrona:ital,wght@1,300;1,400&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/film.webp" media="(min-width: 761px)">
+<link rel="preload" as="image" href="assets/film-m.webp" media="(max-width: 760px)">
+<link rel="stylesheet" href="css/style.css?v=defil1">
+<script>(function(h){h.classList.add("js");try{var l=localStorage.getItem("alvea.lang");if(l==="fr"||l==="en")h.lang=l;}catch(e){}setTimeout(function(){if(!h.classList.contains("ready")){h.classList.add("ready");h.classList.remove("js");}},6000);})(document.documentElement);</script>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <p class="loader__mark">alvea</p>
+  <p class="loader__line"><i id="loaderBar"></i></p>
+  <p class="loader__sub">Ixelles · Bruxelles</p>
+</div>
+
+<header class="nav" id="nav">
+  <a href="#top" class="logo" data-i18n-aria="nav.home" aria-label="Alvéa, back to the top">alvea</a>
+  <nav class="nav__links" data-i18n-aria="nav.main" aria-label="Main navigation">
+    <a href="#cabinet" data-i18n="nav.practice">The practice</a>
+    <a href="#soins" data-i18n="nav.care">Care</a>
+    <a href="#venir" data-i18n="nav.visit">Visit</a>
+  </nav>
+  <div class="nav__end">
+    <div class="lang" role="group" data-i18n-aria="nav.lang" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button><span aria-hidden="true">/</span><button type="button" data-lang="fr" aria-pressed="false">FR</button>
+    </div>
+    <a href="#rdv" class="nav__cta" data-i18n="nav.book">Book</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- 1. Ouverture : la fenêtre du cabinet s'ouvre sur un soin expliqué -->
+  <section class="film" id="film" data-i18n-aria="film.aria" aria-label="Inside the practice">
+    <div class="film__stage">
+      <div class="film__wall" aria-hidden="true">
+        <i class="lightpatch lightpatch--hero"></i>
+      </div>
+
+      <div class="film__hero" id="filmHero">
+        <p class="eyebrow" data-in data-i18n="hero.eyebrow">Dental practice · Ixelles, Brussels</p>
+        <h1 class="film__title">
+          <span class="ln"><span data-in data-i18n="hero.l1">Calm care,</span></span>
+          <span class="ln"><em data-in data-i18n="hero.l2">in northern light.</em></span>
+        </h1>
+        <p class="film__lead" data-in data-i18n="hero.lead">A quiet practice in a Brussels townhouse. We take the time to show, explain and decide with you, before any treatment begins.</p>
+        <div class="film__ctas" data-in>
+          <a href="#rdv" class="btn btn--ink" data-i18n="hero.book">Book a visit</a>
+          <a href="#cabinet" class="btn btn--line" id="enterBtn" data-i18n="hero.enter">Step inside</a>
+        </div>
+      </div>
+
+      <div class="film__slot" id="filmSlot" aria-hidden="true"></div>
+
+      <div class="film__win" id="filmWin">
+        <div class="film__cam">
+          <picture class="film__still" id="filmStill">
+            <source media="(max-width: 760px)" srcset="assets/film-m.webp">
+            <img src="assets/film.webp" data-i18n-alt="film.alt" alt="The Alvéa treatment room: pale ash panels with the alvea logo in sage letters, a large north window, and a smiling dentist talking with a relaxed patient in the chair" fetchpriority="high">
+          </picture>
+          <canvas class="film__cv" id="filmCv" aria-hidden="true"></canvas>
+        </div>
+        <div class="film__grade" aria-hidden="true"></div>
+      </div>
+
+      <div class="film__frame" id="filmFrame" aria-hidden="true">
+      </div>
+
+      <div class="film__veil" id="filmVeil" aria-hidden="true"></div>
+
+      <div class="film__ch film__ch--l" data-ch="0">
+        <p class="film__num" data-i18n="ch0.n">I · The room</p>
+        <p class="film__txt" data-i18n="ch0.t">North light, pale ash, sage walls. Nothing in here hurries you.</p>
+      </div>
+      <div class="film__ch film__ch--r" data-ch="1">
+        <p class="film__num" data-i18n="ch1.n">II · The talk</p>
+        <p class="film__txt" data-i18n="ch1.t">Every option in plain words, with its cost, before the first gesture.</p>
+      </div>
+      <div class="film__ch film__ch--l2" data-ch="2">
+        <p class="film__num" data-i18n="ch2.n">III · You</p>
+        <p class="film__txt" data-i18n="ch2.t">You decide. We take the time it takes.</p>
+      </div>
+
+      <p class="film__end" id="filmEnd" data-i18n="film.end">Nothing is done <em>without you.</em></p>
+
+      <div class="film__rail" aria-hidden="true">
+        <span data-rail="0" data-i18n="rail.0">Room</span><span data-rail="1" data-i18n="rail.1">Talk</span><span data-rail="2" data-i18n="rail.2">You</span>
+        <i><b id="railBar"></b></i>
+      </div>
+      <p class="film__cue" id="filmCue" aria-hidden="true"><span data-i18n="film.cue">Scroll to enter</span><i></i></p>
+    </div>
+  </section>
+
+  <!-- 2. Le cabinet -->
+  <section class="intro" id="cabinet">
+    <p class="eyebrow" data-i18n="intro.eyebrow">The practice</p>
+    <p class="intro__text" id="introText" data-i18n="intro.text">Alvéa is a small dental practice in Ixelles, in a townhouse with tall north-facing windows. Two treatment rooms, pale ash and sage, and appointments that start on time, with room left for your questions.</p>
+  </section>
+
+  <!-- 3. Le temps : la lumière du nord glisse sur le mur -->
+  <section class="time" id="temps">
+    <div class="time__room" aria-hidden="true">
+      <i class="lightpatch lightpatch--time" id="timeLight"></i>
+      <div class="time__oak"></div>
+    </div>
+    <figure class="time__win"><img src="assets/fenetre.webp" data-i18n-alt="time.alt" alt="The north window of the treatment room, a linen curtain drawn aside and a tree in leaf outside" loading="lazy" width="640" height="1180"></figure>
+    <p class="time__word" id="timeWord" data-i18n="time.word">Time.</p>
+    <div class="time__body">
+      <p class="eyebrow" data-i18n="time.eyebrow">The first visit</p>
+      <p class="time__txt" data-i18n="time.txt">A first visit lasts forty-five minutes: a full check-up, photographs if needed, and a written plan you take home. No crowded waiting room, no rush between two chairs.</p>
+      <ul class="time__facts">
+        <li><b data-i18n="time.f1b">45 min</b><span data-i18n="time.f1">for a first visit</span></li>
+        <li><b data-i18n="time.f2b">In writing</b><span data-i18n="time.f2">every plan and every fee</span></li>
+        <li><b data-i18n="time.f3b">Every morning</b><span data-i18n="time.f3">slots kept free for urgent care</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. Les soins -->
+  <section class="care" id="soins">
+    <div class="care__head">
+      <p class="eyebrow" data-i18n="care.eyebrow">Care</p>
+      <h2 class="h2" data-i18n="care.h">Care, <em>without rush.</em></h2>
+    </div>
+    <ol class="care__list" id="careList"></ol>
+    <p class="note" data-i18n="care.note">Sample treatments and durations, for the demonstration.</p>
+  </section>
+
+  <!-- 5. Prise de rendez-vous -->
+  <section class="book" id="rdv">
+    <div class="book__head">
+      <p class="eyebrow" data-i18n="book.eyebrow">Appointments</p>
+      <h2 class="h2" data-i18n="book.h">Book <em>a visit.</em></h2>
+      <p class="book__sub" data-i18n="book.sub">Three choices, under a minute. You receive a confirmation, then a reminder the day before.</p>
+      <p class="book__call" data-i18n="book.call">Prefer to call? Our phone assistant answers at any hour and books the same slots.</p>
+    </div>
+
+    <div class="bk" id="bk">
+      <ol class="bk__steps" aria-hidden="true">
+        <li data-dot="0" class="on"><b>01</b><span data-i18n="bk.s0">Reason</span></li>
+        <li data-dot="1"><b>02</b><span data-i18n="bk.s1">Time</span></li>
+        <li data-dot="2"><b>03</b><span data-i18n="bk.s2">You</span></li>
+      </ol>
+
+      <div class="bk__panel is-on" data-step="0">
+        <p class="bk__q" data-i18n="bk.q0">What is the visit for?</p>
+        <div class="bk__reasons" id="bkReasons" role="radiogroup" data-i18n-aria="bk.q0" aria-label="What is the visit for?"></div>
+      </div>
+
+      <div class="bk__panel" data-step="1">
+        <p class="bk__q" data-i18n="bk.q1">Choose a day, then a time.</p>
+        <div class="bk__days" id="bkDays" role="radiogroup" data-i18n-aria="bk.days" aria-label="Day"></div>
+        <div class="bk__slots" id="bkSlots" role="radiogroup" data-i18n-aria="bk.slots" aria-label="Time"></div>
+        <button type="button" class="bk__back" data-back="0" data-i18n="bk.back">Back</button>
+      </div>
+
+      <form class="bk__panel" data-step="2" id="bkForm" novalidate>
+        <p class="bk__q" data-i18n="bk.q2">Your details.</p>
+        <label class="field"><span data-i18n="bk.name">Full name</span><input id="bkName" autocomplete="name" data-i18n-ph="bk.namePh" placeholder="Your name"></label>
+        <label class="field"><span data-i18n="bk.mail">Email</span><input id="bkMail" type="email" autocomplete="email" data-i18n-ph="bk.mailPh" placeholder="you@example.com"></label>
+        <label class="check"><input type="checkbox" id="bkFirst"><span data-i18n="bk.first">This is my first visit to Alvéa</span></label>
+        <div class="bk__row">
+          <button type="button" class="bk__back" data-back="1" data-i18n="bk.back">Back</button>
+          <button type="submit" class="btn btn--ink" data-i18n="bk.confirm">Confirm the appointment</button>
+        </div>
+      </form>
+
+      <div class="bk__panel bk__done" data-step="3" id="bkDone" tabindex="-1">
+        <p class="eyebrow" data-i18n="bk.doneEyebrow">Demonstration appointment</p>
+        <p class="bk__when" id="bkWhen"></p>
+        <p class="bk__what" id="bkWhat"></p>
+        <div class="bk__row">
+          <a class="btn btn--ink" id="bkIcs" href="#" download="alvea.ics" data-i18n="bk.ics">Add to calendar</a>
+          <button type="button" class="btn btn--line" id="bkAgain" data-i18n="bk.again">Change</button>
+        </div>
+      </div>
+
+      <p class="bk__sum" id="bkSum" aria-live="polite"></p>
+      <p class="bk__msg" id="bkMsg" role="alert"></p>
+    </div>
+    <p class="note book__note" data-i18n="book.note">Demonstration: no appointment is created and nothing you type leaves this page.</p>
+  </section>
+</main>
+
+<!-- 6. Venir -->
+<footer class="foot" id="venir">
+  <div class="foot__grid">
+    <div>
+      <p class="eyebrow" data-i18n="foot.h1">Visit</p>
+      <p class="foot__txt" data-i18n="foot.p1">Ixelles, Brussels, a few minutes on foot from Place Flagey. The exact address comes with your confirmation.</p>
+    </div>
+    <div>
+      <p class="eyebrow" data-i18n="foot.h2">Hours</p>
+      <p class="foot__txt" data-i18n="foot.p2">Monday to Friday, 8 am to 7 pm. Saturday morning for urgent care only.</p>
+    </div>
+    <div>
+      <p class="eyebrow" data-i18n="foot.h3">Access</p>
+      <p class="foot__txt" data-i18n="foot.p3">Step-free entrance and a ground-floor treatment room. Tram and bus stops close by.</p>
+    </div>
+  </div>
+  <p class="foot__mark" aria-hidden="true">alvea</p>
+  <div class="foot__base">
+    <p data-i18n="foot.concept">Weskale Studio concept · fictional brand. Treatments, durations, hours and visuals are examples for the demonstration.</p>
+    <p><a href="#top" data-i18n="foot.top">Back to the top</a></p>
+  </div>
+</footer>
+
+<div class="badge" data-i18n="badge">Weskale Studio concept · fictional brand</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script src="js/i18n.js" defer></script>
+<script src="js/booking.js" defer></script>
+<script src="js/main.js?v=defil1" defer></script>
+</body>
+</html>

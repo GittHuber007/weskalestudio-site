@@ -1,0 +1,176 @@
+/* Section « Concepts » de Weskale Studio.
+   Mêmes briques que le site en ligne (weskale-studio/deploy) : pastille,
+   en-tête titre et texte, cartes en verre, onglets, boutons, apparitions.
+   Tout est rangé sous .wk-concepts pour s'insérer sans toucher au site. */
+.wk-concepts {
+  --wk-noir: #000;
+  --wk-blanc: #fffff4;
+  --wk-vert: #c8f751;
+  --wk-vert2: #88ab2e;
+  --wk-sourd: #9aa396;
+  --wk-sourd2: #667062;
+  --wk-trait: rgba(255, 255, 255, .075);
+  --wk-trait2: rgba(255, 255, 255, .15);
+  --wk-titre: "Inter Tight", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --wk-serif: "Instrument Serif", Georgia, serif;
+  --wk-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --wk-lent: cubic-bezier(.16, 1, .3, 1);
+  position: relative;
+  color: var(--wk-blanc);
+  font-family: var(--wk-titre);
+  padding-top: clamp(64px, 12vh, 130px);
+}
+.wk-concepts *, .wk-concepts *::before, .wk-concepts *::after { box-sizing: border-box; }
+.wk-concepts ul { list-style: none; margin: 0; padding: 0; }
+.wk-concepts em { font-family: var(--wk-serif); font-style: italic; font-weight: 400; letter-spacing: -.01em; font-size: 1.07em; }
+.wk-dedans { width: 100%; max-width: 1200px; margin: 0 auto; padding-inline: max(16px, clamp(16px, 5.55vw, 80px)); }
+.wk-mono { font-family: var(--wk-mono); font-size: 11.5px; letter-spacing: .01em; color: var(--wk-sourd2); margin: 0; }
+
+/* Pastille et en-tête, comme les sections du site */
+.wk-pastille {
+  display: inline-flex; align-items: center; gap: 8px; margin-bottom: 12px;
+  border: 1px solid var(--wk-trait); border-radius: 999px; padding: 4px 13px 5px;
+  font-size: 13px; color: #b9c0b4; background: rgba(18, 20, 18, .72);
+}
+.wk-pastille::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--wk-vert); flex: none; }
+.wk-tete { display: grid; grid-template-columns: 1fr minmax(0, .62fr); gap: clamp(20px, 4vw, 60px); align-items: end; }
+.wk-tete h2, .wk-tete h3 {
+  margin: 0; font-weight: 600; font-size: clamp(29px, 3.35vw, 48px); line-height: 1.12; letter-spacing: -.028em; text-wrap: balance;
+}
+.wk-tete p { margin: 0 0 2px; color: var(--wk-sourd); font-size: 15px; line-height: 1.5; text-shadow: 0 1px 14px rgba(0, 0, 0, .9), 0 0 4px rgba(0, 0, 0, .75); }
+.wk-tete p strong { color: var(--wk-blanc); font-weight: 500; }
+.wk-tete .wk-mono { text-align: right; color: #b4bab0; text-shadow: 0 1px 14px rgba(0, 0, 0, .95); }
+
+/* Filtre : une barre de verre et les onglets du site */
+.wk-filtre { position: sticky; top: calc(var(--wk-haut-nav, 72px) + 12px); z-index: 15; margin-top: clamp(30px, 4.5vh, 50px); }
+.wk-filtre__in {
+  display: flex; align-items: center; gap: 14px; padding: 7px 8px 7px 7px;
+  background: linear-gradient(180deg, rgba(20, 23, 20, .78), rgba(9, 10, 9, .84));
+  border: 1px solid var(--wk-trait); border-radius: 14px;
+  -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+}
+.wk-filtre__l { display: flex; gap: 4px; flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+.wk-filtre__l::-webkit-scrollbar { display: none; }
+.wk-ong {
+  flex: none; display: inline-flex; align-items: center; gap: 7px;
+  border: 1px solid transparent; background: none; border-radius: 8px; padding: 6px 11px;
+  color: var(--wk-sourd); font: 13px/1.3 var(--wk-titre); cursor: pointer; white-space: nowrap;
+  transition: color .25s, background .25s, border-color .25s;
+}
+.wk-ong b { font: 400 11px/1 var(--wk-mono); color: var(--wk-sourd2); transition: color .25s; }
+.wk-ong:hover { color: var(--wk-blanc); }
+.wk-ong[aria-pressed="true"] { color: var(--wk-vert); background: rgba(120, 160, 50, .16); border-color: rgba(200, 247, 81, .3); }
+.wk-ong[aria-pressed="true"] b { color: var(--wk-vert); }
+.wk-ong:focus-visible { outline: 2px solid var(--wk-vert); outline-offset: 2px; }
+.wk-filtre__n { flex: none; padding-right: 6px; }
+.wk-filtre__n b { color: var(--wk-blanc); font-weight: 400; }
+
+/* Univers : le rythme des sections du site */
+.wk-univers { padding-top: clamp(72px, 12vh, 136px); scroll-margin-top: 150px; }
+.wk-univers[hidden] { display: none; }
+.wk-univers .wk-tete { margin-bottom: clamp(26px, 3.4vw, 42px); }
+
+/* Grille : 12 colonnes, tailles alternées */
+.wk-grille { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 17px; }
+.wk-item { grid-column: span 6; }
+.wk-item--g7 { grid-column: span 7; }
+.wk-item--g5 { grid-column: span 5; }
+.wk-item--g4 { grid-column: span 4; }
+.wk-item--g12 { grid-column: span 12; }
+
+/* Carte : le verre du site, l'écran d'un site, le texte */
+.wk-carte {
+  position: relative; display: flex; flex-direction: column; height: 100%;
+  color: inherit; text-decoration: none;
+  background: linear-gradient(180deg, rgba(20, 23, 20, .66), rgba(9, 10, 9, .72));
+  border: 1px solid var(--wk-trait); border-radius: clamp(16px, 1.9vw, 22px);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  padding: clamp(8px, .8vw, 11px);
+  transition: border-color .35s, background-color .35s, transform .35s var(--wk-lent);
+}
+.wk-nv { display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 6px 4px; }
+.wk-nv i { width: 7px; height: 7px; border-radius: 50%; background: rgba(255, 255, 255, .16); flex: none; transition: background .3s; }
+.wk-nv span { margin-left: 8px; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--wk-mono); font-size: 11px; color: var(--wk-sourd2); }
+.wk-refonte {
+  margin-left: auto; flex: none; display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--wk-mono); font-weight: 400; font-size: 11px; color: #d3d7ce;
+  border: 1px solid var(--wk-trait2); border-radius: 999px; padding: 3px 9px 3px 7px; background: rgba(0, 0, 0, .45);
+}
+.wk-refonte::before {
+  content: ""; width: 9px; height: 9px; border-radius: 50%; flex: none;
+  border: 1.5px solid rgba(200, 247, 81, .3); border-top-color: var(--wk-vert);
+  animation: wk-tourne .9s linear infinite;
+}
+@keyframes wk-tourne { to { transform: rotate(360deg); } }
+
+.wk-ecran { position: relative; overflow: hidden; border-radius: 14px; aspect-ratio: 16 / 10; background: #060806; }
+.wk-item--g7 .wk-ecran, .wk-item--g5 .wk-ecran { aspect-ratio: auto; height: clamp(260px, 28vw, 400px); }
+.wk-item--g4 .wk-ecran { aspect-ratio: auto; height: clamp(200px, 19vw, 270px); }
+.wk-item--g12 .wk-ecran { aspect-ratio: auto; height: clamp(280px, 36vw, 460px); }
+.wk-ecran img {
+  position: absolute; inset: -2.5%; width: 105%; height: 105%; max-width: none; object-fit: cover; display: block;
+  transform: translate3d(var(--wk-px, 0px), var(--wk-py, 0px), 0) scale(var(--wk-zoom, 1));
+  filter: brightness(.9);
+  transition: transform 1.8s var(--wk-lent), filter .6s ease;
+}
+.wk-ecran::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+  background: linear-gradient(180deg, transparent 58%, rgba(0, 0, 0, .38));
+}
+.wk-ouvrir {
+  position: absolute; right: 14px; bottom: 14px; z-index: 2;
+  display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 8px 17px;
+  font: 600 14px/1.4 var(--wk-titre); color: #0d1402; background: var(--wk-vert);
+  box-shadow: 0 0 22px rgba(200, 247, 81, .22);
+  opacity: 0; transform: translateY(8px); transition: opacity .3s ease, transform .4s var(--wk-lent);
+}
+.wk-ouvrir svg { width: 11px; height: 11px; }
+
+.wk-texte { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 14px; align-items: center; padding: 18px 10px 12px; }
+.wk-num { grid-column: 1 / -1; font-family: var(--wk-mono); font-size: 11.5px; color: var(--wk-vert2); margin-bottom: 8px; }
+.wk-texte h4 { margin: 0; font-weight: 500; font-size: clamp(20px, 1.95vw, 27px); line-height: 1.2; letter-spacing: -.018em; }
+.wk-meta { grid-column: 1; margin: 5px 0 0; font-size: 15px; line-height: 1.45; color: var(--wk-sourd); }
+.wk-meta span::before { content: "·"; margin: 0 .45em; }
+.wk-fleche {
+  grid-column: 2; grid-row: 2 / span 2; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center;
+  border: 1px solid var(--wk-trait2); background: rgba(255, 255, 255, .04); color: var(--wk-sourd);
+  transition: background .3s, color .3s, border-color .3s, transform .3s var(--wk-lent);
+}
+.wk-fleche svg { width: 11px; height: 11px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .wk-carte:hover { border-color: rgba(200, 247, 81, .3); transform: translateY(-2px); }
+  .wk-carte:hover .wk-nv i:first-child { background: var(--wk-vert); }
+  .wk-carte:hover .wk-ecran img { --wk-zoom: 1.07; filter: brightness(1); }
+  .wk-carte:hover .wk-ouvrir { opacity: 1; transform: none; }
+  .wk-carte:hover .wk-fleche { background: var(--wk-vert); border-color: var(--wk-vert); color: #0d1402; transform: rotate(45deg); }
+}
+.wk-carte:focus-visible { outline: 2px solid var(--wk-vert); outline-offset: 3px; }
+.wk-carte:focus-visible .wk-ouvrir { opacity: 1; transform: none; }
+
+/* Apparitions : celles du site */
+.wk-js .wk-rev { opacity: 0; transform: translateY(10px); }
+.wk-js .wk-rev.vu { opacity: 1; transform: none; transition: opacity .36s ease-out, transform .36s ease-out; }
+.wk-mot { display: inline-block; transition: opacity .34s ease-out, filter .34s ease-out, transform .34s ease-out; }
+.wk-js [data-wk-mots]:not(.vu) .wk-mot { opacity: 0; filter: blur(4px); transform: translateY(4px); }
+
+@media (max-width: 900px) {
+  .wk-tete { grid-template-columns: 1fr; }
+  .wk-tete .wk-mono { text-align: left; }
+  .wk-grille { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wk-item, .wk-item--g7, .wk-item--g5, .wk-item--g4 { grid-column: span 1; }
+  .wk-item--g12, .wk-item--seul { grid-column: span 2; }
+  .wk-item .wk-ecran { height: auto; aspect-ratio: 4 / 3; }
+  .wk-item--g12 .wk-ecran, .wk-item--seul .wk-ecran { aspect-ratio: 16 / 9; }
+}
+@media (max-width: 600px) {
+  .wk-filtre__n { display: none; }
+  .wk-grille { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .wk-item, .wk-item--g7, .wk-item--g5, .wk-item--g4, .wk-item--g12, .wk-item--seul { grid-column: auto; }
+  .wk-item .wk-ecran, .wk-item--g12 .wk-ecran, .wk-item--seul .wk-ecran { aspect-ratio: 16 / 11; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wk-js .wk-rev, .wk-js [data-wk-mots] .wk-mot { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
+  .wk-ecran img { transition: filter .3s; transform: none; }
+  .wk-refonte::before { animation: none; }
+}

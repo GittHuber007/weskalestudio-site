@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<script>
+  /* Langue : anglais par défaut, français si choisi (localStorage, ou ?lang=fr si le stockage est bloqué) */
+  (function () {
+    var l = null;
+    try { l = localStorage.getItem("lexaris-lang"); } catch (e) {}
+    var q = /[?&]lang=(en|fr)\b/.exec(location.search);
+    if (q) l = q[1];
+    document.documentElement.lang = l === "fr" ? "fr" : "en";
+  })();
+</script>
+<title>Lexaris · Business law, Paris</title>
+<meta name="description" content="Lexaris, a fictional business law firm in Paris. A Weskale Studio concept.">
+<meta name="theme-color" content="#080807">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 fill=%22%23080807%22/%3E%3Ctext x=%2216%22 y=%2224%22 font-family=%22Georgia%22 font-size=%2222%22 fill=%22%23eee7d8%22 text-anchor=%22middle%22%3EL%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=defil2">
+</head>
+<body>
+<div class="loader" aria-hidden="true">
+  <div class="loader__mark"><span>LEXARIS</span><small data-i18n="loader.sub">Avocats · Paris</small></div>
+  <div class="loader__line"><i></i></div>
+  <div class="loader__count"><span class="loader__num">000</span></div>
+</div>
+
+<header class="nav">
+  <a class="nav__mark" href="#top" aria-label="Lexaris, back to top" data-i18n-attr="aria-label:nav.home">LEXARIS<small>Avocats · Paris</small></a>
+  <nav class="nav__mid" aria-label="Sections" data-i18n-attr="aria-label:nav.sections">
+    <a href="#firm" data-i18n="nav.firm">The firm</a>
+    <a href="#practices" data-i18n="nav.practices">Practices</a>
+    <a href="#partners" data-i18n="nav.partners">Partners</a>
+  </nav>
+  <div class="nav__right">
+    <div class="lang" role="group" aria-label="Language" data-i18n-attr="aria-label:lang.label">
+      <button type="button" data-lang="en" lang="en" aria-label="English">EN</button><span aria-hidden="true">/</span><button type="button" data-lang="fr" lang="fr" aria-label="Français">FR</button>
+    </div>
+    <a class="nav__cta" href="#contact" data-magnetic="0.25"><span class="cta__long" data-i18n="nav.cta">Confidential enquiry</span><span class="cta__short" data-i18n="nav.ctaShort">Enquire</span></a>
+  </div>
+</header>
+
+<main id="top">
+  <!-- 1. Ouverture : la bibliothèque du cabinet (image Google Flow), poussée de caméra vers la plaque LEXARIS -->
+  <section class="hero" aria-label="The firm's library" data-i18n-attr="aria-label:hero.aria">
+    <div class="hero__pin">
+      <div class="hero__media">
+        <img class="hero__img" src="assets/img/hero.webp" srcset="assets/img/hero-m.webp 960w, assets/img/hero.webp 2400w" sizes="(max-width: 759px) 960px, 100vw" alt="Haussmann library with walnut bookcases, a black marble table, tall windows and a black glass plaque engraved LEXARIS" data-i18n-attr="alt:hero.alt">
+        <canvas class="hero__gl" aria-hidden="true"></canvas>
+      </div>
+      <div class="hero__veil"></div>
+      <div class="hero__copy">
+        <p class="eyebrow"><span class="dot"></span><span data-i18n="hero.eyebrow">Business law · Paris 8e</span></p>
+        <h1 class="hero__title" data-i18n="hero.title"><span class="line">Counsel,</span> <span class="line"><em>in confidence.</em></span></h1>
+        <p class="hero__sub" data-i18n="hero.sub">Mergers, disputes and governance, for owners and boards who need a sure answer, quickly, and without noise.</p>
+        <a class="btn" href="#contact" data-magnetic="0.3"><span data-i18n="hero.btn">Request a meeting</span><i class="btn__line"></i></a>
+      </div>
+      <div class="hero__note">
+        <p class="eyebrow"><span class="dot"></span><span>Lexaris Avocats</span></p>
+        <p class="hero__noteT" data-i18n="hero.note">A firm of business lawyers, in a Haussmann apartment of the 8th arrondissement.</p>
+      </div>
+      <div class="hero__scroll" aria-hidden="true"><span data-i18n="hero.scroll">Scroll</span><i></i></div>
+      <div class="hero__shut"></div>
+    </div>
+  </section>
+
+  <!-- 2. La lecture : la caméra monte le long des rayonnages (séquence assets/seq/lib/, vidéo Mixkit) -->
+  <section class="reading" aria-label="Reading" data-i18n-attr="aria-label:rd.aria">
+    <div class="reading__pin">
+      <img class="reading__img" src="assets/img/rayons.webp" alt="" aria-hidden="true">
+      <canvas class="reading__seq" aria-hidden="true"></canvas>
+      <div class="reading__veil"></div>
+      <div class="reading__caps">
+        <p class="cap" data-at="0.04,0.36"><span class="cap__n">I</span><span class="cap__t" data-i18n="hero.c1">Every matter begins <em>with reading.</em></span></p>
+        <p class="cap" data-at="0.36,0.66"><span class="cap__n">II</span><span class="cap__t" data-i18n="hero.c2">Case law, doctrine, <em>the small print.</em></span></p>
+        <p class="cap" data-at="0.66,0.95"><span class="cap__n">III</span><span class="cap__t" data-i18n="hero.c3">Then a position <em>that holds.</em></span></p>
+      </div>
+      <div class="reading__hud" aria-hidden="true"><span>Lexaris</span><span class="hud__bar"><i></i></span><span class="hud__n">000</span></div>
+      <div class="reading__shut"></div>
+    </div>
+  </section>
+
+  <!-- 3. Le cabinet : texte qui s'éclaire au défilement -->
+  <section class="firm" id="firm" aria-label="The firm" data-i18n-attr="aria-label:firm.aria">
+    <p class="eyebrow"><span class="dot"></span><span data-i18n="firm.eyebrow">The firm</span></p>
+    <p class="firm__text" data-scrub-words data-i18n="firm.text">We step in when the stakes are high and silence matters as much as strategy. One matter, a small team, a partner who answers in person. The rest is nobody's business but yours.</p>
+    <p class="firm__sign" data-reveal><span>Lexaris Avocats</span><span data-i18n="firm.sign">Avocats à la Cour · Paris 8e</span></p>
+  </section>
+
+  <!-- 4. Expertises : six domaines, un par écran, fondu WebGL entre les photos -->
+  <section class="practices" id="practices" aria-label="Practices" data-i18n-attr="aria-label:pr.aria">
+    <div class="practices__pin">
+      <div class="practices__stage">
+        <img class="practices__fallback" src="assets/img/archives.webp" alt="">
+        <canvas class="practices__gl" aria-hidden="true"></canvas>
+      </div>
+      <div class="practices__veil"></div>
+      <div class="practices__head">
+        <p class="eyebrow"><span class="dot"></span><span data-i18n="pr.eyebrow">Practices</span> · <span class="pr__cur">01</span> / 06</p>
+        <p class="practices__lead" data-i18n="pr.lead">Six fields. <em>One standard.</em></p>
+      </div>
+      <div class="practices__win">
+      <ol class="practices__list">
+        <li class="pr" data-img="0"><span class="pr__n">01</span><h2 class="pr__t" data-i18n="pr.t1">Mergers &amp; acquisitions</h2><p class="pr__d" data-i18n="pr.d1">Due diligence, negotiation, warranties, closing.</p></li>
+        <li class="pr" data-img="1"><span class="pr__n">02</span><h2 class="pr__t" data-i18n="pr.t2">Commercial litigation</h2><p class="pr__d" data-i18n="pr.d2">Shareholder disputes, unfair competition, broken contracts.</p></li>
+        <li class="pr" data-img="2"><span class="pr__n">03</span><h2 class="pr__t" data-i18n="pr.t3">Corporate law</h2><p class="pr__d" data-i18n="pr.d3">Shareholder agreements, governance, capital transactions.</p></li>
+        <li class="pr" data-img="3"><span class="pr__n">04</span><h2 class="pr__t" data-i18n="pr.t4">Restructuring</h2><p class="pr__d" data-i18n="pr.d4">Early warning, ad hoc mandates, conciliation.</p></li>
+        <li class="pr" data-img="1"><span class="pr__n">05</span><h2 class="pr__t" data-i18n="pr.t5">Corporate tax</h2><p class="pr__d" data-i18n="pr.d5">Structuring, succession, tax audits.</p></li>
+        <li class="pr" data-img="2"><span class="pr__n">06</span><h2 class="pr__t" data-i18n="pr.t6">International arbitration</h2><p class="pr__d" data-i18n="pr.d6">Proceedings in French, English and Arabic.</p></li>
+      </ol>
+      </div>
+      <div class="practices__bar" aria-hidden="true"><i></i></div>
+    </div>
+  </section>
+
+  <!-- 5. À la table : la vidéo s'ouvre jusqu'à remplir l'écran (présence humaine, mains seulement) -->
+  <section class="table" aria-label="At the table" data-i18n-attr="aria-label:tb.aria">
+    <div class="table__pin">
+      <figure class="table__frame">
+        <video class="table__video" muted loop playsinline preload="none" poster="assets/img/table.webp" data-src="assets/vid/table.mp4" data-src-m="assets/vid/table-m.mp4" aria-label="Hands over a contract on a wooden table, a pen being picked up to sign" data-i18n-attr="aria-label:tb.alt"></video>
+      </figure>
+      <div class="table__veil"></div>
+      <p class="table__k eyebrow"><span class="dot"></span><span data-i18n="tb.eyebrow">At the table</span></p>
+      <h2 class="table__title" data-i18n="tb.title"><span class="line">A partner reads</span> <span class="line">every page.</span> <span class="line"><em>A partner signs.</em></span></h2>
+      <p class="table__note" data-i18n="tb.note">Illustrative footage</p>
+    </div>
+  </section>
+
+  <!-- 6. Associés : ex-libris, sans photo (personnes fictives) -->
+  <section class="partners" id="partners" aria-label="Partners" data-i18n-attr="aria-label:pt.aria">
+    <div class="partners__head">
+      <p class="eyebrow"><span class="dot"></span><span data-i18n="pt.eyebrow">Partners</span></p>
+      <h2 class="partners__title" data-split-reveal data-i18n="pt.title">Those who sign your files.</h2>
+      <p class="partners__note" data-i18n="pt.note">Fictional people and careers, created for this concept.</p>
+    </div>
+    <div class="plates">
+      <article class="plate" data-reveal data-tilt>
+        <div class="plate__in">
+          <p class="plate__ex">Ex libris</p>
+          <p class="plate__mono" aria-hidden="true">H<i>V</i></p>
+          <h3 class="plate__name">Hélène Varenne</h3>
+          <p class="plate__role" data-i18n="pt.r1">Managing partner<br>Mergers &amp; acquisitions</p>
+          <p class="plate__lang" data-i18n="pt.l1">French · English</p>
+        </div>
+      </article>
+      <article class="plate" data-reveal data-tilt>
+        <div class="plate__in">
+          <p class="plate__ex">Ex libris</p>
+          <p class="plate__mono" aria-hidden="true">A<i>D</i></p>
+          <h3 class="plate__name">Antoine Delcourt</h3>
+          <p class="plate__role" data-i18n="pt.r2">Partner<br>Commercial litigation</p>
+          <p class="plate__lang" data-i18n="pt.l2">French · English · German</p>
+        </div>
+      </article>
+      <article class="plate" data-reveal data-tilt>
+        <div class="plate__in">
+          <p class="plate__ex">Ex libris</p>
+          <p class="plate__mono" aria-hidden="true">S<i>B</i></p>
+          <h3 class="plate__name">Sarah Benali</h3>
+          <p class="plate__role" data-i18n="pt.r3">Partner<br>International arbitration</p>
+          <p class="plate__lang" data-i18n="pt.l3">French · English · Arabic</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 7. Le sceau : la signature se trace au défilement (séquence assets/seq/sig/), trois engagements -->
+  <section class="seal" aria-label="Our commitments" data-i18n-attr="aria-label:sl.aria">
+    <div class="seal__pin">
+      <img class="seal__img" src="assets/img/signature.webp" alt="" aria-hidden="true">
+      <canvas class="seal__seq" aria-hidden="true"></canvas>
+      <div class="seal__veil"></div>
+      <h2 class="seal__title" data-i18n="sl.title"><span class="line">Nothing leaves</span> <span class="line"><em>these walls.</em></span></h2>
+      <ol class="seal__list">
+        <li class="vow" data-at="0.16,0.42"><span class="vow__n">I</span><h3 data-i18n="sl.t1">Confidentiality</h3><p data-i18n="sl.d1">Encrypted exchanges, a private meeting room, and no client ever named in public.</p></li>
+        <li class="vow" data-at="0.42,0.68"><span class="vow__n">II</span><h3 data-i18n="sl.t2">Availability</h3><p data-i18n="sl.d2">A partner you can reach directly, including the night before a signing.</p></li>
+        <li class="vow" data-at="0.68,1.01"><span class="vow__n">III</span><h3 data-i18n="sl.t3">Clear fees</h3><p data-i18n="sl.d3">A written fee agreement from the first meeting, fixed or hourly.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 8. Prise de contact confidentielle (démonstration, rien n'est envoyé) -->
+  <section class="contact" id="contact" aria-label="Confidential enquiry" data-i18n-attr="aria-label:ct.aria">
+    <div class="contact__intro">
+      <p class="eyebrow"><span class="dot"></span><span data-i18n="ct.eyebrow">Confidential enquiry</span></p>
+      <h2 class="contact__title" data-split-reveal data-i18n="ct.title">Speak to a partner, in confidence.</h2>
+      <dl class="facts">
+        <div><dt data-i18n="ct.f1k">Office</dt><dd data-i18n="ct.f1v">Paris 8e, by appointment</dd></div>
+        <div><dt data-i18n="ct.f2k">Meetings</dt><dd data-i18n="ct.f2v">At the firm or by encrypted video call</dd></div>
+        <div><dt data-i18n="ct.f3k">Reply</dt><dd data-i18n="ct.f3v">From a partner, within one business day</dd></div>
+      </dl>
+    </div>
+    <form class="cform" novalidate>
+      <p class="cform__demo" data-i18n="ct.demo">Demonstration · nothing is sent</p>
+      <div class="cform__row">
+        <label class="field"><span data-i18n="ct.name">Name</span><input name="name" autocomplete="off" required placeholder="Your name" data-i18n-attr="placeholder:ct.nameP"></label>
+        <label class="field"><span data-i18n="ct.company">Company</span><input name="company" autocomplete="off" placeholder="Optional" data-i18n-attr="placeholder:ct.companyP"></label>
+      </div>
+      <label class="field"><span data-i18n="ct.email">Email</span><input name="email" type="email" autocomplete="off" required placeholder="you@example.com" data-i18n-attr="placeholder:ct.emailP"></label>
+      <label class="field"><span data-i18n="ct.practice">Matter</span>
+        <select name="practice">
+          <option data-i18n="pr.t1">Mergers &amp; acquisitions</option>
+          <option data-i18n="pr.t2">Commercial litigation</option>
+          <option data-i18n="pr.t3">Corporate law</option>
+          <option data-i18n="pr.t4">Restructuring</option>
+          <option data-i18n="pr.t5">Corporate tax</option>
+          <option data-i18n="pr.t6">International arbitration</option>
+        </select>
+      </label>
+      <div class="field"><span data-i18n="ct.channel">Preferred channel</span>
+        <div class="chips" role="radiogroup" aria-label="Preferred channel" data-i18n-attr="aria-label:ct.channel">
+          <label class="chip"><input type="radio" name="channel" value="call" checked><span data-i18n="ct.ch1">Encrypted call</span></label>
+          <label class="chip"><input type="radio" name="channel" value="office"><span data-i18n="ct.ch2">At the firm</span></label>
+          <label class="chip"><input type="radio" name="channel" value="video"><span data-i18n="ct.ch3">Video call</span></label>
+        </div>
+      </div>
+      <label class="field"><span data-i18n="ct.msg">In a few words</span><textarea name="msg" rows="3" placeholder="No sensitive details at this stage" data-i18n-attr="placeholder:ct.msgP"></textarea></label>
+      <label class="check"><input type="checkbox" name="discreet" checked><span data-i18n="ct.discreet">Discreet contact: no voicemail, nothing sent to my office</span></label>
+      <button class="btn btn--solid" type="submit" data-magnetic="0.2"><span data-i18n="ct.send">Send under seal</span></button>
+      <div class="cform__ok" role="status" aria-live="polite"></div>
+    </form>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot__giant" aria-hidden="true">LEXARIS</div>
+  <div class="foot__row">
+    <p data-i18n="foot.house">Lexaris Avocats, business law, Paris</p>
+    <p data-i18n="foot.concept">Weskale Studio concept · fictional brand</p>
+    <p data-i18n="foot.images">Images: Mixkit footage and images generated for this concept</p>
+  </div>
+</footer>
+
+<div class="badge" role="note" data-i18n="foot.concept">Weskale Studio concept · fictional brand</div>
+
+<script defer src="js/i18n.js?v=1"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer src="js/core.js?v=defil4"></script>
+<script defer src="js/main.js?v=defil1"></script>
+</body>
+</html>

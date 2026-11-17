@@ -1,0 +1,11 @@
+{
+  "chronographe": { "desktop": 192, "mobile": 96 },
+  "eclatee": {
+    "image": true,
+    "desktop": 192,
+    "mobile": 96,
+    "points": [[0.575, 0.21], [0.56, 0.64], [0.545, 0.84]],
+    "sides": ["l", "r", "r"]
+  },
+  "atelier": false
+}

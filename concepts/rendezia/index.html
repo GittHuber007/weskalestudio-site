@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#08080b">
+<title>Rendezia · The online calendar for care practices</title>
+<meta name="description" content="Rendezia, a fictional scheduling software for care practices. A Weskale Studio concept.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%2308080b%22/%3E%3Crect x=%229%22 y=%229%22 width=%2214%22 height=%2214%22 rx=%224%22 fill=%22none%22 stroke=%22%23a99bff%22 stroke-width=%222.4%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%222.4%22 fill=%22%23a99bff%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=defil2">
+</head>
+<body>
+<div class="loader" aria-hidden="true">
+  <p class="loader__mark"><span class="mark"></span>Rendezia</p>
+  <div class="loader__line"><i></i></div>
+</div>
+
+<header class="nav">
+  <a class="nav__logo" href="#top" aria-label="Rendezia, back to top" data-i18n-aria="nav.home"><span class="mark" aria-hidden="true"></span>Rendezia</a>
+  <nav class="nav__links" aria-label="Sections" data-i18n-aria="nav.sections">
+    <a href="#product" data-i18n="nav.product">Product</a>
+    <a href="#demo" data-i18n="nav.demo">Live demo</a>
+    <a href="#pricing" data-i18n="nav.pricing">Pricing</a>
+    <a href="#faq" data-i18n="nav.faq">Questions</a>
+  </nav>
+  <div class="lang mono" role="group" aria-label="Language" data-i18n-aria="nav.lang">
+    <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button><i aria-hidden="true">/</i><button type="button" data-lang="fr" lang="fr" aria-pressed="false">FR</button>
+  </div>
+  <a class="btn btn--sm btn--light" href="#pricing" data-magnetic="0.2" data-i18n="nav.cta">Start free trial</a>
+</header>
+
+<main id="top">
+  <!-- Ouverture : l'interface en grand, pilotee par le defilement -->
+  <section class="film" id="product" aria-label="Rendezia, the calendar in action" data-i18n-aria="film.aria">
+    <div class="film__stage">
+      <div class="veil" aria-hidden="true"></div>
+      <div class="light" aria-hidden="true"><i class="light__beam"><i class="light__glow"></i></i><i class="light__floor"></i></div>
+
+      <div class="hero">
+        <p class="pill"><b data-i18n="hero.pill.b">New</b><span data-i18n="hero.pill">The waitlist refills every cancelled slot</span></p>
+        <h1 class="hero__title"><span class="l"><span data-i18n="hero.l1">The calendar</span></span><span class="l"><span data-i18n="hero.l2">that fills itself.</span></span></h1>
+        <p class="hero__lead" data-i18n="hero.lead">Online booking day and night, reminders by text, a waitlist that takes back every freed slot. You treat patients. Rendezia handles the calendar.</p>
+        <div class="hero__cta">
+          <a class="btn btn--accent" href="#pricing" data-magnetic="0.2" data-i18n="hero.cta">Start free trial</a>
+          <a class="btn btn--ghost" href="#demo" data-i18n="hero.demo">Try the live demo</a>
+        </div>
+      </div>
+
+      <div class="scene" aria-hidden="true">
+        <div class="rig">
+          <div class="win">
+            <div class="win__bar">
+              <span class="dots"><i></i><i></i><i></i></span>
+              <span class="win__title"><span class="mark"></span>Rendezia <i>·</i> <span data-i18n="app.practice">Morel Practice</span></span>
+              <span class="win__tag mono" data-i18n="app.tag">Example · fictional data</span>
+            </div>
+            <div class="win__body">
+              <aside class="side">
+                <p class="side__ws"><span class="ws">M</span><span data-i18n="app.practice">Morel Practice</span></p>
+                <ul class="side__nav">
+                  <li class="on"><i class="ic ic-cal"></i><span data-i18n="app.nav.cal">Calendar</span></li>
+                  <li><i class="ic ic-pat"></i><span data-i18n="app.nav.pat">Patients</span></li>
+                  <li><i class="ic ic-wait"></i><span data-i18n="app.nav.wait">Waitlist</span><b class="side__n">3</b></li>
+                  <li><i class="ic ic-sms"></i><span data-i18n="app.nav.sms">Reminders</span></li>
+                  <li><i class="ic ic-set"></i><span data-i18n="app.nav.set">Settings</span></li>
+                </ul>
+                <div class="side__book">
+                  <p class="mono" data-i18n="app.online">Online booking</p>
+                  <p><i class="live"></i><span data-i18n="app.on">Open around the clock</span></p>
+                </div>
+              </aside>
+              <div class="cal">
+                <div class="cal__top">
+                  <b class="cal__week" data-date="2026-11-23" data-fmt="week"></b>
+                  <span class="cal__who"><i class="pa"></i>Dr Morel <i class="pb"></i>J. Petit</span>
+                  <span class="cal__now mono"><i class="live"></i><span class="cal__nowd" data-date="2026-11-23" data-fmt="dshort"></span> <b class="cal__clock">9:00 PM</b></span>
+                </div>
+                <div class="cal__grid">
+                  <div class="cal__times"></div>
+                  <div class="cal__days"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cartes qui sortent de l'interface -->
+          <div class="card card--book">
+            <p class="card__k mono"><i class="dot dot--accent"></i><span data-i18n="c.book.k">Booked online</span><span class="card__t" data-time="1334"></span></p>
+            <p class="card__h">Inès B.</p>
+            <p class="card__s"><span data-i18n="c.book.s">First visit with Dr Morel</span> · <span data-date="2026-11-24" data-fmt="dshort"></span> <span data-time="600"></span></p>
+          </div>
+
+          <div class="sms sms--1">
+            <p class="sms__from mono">RENDEZIA</p>
+            <p class="sms__msg" data-sms="Hugo T.|2026-11-24|570|J. Petit"></p>
+            <p class="sms__yes" data-i18n="sms.yes">YES</p>
+            <p class="sms__ok mono"><i class="dot dot--ok"></i><span data-i18n="sms.ok">Confirmed</span></p>
+          </div>
+          <div class="sms sms--2">
+            <p class="sms__from mono">RENDEZIA</p>
+            <p class="sms__msg" data-sms="Inès B.|2026-11-24|600|Dr Morel"></p>
+            <p class="sms__yes" data-i18n="sms.yes">YES</p>
+            <p class="sms__ok mono"><i class="dot dot--ok"></i><span data-i18n="sms.ok">Confirmed</span></p>
+          </div>
+          <div class="sms sms--3">
+            <p class="sms__from mono">RENDEZIA</p>
+            <p class="sms__msg" data-sms="Nora L.|2026-11-24|750|J. Petit"></p>
+            <p class="sms__yes" data-i18n="sms.yes">YES</p>
+            <p class="sms__ok mono"><i class="dot dot--ok"></i><span data-i18n="sms.ok">Confirmed</span></p>
+          </div>
+
+          <div class="card card--cancel">
+            <p class="card__k mono"><i class="dot dot--off"></i><span data-i18n="c.cancel.k">Cancelled</span></p>
+            <p class="card__h">Marc V.</p>
+            <p class="card__s"><span data-date="2026-11-25" data-fmt="dshort"></span> <span data-time="630"></span> · <span data-i18n="c.cancel.s">slot offered to the waitlist</span></p>
+          </div>
+          <div class="card card--wait">
+            <p class="card__k mono"><i class="dot dot--ok"></i><span data-i18n="c.wait.k">Slot filled</span></p>
+            <p class="card__h">Zoé F.</p>
+            <p class="card__s" data-i18n="c.wait.s">First on the waitlist, accepted in 3 minutes</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="chaps">
+        <div class="chap" data-chap="0">
+          <p class="mono chap__n">01 <i></i> <span data-i18n="ch1.k">Online booking</span></p>
+          <h2 class="chap__t"><span data-i18n="ch1.t1">Booked</span> <span class="dim" data-i18n="ch1.t2">while you sleep.</span></h2>
+          <p class="chap__p" data-i18n="ch1.p">Patients pick a free slot online, at any hour. It lands in your calendar on the spot.</p>
+        </div>
+        <div class="chap" data-chap="1">
+          <p class="mono chap__n">02 <i></i> <span data-i18n="ch2.k">Reminders</span></p>
+          <h2 class="chap__t"><span data-i18n="ch2.t1">Reminders</span> <span class="dim" data-i18n="ch2.t2">go out on their own.</span></h2>
+          <p class="chap__p" data-i18n="ch2.p">A text the day before, with one word to confirm. Nobody has to pick up the phone.</p>
+        </div>
+        <div class="chap" data-chap="2">
+          <p class="mono chap__n">03 <i></i> <span data-i18n="ch3.k">Waitlist</span></p>
+          <h2 class="chap__t"><span data-i18n="ch3.t1">A cancellation?</span> <span class="dim" data-i18n="ch3.t2">Already filled.</span></h2>
+          <p class="chap__p" data-i18n="ch3.p">The freed slot goes to the waitlist. The first patient to accept takes it.</p>
+        </div>
+      </div>
+
+      <p class="film__out" aria-hidden="true"><span data-i18n="out.1">One evening in the calendar.</span> <span class="dim" data-i18n="out.2">Not a single phone call.</span></p>
+      <div class="film__bar" aria-hidden="true"><i></i></div>
+      <p class="film__hint mono" aria-hidden="true"><span data-i18n="hero.hint">Scroll</span><i></i></p>
+    </div>
+  </section>
+
+  <section class="say" aria-label="Less phone, more care" data-i18n-aria="say.aria">
+    <p class="say__text" data-scrub-words data-i18n="say.text">Less time on the phone. More time with the people you treat.</p>
+  </section>
+
+  <!-- Demo interactive : le visiteur reserve comme un patient -->
+  <section class="demo" id="demo" aria-labelledby="demo-title">
+    <div class="sec-head">
+      <p class="mono eyebrow" data-i18n="demo.k">Live demo</p>
+      <h2 class="h2" id="demo-title" data-reveal><span data-i18n="demo.t1">Book as a patient.</span> <span class="dim" data-i18n="demo.t2">Watch the practice side.</span></h2>
+    </div>
+    <div class="demo__wrap" data-reveal>
+      <div class="bk" aria-label="Booking page, demo" data-i18n-aria="bk.aria">
+        <div class="bk__head">
+          <span class="ws">M</span>
+          <div><b data-i18n="app.practice">Morel Practice</b><small data-i18n="bk.sub">Osteopathy and physiotherapy · book online</small></div>
+        </div>
+        <fieldset class="bk__f">
+          <legend class="mono" data-i18n="bk.who">With</legend>
+          <div class="seg" data-g="prac" role="radiogroup"></div>
+        </fieldset>
+        <fieldset class="bk__f">
+          <legend class="mono" data-i18n="bk.type">Visit</legend>
+          <div class="seg" data-g="type" role="radiogroup"></div>
+        </fieldset>
+        <fieldset class="bk__f">
+          <legend class="mono" data-i18n="bk.day">Day</legend>
+          <div class="days" data-g="day" role="radiogroup"></div>
+        </fieldset>
+        <fieldset class="bk__f">
+          <legend class="mono" data-i18n="bk.slot">Free slots</legend>
+          <div class="slots" data-g="slot" role="radiogroup"></div>
+        </fieldset>
+        <button class="btn btn--accent bk__go" type="button" disabled></button>
+        <p class="bk__note mono" data-i18n="bk.note">Demo: no data is collected or sent.</p>
+      </div>
+
+      <div class="pr" aria-label="Practice calendar, demo" data-i18n-aria="pr.aria">
+        <div class="pr__head">
+          <p class="mono"><span class="mark"></span><span data-i18n="pr.k">Practice view</span></p>
+          <b class="pr__day"></b>
+          <span class="pr__who"></span>
+        </div>
+        <ol class="pr__list" aria-live="polite"></ol>
+        <div class="pr__notes" aria-live="polite"></div>
+        <button class="pr__reset mono" type="button" data-i18n="pr.reset">Reset the demo</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Presence humaine : emplacement photo, avec une composition typographique tant qu'elle manque -->
+  <section class="people" aria-labelledby="people-title">
+    <figure class="people__media" data-photo="assets/people.webp">
+      <ul class="people__jobs" aria-hidden="true">
+        <li data-i18n="job.1">Osteopaths</li><li data-i18n="job.2">Physiotherapists</li><li data-i18n="job.3">Dentists</li><li data-i18n="job.4">Speech therapists</li><li data-i18n="job.5">Psychologists</li><li data-i18n="job.6">Midwives</li><li data-i18n="job.7">Dietitians</li>
+      </ul>
+    </figure>
+    <div class="people__txt">
+      <p class="mono eyebrow" data-i18n="people.k">For care teams</p>
+      <h2 class="h2" id="people-title" data-reveal><span data-i18n="people.t1">One calendar</span> <span class="dim" data-i18n="people.t2">for the whole practice.</span></h2>
+      <p class="people__p" data-reveal data-i18n="people.p">Each practitioner, room and visit length, with breaks and holidays. Patients only ever see what is free.</p>
+      <ul class="feats" data-reveal>
+        <li><b data-i18n="f.1.t">Online booking, around the clock</b><span data-i18n="f.1.p">A page in your name, showing your real free slots.</span></li>
+        <li><b data-i18n="f.2.t">Text reminders</b><span data-i18n="f.2.p">Sent the day before, confirmed in one word.</span></li>
+        <li><b data-i18n="f.3.t">Waitlist</b><span data-i18n="f.3.p">Every freed slot is offered again right away.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="pricing" id="pricing" aria-labelledby="pricing-title">
+    <div class="sec-head">
+      <p class="mono eyebrow" data-i18n="pricing.k">Pricing</p>
+      <h2 class="h2" id="pricing-title" data-reveal><span data-i18n="pricing.t1">One clear price,</span> <span class="dim" data-i18n="pricing.t2">per practitioner.</span></h2>
+    </div>
+    <div class="calc" data-reveal>
+      <div class="calc__l">
+        <label class="calc__row" for="calc-n"><span data-i18n="calc.n">Practitioners</span><output class="calc__n" for="calc-n">2</output></label>
+        <input id="calc-n" type="range" min="1" max="12" value="2">
+        <div class="toggles">
+          <label class="tg"><input type="checkbox" data-opt="sms" checked><span class="tg__ui" aria-hidden="true"></span><span class="tg__t" data-i18n="calc.sms">Unlimited text reminders</span><span class="tg__p mono" data-price="9"></span></label>
+          <label class="tg"><input type="checkbox" data-opt="wait" checked><span class="tg__ui" aria-hidden="true"></span><span class="tg__t" data-i18n="calc.wait">Waitlist</span><span class="tg__p mono" data-price="6"></span></label>
+        </div>
+        <div class="bill" role="radiogroup" aria-label="Billing" data-i18n-aria="calc.bill">
+          <button type="button" role="radio" aria-checked="true" data-bill="m" data-i18n="calc.m">Monthly</button>
+          <button type="button" role="radio" aria-checked="false" data-bill="y"><span data-i18n="calc.y">Yearly</span> <i data-i18n="calc.free">2 months free</i></button>
+        </div>
+      </div>
+      <div class="calc__r">
+        <p class="mono eyebrow" data-i18n="calc.total">Your plan</p>
+        <p class="calc__price"><b>€88</b><span data-i18n="calc.per">/ month</span></p>
+        <p class="calc__detail"></p>
+        <a class="btn btn--accent calc__go" href="#pricing" data-magnetic="0.2" data-i18n="calc.go">Start the 14 day trial</a>
+        <p class="calc__fine mono" data-i18n="calc.fine">No card · cancel any time · example prices, excl. tax</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq" id="faq" aria-labelledby="faq-title">
+    <h2 class="h2" id="faq-title" data-reveal><span data-i18n="faq.t1">Questions</span></h2>
+    <div class="faq__list">
+      <details><summary data-i18n="faq.q1">Do patients need an account?</summary><p data-i18n="faq.a1">No. A name, a phone number and the reason for the visit are enough to book.</p></details>
+      <details><summary data-i18n="faq.q2">Can I import my current calendar?</summary><p data-i18n="faq.a2">Yes, from a file or from another online calendar. The team helps you set up.</p></details>
+      <details><summary data-i18n="faq.q3">Where is the data stored?</summary><p data-i18n="faq.a3">In this concept, on servers in Europe, with a host certified for health data.</p></details>
+      <details><summary data-i18n="faq.q4">What if a patient does not show up?</summary><p data-i18n="faq.a4">Mark the visit as missed in one click. You can then ask that patient for a deposit on future bookings.</p></details>
+    </div>
+  </section>
+
+  <section class="final" aria-labelledby="final-title">
+    <h2 class="final__t" id="final-title" data-reveal><span data-i18n="final.t1">Give your days</span> <span class="dim" data-i18n="final.t2">back to care.</span></h2>
+    <a class="btn btn--accent" href="#pricing" data-magnetic="0.2" data-i18n="final.cta">Start free trial</a>
+  </section>
+</main>
+
+<footer class="foot">
+  <p class="foot__giant" aria-hidden="true">Rendezia</p>
+  <div class="foot__row mono">
+    <p>Rendezia</p>
+    <p data-i18n="foot.concept">Weskale Studio concept · fictional brand</p>
+    <p data-i18n="foot.data">Names, calendars and prices are examples</p>
+  </div>
+</footer>
+
+<div class="toast" role="status" aria-live="polite"></div>
+<div class="badge mono" role="note" data-i18n="foot.concept">Weskale Studio concept · fictional brand</div>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer src="js/i18n.js?v=defil1"></script>
+<script defer src="js/core.js?v=defil1"></script>
+<script defer src="js/main.js?v=defil1"></script>
+</body>
+</html>

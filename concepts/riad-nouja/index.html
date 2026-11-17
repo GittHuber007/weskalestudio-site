@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#140e0a">
+<title>Riad Nouja · Guesthouse in the Marrakech medina · Book direct</title>
+<meta name="description" content="Riad Nouja, a concept for a four-room guesthouse in the Marrakech medina: courtyard, zellige fountain, orange tree and direct booking. Fictional brand, Weskale Studio concept.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 fill=%27%23140e0a%27/%3E%3Cpath d=%27M9 28V15a7 7 0 0 1 14 0v13z%27 fill=%27none%27 stroke=%27%23d4ae72%27 stroke-width=%272%27/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/img/patio.webp" media="(min-width: 761px)">
+<link rel="preload" as="image" href="assets/img/patio-m.webp" media="(max-width: 760px)">
+<link rel="stylesheet" href="css/style.css?v=defil1">
+<script>(function(h){h.classList.add("js");try{var l=localStorage.getItem("riadNouja.lang");if(l==="fr"||l==="en")h.lang=l;}catch(e){}setTimeout(function(){if(!h.classList.contains("ready")){h.classList.add("ready");h.classList.remove("js");}},6000);})(document.documentElement);</script>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <p class="loader__name">Riad <em>Nouja</em></p>
+  <p class="loader__line"><i id="loaderBar"></i></p>
+</div>
+
+<header class="nav" id="nav">
+  <a href="#top" class="nav__logo" data-i18n-aria="nav.home" aria-label="Riad Nouja, back to the top">Riad <em>Nouja</em></a>
+  <nav class="nav__links" data-i18n-aria="nav.main" aria-label="Main navigation">
+    <a href="#maison" data-i18n="nav.house">The house</a>
+    <a href="#chambres" data-i18n="nav.rooms">Rooms</a>
+    <a href="#acces" data-i18n="nav.access">Getting here</a>
+  </nav>
+  <div class="nav__end">
+    <div class="lang" role="group" data-i18n-aria="nav.lang" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button><span aria-hidden="true">/</span><button type="button" data-lang="fr" aria-pressed="false">FR</button>
+    </div>
+    <a href="#reserver" class="nav__cta" data-i18n="nav.book">Book</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- 1. Plan-séquence : on franchit la porte et on avance jusqu'à la fontaine -->
+  <section class="film" id="film" data-i18n-aria="film.aria" aria-label="Step inside the riad"
+    data-seq-d="assets/seq/d/" data-count-d="192"
+    data-seq-m="assets/seq/m/" data-count-m="96">
+    <div class="film__stage">
+      <div class="film__cam" id="filmCam">
+        <picture class="film__still" id="filmStill">
+          <source media="(max-width: 760px)" srcset="assets/img/patio-m.webp">
+          <img src="assets/img/patio.webp" data-i18n-alt="film.alt" alt="The courtyard of Riad Nouja seen from the carved cedar door: a brass plate with the name of the house, a star-shaped zellige fountain and an orange tree" fetchpriority="high">
+        </picture>
+        <canvas class="film__cv" id="filmCv" aria-hidden="true"></canvas>
+      </div>
+      <div class="film__grade" aria-hidden="true"></div>
+      <div class="film__dim" id="filmDim" aria-hidden="true"></div>
+
+      <div class="film__hero" id="filmHero">
+        <p class="eyebrow" data-in data-i18n="hero.eyebrow">Guesthouse · Marrakech medina</p>
+        <h1 class="film__title">
+          <span class="ln"><span data-in data-i18n="hero.l1">Four rooms</span></span>
+          <span class="ln"><em data-in data-i18n="hero.l2">around a courtyard</em></span>
+        </h1>
+        <p class="film__lead" data-in data-i18n="hero.lead">A carved cedar door, a zellige fountain, an orange tree. The rest of the city stops at the threshold.</p>
+        <div class="film__ctas" data-in>
+          <a href="#reserver" class="btn btn--gold" data-i18n="hero.book">Book direct</a>
+          <a href="#maison" class="btn btn--ghost" id="enterBtn" data-i18n="hero.enter">Step inside</a>
+        </div>
+      </div>
+
+      <div class="film__ch film__ch--l" data-ch="0">
+        <p class="film__num" data-i18n="ch0.n">I · The threshold</p>
+        <p class="film__txt" data-i18n="ch0.t">The door opens onto a bent passage. From the lane, nothing of the courtyard can be seen.</p>
+      </div>
+      <div class="film__ch film__ch--r" data-ch="1">
+        <p class="film__num" data-i18n="ch1.n">II · The courtyard</p>
+        <p class="film__txt" data-i18n="ch1.t">The sky is the only ceiling. The galleries on each floor lead to the rooms.</p>
+      </div>
+      <div class="film__ch film__ch--c" data-ch="2">
+        <p class="film__num" data-i18n="ch2.n">III · The fountain</p>
+        <p class="film__txt" data-i18n="ch2.t">An eight-pointed zellige star, laid piece by piece. The sound of the water covers the city.</p>
+      </div>
+
+      <p class="film__end" id="filmEnd" data-i18n="film.end">Only four rooms, <em>so the courtyard stays quiet.</em></p>
+
+      <div class="film__rail" aria-hidden="true">
+        <span data-rail="0" data-i18n="rail.0">Threshold</span><span data-rail="1" data-i18n="rail.1">Courtyard</span><span data-rail="2" data-i18n="rail.2">Fountain</span>
+        <i><b id="railBar"></b></i>
+      </div>
+      <p class="film__cue" id="filmCue" aria-hidden="true"><span data-i18n="film.cue">Scroll to enter</span><i></i></p>
+    </div>
+  </section>
+
+  <!-- 2. La maison -->
+  <section class="intro" id="maison">
+    <p class="eyebrow" data-i18n="intro.eyebrow">The house</p>
+    <p class="intro__text" id="introText" data-i18n="intro.text">Riad Nouja is a four-room guesthouse at the end of a quiet lane in the medina. Guests come for the light in the courtyard, breakfast on the roof terrace and the silence, a few minutes' walk from the souks.</p>
+  </section>
+
+  <section class="mat" id="matieres" data-i18n-aria="mat.aria" aria-label="The materials of the house">
+    <div class="mat__track" id="matTrack">
+      <article class="mat__panel">
+        <p class="mat__word" aria-hidden="true" data-i18n="mat1.w">Cedar</p>
+        <figure class="mat__fig"><img src="assets/img/cedre.webp" data-i18n-alt="mat1.alt" alt="Detail of the carved cedar door and its brass plate engraved Riad Nouja" loading="lazy" width="757" height="1536"></figure>
+        <div class="mat__cap"><p class="mat__n" data-i18n="mat1.n">01 · The door</p><h2 class="mat__h" data-i18n="mat1.h">Carved <em>cedar</em></h2><p data-i18n="mat1.p">Carved by hand in cedar, the door carries a single brass plate. It is the only sign of the house in the lane.</p></div>
+      </article>
+      <article class="mat__panel">
+        <p class="mat__word" aria-hidden="true" data-i18n="mat2.w">Zellige</p>
+        <figure class="mat__fig mat__fig--wide"><img src="assets/img/zellige.webp" data-i18n-alt="mat2.alt" alt="The star-shaped courtyard fountain, clad in blue, white and ochre zellige" loading="lazy" width="900" height="560"></figure>
+        <div class="mat__cap"><p class="mat__n" data-i18n="mat2.n">02 · The fountain</p><h2 class="mat__h" data-i18n="mat2.h">Hand-cut <em>zellige</em></h2><p data-i18n="mat2.p">Each tile is cut with a hammer, then set by hand, pattern by pattern, around a white stone basin.</p></div>
+      </article>
+      <article class="mat__panel">
+        <p class="mat__word" aria-hidden="true" data-i18n="mat3.w">Orange</p>
+        <figure class="mat__fig"><img src="assets/img/oranger.webp" data-i18n-alt="mat3.alt" alt="The courtyard orange tree, heavy with fruit, in front of the gallery arches" loading="lazy" width="560" height="760"></figure>
+        <div class="mat__cap"><p class="mat__n" data-i18n="mat3.n">03 · The garden</p><h2 class="mat__h" data-i18n="mat3.h">The courtyard <em>orange tree</em></h2><p data-i18n="mat3.p">Planted at the foot of the galleries, it gives shade in the afternoon. Its fruit ends up freshly pressed at breakfast.</p></div>
+      </article>
+      <article class="mat__panel">
+        <p class="mat__word" aria-hidden="true" data-i18n="mat4.w">Brass</p>
+        <figure class="mat__fig"><img src="assets/img/salon.webp" data-i18n-alt="mat4.alt" alt="The courtyard lounge: benches, cushions, rugs and brass lanterns" loading="lazy" width="780" height="1000"></figure>
+        <div class="mat__cap"><p class="mat__n" data-i18n="mat4.n">04 · The lounge</p><h2 class="mat__h" data-i18n="mat4.h">Brass <em>lanterns</em></h2><p data-i18n="mat4.p">Benches, rugs and lanterns: the courtyard is the living room, from morning tea to the last light of the evening.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 3. Les chambres -->
+  <section class="rooms" id="chambres">
+    <div class="rooms__media">
+      <figure class="rooms__fig"><img src="assets/img/galeries.webp" data-i18n-alt="rooms.alt" alt="The upper galleries around the courtyard, onto which the rooms open" loading="lazy" width="920" height="660"></figure>
+      <p class="rooms__cap" data-i18n="rooms.cap">All four rooms open onto the courtyard galleries.</p>
+    </div>
+    <div class="rooms__body">
+      <p class="eyebrow" data-i18n="rooms.eyebrow">The rooms</p>
+      <h2 class="h2" data-i18n="rooms.h">Four rooms, <em>no more</em></h2>
+      <ol class="rooms__list" id="roomList"></ol>
+      <p class="note" data-i18n="rooms.note">Sample rooms and prices, for the demonstration.</p>
+    </div>
+  </section>
+
+  <!-- 4. Réservation directe -->
+  <section class="book" id="reserver">
+    <div class="book__head">
+      <p class="eyebrow" data-i18n="book.eyebrow">Direct booking</p>
+      <h2 class="h2" data-i18n="book.h">Book <em>direct</em></h2>
+      <p class="book__sub" data-i18n="book.sub">Your dates, your room, your details. The total updates at every step, tourist tax included.</p>
+    </div>
+
+    <div class="book__grid">
+      <form class="bk" id="bk" novalidate>
+        <div class="bk__tabs" role="tablist" data-i18n-aria="bk.steps" aria-label="Booking steps">
+          <button type="button" role="tab" data-go="0" aria-selected="true"><b>1</b><span data-i18n="bk.tab0">Dates</span></button>
+          <button type="button" role="tab" data-go="1" aria-selected="false"><b>2</b><span data-i18n="bk.tab1">Room</span></button>
+          <button type="button" role="tab" data-go="2" aria-selected="false"><b>3</b><span data-i18n="bk.tab2">Details</span></button>
+        </div>
+
+        <fieldset class="bk__step is-on" data-step="0">
+          <legend class="sr" data-i18n="bk.leg0">Your dates</legend>
+          <div class="cal">
+            <div class="cal__top">
+              <button type="button" class="cal__nav" id="calPrev" data-i18n-aria="bk.prev" aria-label="Previous month"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+              <p class="cal__label" id="calLabel" aria-live="polite"></p>
+              <button type="button" class="cal__nav" id="calNext" data-i18n-aria="bk.next" aria-label="Next month"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+            <div class="cal__dow" id="calDow" aria-hidden="true"></div>
+            <div class="cal__days" id="calDays"></div>
+            <p class="cal__legend"><span class="lg lg--sel"></span><span data-i18n="bk.legSel">Your stay</span> <span class="lg lg--off"></span><span data-i18n="bk.legOff">Fully booked</span></p>
+          </div>
+          <div class="bk__guests">
+            <div class="stepper"><span data-i18n="bk.adults">Adults</span><button type="button" data-step-btn="ad" data-d="-1" data-i18n-aria="bk.adLess" aria-label="One adult fewer">−</button><output id="bkAd">2</output><button type="button" data-step-btn="ad" data-d="1" data-i18n-aria="bk.adMore" aria-label="One more adult">+</button></div>
+            <div class="stepper"><span data-i18n="bk.children">Children</span><button type="button" data-step-btn="ch" data-d="-1" data-i18n-aria="bk.chLess" aria-label="One child fewer">−</button><output id="bkCh">0</output><button type="button" data-step-btn="ch" data-d="1" data-i18n-aria="bk.chMore" aria-label="One more child">+</button></div>
+          </div>
+          <button type="button" class="btn btn--gold bk__next" data-next="1" data-i18n="bk.next0">Choose the room</button>
+        </fieldset>
+
+        <fieldset class="bk__step" data-step="1">
+          <legend class="sr" data-i18n="bk.leg1">The room</legend>
+          <div class="bk__rooms" id="bkRooms" role="radiogroup" data-i18n-aria="bk.room" aria-label="Room"></div>
+          <p class="lbl" data-i18n="bk.extras">On request</p>
+          <div class="bk__extras">
+            <label><input type="checkbox" value="transfer" data-price="35" data-per="stay"><span><span data-i18n="bk.x1">Airport transfer</span><i data-x="stay">€35</i></span></label>
+            <label><input type="checkbox" value="hammam" data-price="45" data-per="person"><span><span data-i18n="bk.x2">Hammam and body scrub</span><i data-x="person">€45 per person</i></span></label>
+            <label><input type="checkbox" value="dinner" data-price="30" data-per="person"><span><span data-i18n="bk.x3">Dinner at the guest table</span><i data-x="person">€30 per person</i></span></label>
+          </div>
+          <button type="button" class="btn btn--gold bk__next" data-next="2" data-i18n="bk.next1">Continue</button>
+        </fieldset>
+
+        <fieldset class="bk__step" data-step="2">
+          <legend class="sr" data-i18n="bk.leg2">Your details</legend>
+          <label class="field"><span class="lbl" data-i18n="bk.name">Name</span><input id="bkName" autocomplete="name" data-i18n-ph="bk.namePh" placeholder="Your name"></label>
+          <label class="field"><span class="lbl" data-i18n="bk.mail">Email</span><input id="bkMail" type="email" autocomplete="email" data-i18n-ph="bk.mailPh" placeholder="you@example.com"></label>
+          <button type="submit" class="btn btn--gold bk__next" data-i18n="bk.confirm">Confirm the booking</button>
+        </fieldset>
+
+        <p class="bk__msg" id="bkMsg" aria-live="polite"></p>
+      </form>
+
+      <aside class="sum" data-i18n-aria="sum.aria" aria-label="Summary">
+        <p class="lbl" data-i18n="sum.title">Your stay</p>
+        <p class="sum__dates" id="sumDates"></p>
+        <div class="sum__rows" id="sumRows"></div>
+        <p class="note" data-i18n="sum.note">Demonstration: no payment is requested and no real booking is created. Sample prices.</p>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<!-- 5. Accès et pied de page -->
+<footer class="foot" id="acces">
+  <div class="foot__bg" aria-hidden="true"><img src="assets/img/fin.webp" alt="" loading="lazy"></div>
+  <div class="foot__grid">
+    <div>
+      <p class="eyebrow" data-i18n="foot.h1">Getting here</p>
+      <p class="foot__txt" data-i18n="foot.p1">The house opens onto a pedestrian lane. We meet you at the nearest car park and carry your luggage to your room. The exact address is sent with the confirmation.</p>
+    </div>
+    <div>
+      <p class="eyebrow" data-i18n="foot.h2">Arrival and departure</p>
+      <p class="foot__txt" data-i18n="foot.p2">Check-in from 2 pm, check-out by 11 am. Breakfast is served on the terrace from 8 to 10:30 am.</p>
+    </div>
+  </div>
+  <p class="foot__mark" aria-hidden="true">Riad <em>Nouja</em></p>
+  <div class="foot__base">
+    <p data-i18n="foot.concept">Weskale Studio concept · fictional brand. Rooms, prices, times and visuals are examples for the demonstration.</p>
+    <p><a href="#top" data-i18n="foot.top">Back to the door</a></p>
+  </div>
+</footer>
+
+<div class="badge" data-i18n="badge">Weskale Studio concept · fictional brand</div>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer src="js/i18n.js?v=defil1"></script>
+<script defer src="js/booking.js?v=defil1"></script>
+<script defer src="js/main.js?v=defil1"></script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Grillon · Halal smash burgers in Lyon</title>
+<meta name="description" content="Grillon, halal smash burgers in Lyon: fresh beef smashed on the griddle, melted cheddar, golden brioche. Alcohol-free. Weskale Studio concept, fictional brand.">
+<meta name="theme-color" content="#0a0705">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0705'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23ff6a1f'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Fraunces:ital,opsz,wght@1,9..144,400&family=Manrope:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/hero.webp" media="(min-width: 761px)">
+<link rel="preload" as="image" href="assets/hero-m.webp" media="(max-width: 760px)">
+<link rel="stylesheet" href="css/core.css?v=defil1">
+<link rel="stylesheet" href="css/style.css?v=defil1">
+</head>
+<body>
+
+<div class="loader" aria-hidden="true">
+  <p class="loader__word">GRILLON</p>
+  <div class="loader__foot"><span data-i18n="loader">Heating the griddle</span><span data-count>000</span></div>
+  <div class="loader__bar"><i data-bar></i></div>
+</div>
+
+<div class="grain" aria-hidden="true"></div>
+<p class="concept" data-i18n="concept">Weskale Studio concept · fictional brand</p>
+
+<header class="nav">
+  <a href="#top" class="nav__logo" data-i18n-aria="logoAria" aria-label="Grillon, back to top">GRILLON</a>
+  <nav class="nav__links" data-i18n-aria="navAria" aria-label="Main navigation">
+    <a href="#carte" data-i18n="navMenu">Menu</a>
+    <a href="#venir" data-i18n="navVisit">Visit</a>
+  </nav>
+  <div class="lang" role="group" data-i18n-aria="langAria" aria-label="Language">
+    <button type="button" data-lang="en" aria-pressed="true">EN</button><span aria-hidden="true">/</span><button type="button" data-lang="fr" aria-pressed="false">FR</button>
+  </div>
+  <button class="nav__cart" data-open-cart data-i18n-aria="cartOpen" aria-label="Open cart"><span data-i18n="navCart">Cart</span> <b data-cart-count>0</b></button>
+</header>
+
+<main id="top">
+
+  <!-- Le film : l'ouverture et le burger qui s'ouvre au défilement, en un seul plan -->
+  <section class="film" data-i18n-aria="filmAria" aria-label="The Grillon, opened as you scroll">
+    <div class="film__stage">
+      <img class="film__still" src="assets/hero.webp" srcset="assets/hero-m.webp 1080w, assets/hero.webp 2400w" sizes="100vw" data-i18n-alt="heroAlt" alt="Double smash burger with melted cheddar in kraft paper printed Grillon, on the griddle in front of glowing embers">
+      <canvas class="film__canvas" aria-hidden="true"></canvas>
+      <canvas class="film__embers" aria-hidden="true"></canvas>
+      <div class="film__shade" aria-hidden="true"></div>
+
+      <div class="hero">
+        <p class="eyebrow" data-intro-fade data-i18n="eyebrow">Halal smash burgers <i></i> Lyon 7th</p>
+        <h1 class="hero__title"><span class="hl"><span data-i18n="h1a">Smashed</span></span><span class="hl"><span data-i18n="h1b">and <em>seared.</em></span></span></h1>
+        <p class="hero__lead" data-intro-fade data-i18n="lead">Two patties of fresh beef pressed onto a blazing griddle, a crust that crunches, cheddar melting over the top. Halal, alcohol-free, cooked to order.</p>
+        <div class="hero__ctas" data-intro-fade>
+          <a href="#carte" class="btn btn--fire" data-i18n="ctaOrder">Order now</a>
+          <span class="hero__hint" data-i18n="hint">Scroll, it opens up</span>
+        </div>
+      </div>
+
+      <ol class="chapters">
+        <li class="chap" data-from=".15" data-to=".40">
+          <b>01</b>
+          <h2 data-i18n="c1t">The bun <em>rises.</em></h2>
+          <p data-i18n="c1p">Toasted in butter on the griddle. Crisp outside, soft inside.</p>
+        </li>
+        <li class="chap" data-from=".43" data-to=".62">
+          <b>02</b>
+          <h2 data-i18n="c2t">The cheddar <em>drips.</em></h2>
+          <p data-i18n="c2p">Laid on the patty while it is still searing, it melts on its own and runs down to the paper.</p>
+        </li>
+        <li class="chap" data-from=".64" data-to=".80">
+          <b>03</b>
+          <h2 data-i18n="c3t">Two patties, <em>one crust.</em></h2>
+          <p data-i18n="c3p">Halal beef smashed with one press of the spatula. The edges caramelize, the center stays juicy.</p>
+        </li>
+        <li class="chap" data-from=".83" data-to="1.1">
+          <b>04</b>
+          <h2 data-i18n="c4t">Close it up. <em>It's ready.</em></h2>
+          <p data-i18n="c4p">Pickles, diced onion, Grillon sauce. Served in its paper, still steaming.</p>
+          <button class="btn btn--fire" data-add="grillon" data-i18n="c4btn">Add the Grillon · €12.90</button>
+        </li>
+      </ol>
+
+      <div class="film__meta" aria-hidden="true">
+        <span data-chap-n>00</span><i><em data-film-bar></em></i><span>04</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- La carte et le panier -->
+  <section class="carte" id="carte" aria-labelledby="carte-title">
+    <div class="carte__head">
+      <p class="eyebrow" data-i18n="menuEyebrow">The menu</p>
+      <h2 class="carte__title" id="carte-title" data-reveal="words" data-i18n="menuTitle">Pick one. <em>We smash.</em></h2>
+      <p class="carte__note" data-i18n="menuNote">Everything is cooked to order. Sample prices.</p>
+      <button class="btn btn--ghost carte__open" data-open-cart><span data-i18n="menuCart">View cart</span> · <b data-cart-total-mini>€0.00</b></button>
+    </div>
+    <div class="carte__list" data-menu></div>
+  </section>
+
+  <!-- Trois engagements, un par ligne -->
+  <section class="vows" data-i18n-aria="vowsAria" aria-label="Our commitments">
+    <p class="vows__line" data-drift="-1" data-vow="v1"></p>
+    <p class="vows__line" data-drift="1" data-vow="v2"></p>
+    <p class="vows__line" data-drift="-1" data-vow="v3"></p>
+  </section>
+
+  <!-- Venir -->
+  <section class="venir" id="venir" aria-labelledby="venir-title">
+    <div class="venir__media" data-reveal="img">
+      <img src="assets/final.webp" srcset="assets/final-m.webp 720w, assets/final.webp 1280w" sizes="100vw" data-i18n-alt="finalAlt" alt="The Grillon closed again, cheddar running down the kraft paper printed Grillon" loading="lazy">
+    </div>
+    <div class="venir__text">
+      <p class="eyebrow" data-i18n="visitEyebrow">Visit</p>
+      <h2 class="venir__title" id="venir-title" data-reveal="words" data-i18n="visitTitle">Eat in, <em>take out or delivery.</em></h2>
+      <dl class="venir__infos">
+        <div><dt data-i18n="whereT">Where</dt><dd data-i18n="whereD">Lyon 7th</dd></div>
+        <div><dt data-i18n="whenT">When</dt><dd data-i18n="whenD">Every day, 11:30 am to 11 pm</dd></div>
+        <div><dt data-i18n="orderT">Order</dt><dd data-i18n="orderD">Online here, or at the counter</dd></div>
+      </dl>
+      <button class="btn btn--fire" data-open-cart data-i18n="visitCart">Open your cart</button>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <p class="foot__word" aria-hidden="true">GRILLON</p>
+  <div class="foot__row">
+    <p data-i18n="concept">Weskale Studio concept · fictional brand</p>
+    <p data-i18n="footNote">Sample prices and opening hours. Image and video generated for this demo.</p>
+    <a href="#top" data-i18n="footTop">Back to top</a>
+  </div>
+</footer>
+
+<!-- Panier -->
+<aside class="cart" data-i18n-aria="cartAria" aria-label="Cart" aria-hidden="true" data-cart>
+  <div class="cart__veil" data-close-cart></div>
+  <div class="cart__panel" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+    <div class="cart__top">
+      <h2 id="cart-title" data-i18n="cartTitle">Your cart</h2>
+      <button class="cart__x" data-close-cart data-i18n="cartClose" data-i18n-aria="cartCloseAria" aria-label="Close cart">Close</button>
+    </div>
+    <div class="cart__body" data-cart-body></div>
+    <form class="cart__form" data-cart-form>
+      <fieldset class="seg">
+        <legend class="sr" data-i18n="modeLegend">Pickup or delivery</legend>
+        <label><input type="radio" name="mode" value="emporter" checked><span data-i18n="modeTake">Takeaway</span></label>
+        <label><input type="radio" name="mode" value="livraison"><span data-i18n="modeDeliv">Delivery</span></label>
+      </fieldset>
+      <label class="field"><span data-i18n="slot">Time slot</span>
+        <select name="slot" data-slots></select>
+      </label>
+      <div class="cart__total"><span data-i18n="total">Total</span><b data-cart-total>€0.00</b></div>
+      <p class="cart__fee" data-fee data-i18n="fee" hidden>Sample delivery fee: €2.50 included</p>
+      <button type="submit" class="btn btn--fire btn--wide" data-cart-submit data-i18n="submit">Place order</button>
+      <p class="cart__legal" data-i18n="legal">Demo only: no order is sent and no payment is requested.</p>
+    </form>
+    <div class="cart__done" data-cart-done hidden>
+      <p class="eyebrow" data-i18n="doneEyebrow">Demo order</p>
+      <h3 data-i18n="doneTitle">It's on the grill.</h3>
+      <p><span data-i18n="doneA">Order</span> <b data-order-n></b><span data-i18n="doneB">, ready around</span> <b data-order-t></b>.</p>
+      <button class="btn btn--ghost" data-close-cart data-i18n="doneBack">Back to the site</button>
+    </div>
+  </div>
+</aside>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer src="js/core.js?v=defil1"></script>
+<script defer src="js/site.js?v=defil1"></script>
+</body>
+</html>

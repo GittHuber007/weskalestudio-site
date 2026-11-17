@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#f3efe7">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23121310'/%3E%3Cpath d='M10 7h3.6v7.4L19.8 7h4.4l-6.6 7.6L24.6 25h-4.5l-5-7.6-1.5 1.7V25H10z' fill='%23f3efe7'/%3E%3C/svg%3E">
+<title>KINETIK · Personal coaching, outdoors</title>
+<meta name="description" content="KINETIK, personal coaching outdoors and at home: one coach, one written plan, sessions from sunrise. Concept Weskale Studio, marque fictive.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wdth,wght@0,50..150,300..900;1,50..150,300..900&family=Inter+Tight:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=defil1">
+<link rel="preload" as="image" href="assets/hero.webp" media="(min-width: 760px)">
+<link rel="preload" as="image" href="assets/hero-m.webp" media="(max-width: 759px)">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <p class="loader__brand" id="loaderBrand">KINETIK</p>
+  <p class="loader__row"><span data-i18n="loader">Warming up</span><span id="loadCount">000</span></p>
+  <span class="loader__bar"><i id="loadBar"></i></span>
+</div>
+
+<p class="badge" role="note" data-i18n="badge">Weskale Studio concept · fictional brand</p>
+
+<header class="nav" id="nav">
+  <a class="nav__logo" href="#top" data-i18n-aria-label="nav.home" aria-label="KINETIK, back to top"><span class="nav__k" aria-hidden="true"></span>KINETIK</a>
+  <nav class="nav__links" data-i18n-aria-label="nav.main" aria-label="Main navigation">
+    <a href="#coach" data-i18n="nav.coach">Coach</a>
+    <a href="#methode" data-i18n="nav.method">Method</a>
+    <a href="#formules" data-i18n="nav.plans">Plans</a>
+  </nav>
+  <div class="lang" role="group" data-i18n-aria-label="nav.lang" aria-label="Language">
+    <button type="button" data-lang="en" aria-pressed="true" lang="en">EN</button><span aria-hidden="true">/</span><button type="button" data-lang="fr" aria-pressed="false" lang="fr">FR</button>
+  </div>
+  <a class="btn btn--ink nav__cta" href="#reserver" data-i18n="nav.book">Book</a>
+</header>
+
+<main id="top">
+
+  <!-- OPENING: the coach and his client on the sea steps at sunrise -->
+  <section class="hero" id="hero" data-i18n-aria-label="hero.label" aria-label="Opening">
+    <div class="hero__media" id="heroMedia">
+      <picture>
+        <source media="(max-width: 759px)" srcset="assets/hero-m.webp">
+        <img src="assets/hero.webp" data-i18n-alt="hero.alt" alt="At sunrise, a woman sprints up concrete steps by the sea while her coach follows her, stopwatch in hand, in a sand KINETIK t-shirt" width="2400" height="1340" fetchpriority="high">
+      </picture>
+    </div>
+    <div class="hero__veil"></div>
+    <div class="hero__inner">
+      <p class="eyebrow" data-i18n="hero.eyebrow">Personal coaching · Outdoors and at home</p>
+      <h1 class="hero__title kin" id="heroTitle">
+        <span class="ln"><span data-i18n="hero.l1">Your effort.</span></span>
+        <span class="ln"><span data-i18n="hero.l2"><em>His eye.</em></span></span>
+      </h1>
+      <div class="hero__side">
+        <p class="hero__sub" data-i18n="hero.sub">One coach, one person, one written plan. Sessions on the track, by the sea or at your door, from sunrise.</p>
+        <div class="hero__cta">
+          <a class="btn btn--ink" href="#reserver" data-i18n="hero.cta1">Book a session</a>
+          <a class="btn btn--line" href="#formules" data-i18n="hero.cta2">See the plans</a>
+        </div>
+      </div>
+    </div>
+    <p class="scroll-cue" aria-hidden="true"><span></span><b data-i18n="cue">Scroll</b></p>
+  </section>
+
+  <!-- THE START: one slow motion shot driven by scroll -->
+  <section class="scene" id="depart" data-i18n-aria-label="scene.label" aria-label="The start, in slow motion">
+    <div class="scene__stage">
+      <picture class="scene__fallback">
+        <source media="(max-width: 759px)" srcset="assets/start-m.webp">
+        <img src="assets/start.webp" data-i18n-alt="scene.alt" alt="A woman in the starting position on a footbridge running track, in the low morning sun" width="1280" height="720" loading="lazy">
+      </picture>
+      <canvas class="scene__canvas" id="sceneCanvas" role="img" data-i18n-aria-label="scene.canvas" aria-label="In slow motion, she rises from the starting position and sprints towards the camera"></canvas>
+      <div class="scene__veil"></div>
+
+      <div class="scene__intro" id="sceneIntro">
+        <p class="eyebrow" data-i18n="scene.eyebrow">The start, in slow motion</p>
+        <h2 class="scene__h kin"><span class="ln"><span data-i18n="scene.h1">Stillness</span></span><span class="ln"><span data-i18n="scene.h2">before <em>speed.</em></span></span></h2>
+      </div>
+
+      <div class="caps" aria-hidden="true">
+        <div class="cap" data-in="0.14" data-out="0.38">
+          <p class="cap__k">01</p>
+          <p class="cap__t kin" data-i18n="cap1.t">On your marks.</p>
+          <p class="cap__d" data-i18n="cap1.d">Hands on the line, weight forward. Nothing moves yet.</p>
+        </div>
+        <div class="cap" data-in="0.42" data-out="0.62">
+          <p class="cap__k">02</p>
+          <p class="cap__t kin" data-i18n="cap2.t">Set.</p>
+          <p class="cap__d" data-i18n="cap2.d">Hips up, breath held. This second decides the start.</p>
+        </div>
+        <div class="cap" data-in="0.66" data-out="0.84">
+          <p class="cap__k">03</p>
+          <p class="cap__t kin" data-i18n="cap3.t">Go.</p>
+          <p class="cap__d" data-i18n="cap3.d">The speed only shows what was prepared.</p>
+        </div>
+      </div>
+      <p class="scene__word kin" id="sceneWord" aria-hidden="true">KINETIK</p>
+
+      <div class="hud" aria-hidden="true">
+        <span class="hud__l" data-i18n="hud">Start</span>
+        <span class="hud__bar"><i id="hudBar"></i></span>
+        <span class="hud__n"><span id="hudNum">001</span> / <span id="hudTot">126</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO over a slow motion run -->
+  <section class="mani" id="manifeste" data-i18n-aria-label="mani.label" aria-label="Our approach">
+    <div class="mani__stage">
+      <video class="mani__video" id="maniVideo" muted loop playsinline preload="metadata" poster="assets/slow.webp" aria-hidden="true">
+        <source src="assets/slow.mp4" type="video/mp4">
+      </video>
+      <div class="mani__shade"></div>
+      <div class="mani__inner">
+        <p class="eyebrow eyebrow--light" data-i18n="mani.eyebrow">The approach</p>
+        <p class="mani__text kin" id="maniText" data-i18n="mani">Slow the movement down.<br>Speed follows.</p>
+        <p class="mani__sub" data-i18n="mani.sub">Every session starts at walking pace: we film, we watch, we correct. Load and speed come once the movement is clean.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE COACH -->
+  <section class="coach" id="coach">
+    <figure class="coach__media" id="coachMedia">
+      <img src="assets/coach.webp" data-i18n-alt="coach.alt" alt="Idris, the KINETIK coach, stopwatch in hand on the sea steps at sunrise" width="852" height="1065" loading="lazy">
+      <figcaption class="coach__tag">KINETIK · <span data-i18n="coach.tag">Head coach</span></figcaption>
+    </figure>
+    <div class="coach__text">
+      <p class="eyebrow" data-i18n="coach.eyebrow">Your coach</p>
+      <h2 class="coach__name kin" data-reveal><span>Idris</span><span>Morel</span></h2>
+      <p class="coach__p" data-reveal data-i18n="coach.p">Idris coaches one person at a time. He watches how you move before he adds anything, then writes the plan and keeps notes after every session.</p>
+      <dl class="facts" data-reveal>
+        <div><dt data-i18n="f.where">Where</dt><dd data-i18n="f.whereV">Track, park, sea steps or your home</dd></div>
+        <div><dt data-i18n="f.when">When</dt><dd data-i18n="f.whenV">6:30 am to 9 pm, Monday to Saturday</dd></div>
+        <div><dt data-i18n="f.lang">Languages</dt><dd data-i18n="f.langV">English and French</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- METHOD -->
+  <section class="method" id="methode">
+    <div class="method__band" id="methodBand">
+      <video class="method__video" id="methodVideo" muted loop playsinline preload="metadata" poster="assets/side.webp" aria-hidden="true">
+        <source src="assets/side.mp4" type="video/mp4">
+      </video>
+      <p class="method__cap" data-i18n="method.cap">Side by side, at the same pace.</p>
+    </div>
+    <div class="method__head">
+      <p class="eyebrow" data-i18n="method.eyebrow">The method</p>
+      <h2 class="h2 kin" data-reveal data-i18n="method.h">Three steps.<br>None left to chance.</h2>
+    </div>
+    <ol class="method__list">
+      <li class="mstep" data-reveal>
+        <span class="mstep__n">01</span>
+        <h3 data-i18n="s1.t">The assessment</h3>
+        <p data-i18n="s1.d">One hour to measure mobility, base strength and past injuries. We set a goal with a date.</p>
+        <span class="mstep__line" aria-hidden="true"></span>
+      </li>
+      <li class="mstep" data-reveal>
+        <span class="mstep__n">02</span>
+        <h3 data-i18n="s2.t">The plan</h3>
+        <p data-i18n="s2.d">Four-week blocks, with loads written down and the progression planned in advance.</p>
+        <span class="mstep__line" aria-hidden="true"></span>
+      </li>
+      <li class="mstep" data-reveal>
+        <span class="mstep__n">03</span>
+        <h3 data-i18n="s3.t">The follow-up</h3>
+        <p data-i18n="s3.d">A check-in every week, with adjustments for sleep, fatigue and work.</p>
+        <span class="mstep__line" aria-hidden="true"></span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- PLANS -->
+  <section class="plans" id="formules">
+    <div class="plans__head">
+      <p class="eyebrow" data-i18n="plans.eyebrow">Plans</p>
+      <h2 class="h2 kin" data-reveal data-i18n="plans.h">Choose<br>your pace.</h2>
+    </div>
+    <div class="plans__grid">
+      <article class="plan">
+        <p class="plan__name" data-i18n="p1.name">Single session</p>
+        <p class="plan__price"><b data-price="seance"></b></p>
+        <p class="plan__desc" data-i18n="p1.desc">One hour, to try it out or to work on one technique.</p>
+        <ul><li data-i18n="p1.a">Quick assessment</li><li data-i18n="p1.b">Track, park or home</li></ul>
+        <button class="btn btn--line btn--block" type="button" data-book="seance" data-i18n="choose">Choose</button>
+      </article>
+      <article class="plan plan--hot">
+        <p class="plan__tag" data-i18n="p2.tag">Best way to start</p>
+        <p class="plan__name" data-i18n="p2.name">Ten-session pack</p>
+        <p class="plan__price"><b data-price="pack"></b></p>
+        <p class="plan__desc" data-i18n="p2.desc">Ten hours to use within three months, with the written plan.</p>
+        <ul><li data-i18n="p2.a">Full assessment</li><li data-i18n="p2.b">Twelve-week plan</li><li data-i18n="p2.c">Weekly check-in</li></ul>
+        <button class="btn btn--sun btn--block" type="button" data-book="pack" data-i18n="choose">Choose</button>
+      </article>
+      <article class="plan">
+        <p class="plan__name" data-i18n="p3.name">Monthly coaching</p>
+        <p class="plan__price"><b data-price="suivi"></b> <small data-i18n="p3.per">per month</small></p>
+        <p class="plan__desc" data-i18n="p3.desc">Four sessions a month and remote follow-up in between.</p>
+        <ul><li data-i18n="p3.a">Four sessions</li><li data-i18n="p3.b">Weekly adjustments</li></ul>
+        <button class="btn btn--line btn--block" type="button" data-book="suivi" data-i18n="choose">Choose</button>
+      </article>
+    </div>
+    <p class="note" data-i18n="plans.note">Example prices for this demo.</p>
+  </section>
+
+  <!-- BOOKING -->
+  <section class="book" id="reserver">
+    <div class="book__head">
+      <p class="eyebrow" data-i18n="book.eyebrow">Book</p>
+      <h2 class="h2 kin" data-reveal data-i18n="book.h">Your first<br>session.</h2>
+      <p class="book__next"><span class="dot" aria-hidden="true"></span><span data-i18n="book.next">Next free slot</span> <b id="nextSlot"></b></p>
+    </div>
+    <form class="bk" id="bookForm" novalidate>
+      <fieldset class="seg">
+        <legend data-i18n="b.plan">Plan</legend>
+        <label><input type="radio" name="plan" value="seance" checked><span data-i18n="b.p1">Single</span></label>
+        <label><input type="radio" name="plan" value="pack"><span data-i18n="b.p2">Pack of ten</span></label>
+        <label><input type="radio" name="plan" value="suivi"><span data-i18n="b.p3">Monthly</span></label>
+      </fieldset>
+      <fieldset class="seg">
+        <legend data-i18n="b.place">Place</legend>
+        <label><input type="radio" name="place" value="track" checked><span data-i18n="b.track">Track</span></label>
+        <label><input type="radio" name="place" value="park"><span data-i18n="b.park">Park</span></label>
+        <label><input type="radio" name="place" value="home"><span data-i18n="b.home">Home</span></label>
+      </fieldset>
+      <p class="lbl" id="lblDay" data-i18n="b.day">Day</p>
+      <div class="days" id="days" role="group" aria-labelledby="lblDay"></div>
+      <p class="lbl" id="lblTime" data-i18n="b.time">Time</p>
+      <div class="slots" id="slots" role="group" aria-labelledby="lblTime"></div>
+      <div class="bk__grid">
+        <div class="fld"><label for="kName" data-i18n="b.name">Full name</label><input id="kName" autocomplete="off"></div>
+        <div class="fld"><label for="kMail" data-i18n="b.mail">Email</label><input id="kMail" type="email" autocomplete="off"></div>
+      </div>
+      <p class="err" id="kErr" role="alert"></p>
+      <button class="btn btn--ink btn--block bk__go" type="submit"><span data-i18n="b.send">Confirm</span> <span id="kSum"></span></button>
+      <p class="note" data-i18n="b.note">Demo: no session is booked and no payment is requested.</p>
+    </form>
+  </section>
+</main>
+
+<footer class="foot">
+  <p class="foot__brand kin" id="footBrand" aria-hidden="true">KINETIK</p>
+  <div class="foot__row">
+    <p data-i18n="foot.where">Outdoor sessions across the city<br>6:30 am to 9 pm, Monday to Saturday</p>
+    <p><a href="#coach" data-i18n="nav.coach">Coach</a><br><a href="#methode" data-i18n="nav.method">Method</a><br><a href="#formules" data-i18n="nav.plans">Plans</a><br><a href="#reserver" data-i18n="nav.book">Book</a></p>
+    <p class="foot__legal"><span data-i18n="badge">Weskale Studio concept · fictional brand</span>.<br><span data-i18n="foot.legal">Demo website: plans, prices and slots are examples. Footage from free Mixkit videos and one generated image. The people shown are not clients, and the coach is fictional.</span></p>
+  </div>
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle" hidden>
+  <div class="modal__veil" data-mclose></div>
+  <div class="modal__panel">
+    <p class="eyebrow" data-i18n="m.eyebrow">Example request received</p>
+    <h3 id="mTitle" class="kin" data-i18n="m.title">It's in<br>the diary.</h3>
+    <p class="modal__ref"><span data-i18n="m.ref">Reference</span> <b id="mRef"></b></p>
+    <p id="mRecap"></p>
+    <p class="note" data-i18n="m.note">Demo: nothing is booked and no payment is requested.</p>
+    <button class="btn btn--ink btn--block" type="button" data-mclose data-i18n="m.close">Close</button>
+  </div>
+</div>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script defer src="js/i18n.js"></script>
+<script defer src="js/main.js?v=defil1"></script>
+</body>
+</html>
