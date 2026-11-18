@@ -198,8 +198,8 @@
   /* la séquence de la palmeraie ne commence à charger qu'à l'approche de sa section */
   let seq = null, seqWant = 0;
   const startSeq = () => { if (seq) return; seq = WK.sequence({ canvas: $("#seqCanvas"), ...SEQ, fit: "cover", focusX: 0.5, onMissing: () => seqEl.classList.add("no-seq") }); seq.set(seqWant); };
-  /* démarrage : à l'approche de la section (voir scrollAnims), ou au plus tard 5 s après le chargement */
-  if (FX) addEventListener("load", () => setTimeout(startSeq, 5000));
+  /* démarrage : à l'approche de la section (voir scrollAnims), ou 0,5 s après le chargement ; ses images passent après celles de l'ouverture (js/frames.js) */
+  if (FX) addEventListener("load", () => setTimeout(startSeq, 500));
 
   /* ouverture : le drone suit le SUV sur la piste */
   const heroEl = $("#hero");

@@ -146,77 +146,52 @@
      Images chargées par fenêtre glissante autour de l'image voulue, plus une image clé sur 8
      gardée en mémoire. On dessine toujours l'image chargée la plus proche : jamais d'écran vide. */
   WK.sequence = function (opt) {
+    /* Version du 18/11/2026 : images fournies par WSFrames (js/frames.js), fondu entre images voisines,
+       résolution fixe pendant le défilement. Même interface qu'avant (N, set, size). */
     const canvas = opt.canvas;
     const ctx = canvas.getContext("2d");
     const mobile = WK.small && opt.mobileDir;
     const dir = mobile ? opt.mobileDir : opt.dir;
     const N = mobile ? opt.mobileCount : opt.count;
     const pad = (k) => String(k + 1).padStart(3, "0");
-    const imgs = new Array(N).fill(null), ok = new Array(N).fill(false), fails = new Array(N).fill(0);
-    const WIN = mobile ? 14 : 16, KEY = 8, KEEP = WIN + 6;
-    let want = 0, painted = -1, inflight = 0, dead = false;
-    const MAXF = 6;
-    const queue = [];
-    function load(k) {
-      if (k < 0 || k >= N || imgs[k] || fails[k] >= 2) return;
-      const tok = {}; imgs[k] = tok; inflight++;
-      WK.frame(`${dir}f_${pad(k)}.webp`).then((bm) => {
-        inflight--;
-        if (imgs[k] !== tok) { WK.free(bm); return; }
-        imgs[k] = bm; ok[k] = true;
-        if (Math.abs(k - want) < Math.abs(painted - want) || painted < 0) draw();
-        pump();
-      }, () => {
-        inflight--; if (imgs[k] === tok) imgs[k] = null; fails[k]++;
-        if (k === 0 && fails[0] >= 2) { dead = true; opt.onMissing && opt.onMissing(); return; }
-        if (k === 0) { load(0); return; }
-        pump();
-      });
-    }
-    function pump() {
-      if (dead || (!ok[0] && imgs[0])) return;
-      queue.length = 0;
-      for (let k = 0; k < N; k += KEY) queue.push(k);
-      for (let d = 0; d <= WIN; d++) { queue.push(want + d); if (d) queue.push(want - d); }
-      while (inflight < MAXF && queue.length) { const k = queue.shift(); if (k >= 0 && k < N && !imgs[k] && fails[k] < 2) load(k); }
-      // libération hors fenêtre (sauf images clés)
-      for (let k = 0; k < N; k++) {
-        if (imgs[k] && ok[k] && k % KEY && Math.abs(k - want) > KEEP) { WK.free(imgs[k]); imgs[k] = null; ok[k] = false; }
-      }
-    }
-    function nearest() {
-      if (ok[want]) return want;
-      for (let d = 1; d < N; d++) { if (ok[want - d]) return want - d; if (ok[want + d]) return want + d; }
-      return -1;
-    }
-    let cw = 0, ch = 0;
+    let cw = 0, ch = 0, lastF = -1;
+    const store = new window.WSFrames.FrameStore({
+      n: N, url: (k) => `${dir}f_${pad(k)}.webp`, el: canvas,
+      onFrame: () => draw(true),
+      onMissing: () => opt.onMissing && opt.onMissing(),
+    });
     function size() {
       const dpr = Math.min(window.devicePixelRatio || 1, WK.touch ? 2 : 1.5);
       const r = canvas.getBoundingClientRect();
       cw = canvas.width = Math.max(1, Math.round(r.width * dpr));
       ch = canvas.height = Math.max(1, Math.round(r.height * dpr));
-      painted = -1; draw();
+      draw(true);
     }
-    function draw() {
-      const k = nearest();
-      if (k < 0 || (k === painted)) return;
-      const im = imgs[k];
-      const iw = im.naturalWidth || im.width, ih = im.naturalHeight || im.height;
+    function draw(force) {
+      if (!force && store.f === lastF) return;
+      const pk = store.pick();
+      if (!pk.im) return;
+      lastF = store.f;
+      // la taille de référence est celle des images pleine taille (les images clés sont plus petites)
+      const iw = (store.size && store.size[0]) || pk.im.width || pk.im.naturalWidth, ih = (store.size && store.size[1]) || pk.im.height || pk.im.naturalHeight;
       const fit = typeof opt.fit === "function" ? opt.fit() : (opt.fit || "cover");
       const s = fit === "contain" ? Math.min(cw / iw, ch / ih) : Math.max(cw / iw, ch / ih);
       const w = iw * s, h = ih * s;
       const fx = opt.focusX ?? 0.5, fy = opt.focusY ?? 0.5;
+      const x = (cw - w) * fx, y = (ch - h) * fy;
+      ctx.globalAlpha = 1;
       ctx.clearRect(0, 0, cw, ch);
-      ctx.drawImage(im, (cw - w) * fx, (ch - h) * fy, w, h);
-      painted = k;
+      ctx.drawImage(pk.im, x, y, w, h);
+      // fondu vers l'image suivante selon la position exacte : pas de palier entre deux images
+      if (pk.nx) { ctx.globalAlpha = pk.t; ctx.drawImage(pk.nx, x, y, w, h); ctx.globalAlpha = 1; }
     }
     const api = {
       N,
-      set(p) { const k = Math.max(0, Math.min(N - 1, Math.round(p * (N - 1)))); if (k !== want) { want = k; pump(); } draw(); },
+      set(p) { store.set(Math.max(0, Math.min(1, p)) * (N - 1)); draw(); },
       size,
     };
     addEventListener("resize", () => { clearTimeout(api._t); api._t = setTimeout(size, 150); });
-    load(0); pump(); size();
+    size();
     return api;
   };
 

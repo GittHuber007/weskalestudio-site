@@ -490,6 +490,7 @@ void main(){
     }
     win(i, d) { const a = this.o.ahead, b = this.o.behind; return d > 0 ? [i - b, i + a] : [i - a, i + b]; }
     got(k) {
+      if (k === 0) this.decodeKey(0); // premiere image toujours prete : la section s'ouvre sur une image
       if (!this.near) return;
       if (k % this.KS === 0 || k === this.n - 1) this.decodeKey(k);
       const w = this.win(this.i, this.d); if (k >= w[0] && k <= w[1]) this.decode(k);
@@ -517,6 +518,7 @@ void main(){
     drop() {
       for (let k = 0; k < this.n; k++) {
         if (this.st[k] === 1 || this.st[k] === 2) this.free(k);
+        if (k === 0) continue;
         if (this.kst[k] === 2) bmpFree(this.kimg[k]);
         if (this.kst[k] === 1 || this.kst[k] === 2) { this.kimg[k] = null; this.kst[k] = 0; }
       }

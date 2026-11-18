@@ -179,6 +179,8 @@
      position, sinon un téléphone sature sa mémoire. Image de secours : le
      poster, toujours affiché sous le canvas. */
   class Sequence {
+    /* Version du 18/11/2026 : images fournies par WSFrames (js/frames.js), fondu entre images voisines,
+       résolution fixe pendant le défilement. Même interface qu'avant pour site.js. */
     constructor(root) {
       this.root = root;
       this.canvas = $("canvas", root);
@@ -187,69 +189,21 @@
       this.mobile = m;
       this.dir = m ? root.dataset.seqM : root.dataset.seqD;
       this.count = +(m ? root.dataset.countM : root.dataset.countD);
-      this.imgs = new Array(this.count).fill(null);
-      this.ok = new Array(this.count).fill(false);
-      /* Images décodées (ImageBitmap) gardées seulement autour de la position courante. */
-      this.bmp = new Array(this.count).fill(null); this.bmpBusy = new Set(); this.BW = 16;
-      this.want = 0; this.drawn = -1; this.prog = 0; this.active = 0;
+      this.want = 0; this.prog = 0; this.lastF = -1;
       this.focusX = +(root.dataset.focusX || 0.5);
       this.focusY = +(root.dataset.focusY || 0.5);
       this.zoom = 1; this.px = 0; this.py = 0; this.anchor = null;
-      /* Chargement progressif : d'abord une image sur huit (gardée en mémoire),
-         puis une fenêtre fine autour de la position du visiteur. */
-      this.stride = m ? 4 : 8;
-      this.key = []; for (let k = 0; k < this.count; k += this.stride) this.key.push(k);
-      if (this.key[this.key.length - 1] !== this.count - 1) this.key.push(this.count - 1);
-      this.isKey = new Set(this.key);
+      let ready;
+      this.ready = new Promise((r) => (ready = r));
+      this.store = new W.WSFrames.FrameStore({
+        n: this.count, url: (k) => this.src(k), el: this.canvas,
+        onSize: (sz) => { this.iw = sz[0]; this.ih = sz[1]; this.cw = null; this.resize(); this.started = true; ready(); },
+        onFrame: () => this.draw(true),
+        onMissing: () => { this.dead = true; this.root.classList.add("seq-empty"); ready(); },
+      });
       this.resize(); W.addEventListener("resize", () => this.resize());
-      this.ready = this.first().then(() => { if (!this.dead) { this.started = true; this.pump(); } });
     }
     src(i) { return this.dir + "f_" + String(i + 1).padStart(3, "0") + ".webp"; }
-    load(i) {
-      const im = new Image(); this.imgs[i] = im; this.active++;
-      const done = (ok) => { this.active--; if (this.imgs[i] !== im) { this.pump(); return; } this.ok[i] = ok; if (ok && Math.abs(i - this.want) <= this.stride) this.draw(true); this.pump(); };
-      im.onload = () => { (im.decode ? im.decode() : Promise.resolve()).then(() => done(true), () => done(true)); };
-      im.onerror = () => done(false);
-      im.src = this.src(i);
-    }
-    next() {
-      const w = this.want, n = this.count;
-      for (let d = 0; d <= 16; d++) {
-        for (const k of [w + d, w - d]) if (k >= 0 && k < n && !this.imgs[k] && (d <= 6 || k > w)) return k;
-      }
-      for (const k of this.key) if (!this.imgs[k]) return k;
-      return -1;
-    }
-    pump() {
-      if (this.dead || !this.started) return;
-      while (this.active < 6) { const k = this.next(); if (k < 0) break; this.load(k); }
-      for (let k = 0; k < this.count; k++) {
-        const far = Math.abs(k - this.want);
-        if (this.bmp[k] && far > this.BW) { this.bmp[k].close(); this.bmp[k] = null; }
-        if (this.imgs[k] && !this.isKey.has(k) && far > 30 && this.ok[k]) { this.imgs[k] = null; this.ok[k] = false; }
-      }
-      if (W.createImageBitmap) for (let k = Math.max(0, this.want - this.BW); k <= Math.min(this.count - 1, this.want + this.BW); k++) this.keep(k);
-    }
-    keep(k) {
-      if (!this.ok[k] || this.bmp[k] || this.bmpBusy.has(k)) return;
-      this.bmpBusy.add(k);
-      /* Décodage hors du fil principal : l'image est relue depuis le cache HTTP sous forme de blob ;
-         createImageBitmap(<img>) décoderait sur le fil principal. */
-      const src = W.fetch ? fetch(this.src(k)).then((r) => r.blob()).then((bl) => createImageBitmap(bl)) : createImageBitmap(this.imgs[k]);
-      src.then((b) => {
-        this.bmpBusy.delete(k);
-        if (!this.ok[k] || Math.abs(k - this.want) > this.BW) { b.close(); return; }
-        this.bmp[k] = b; if (k === this.want) this.draw(true);
-      }, () => this.bmpBusy.delete(k));
-    }
-    first() {
-      return new Promise((res) => {
-        const im = new Image();
-        im.onload = () => { this.imgs[0] = im; this.ok[0] = true; this.iw = im.naturalWidth; this.ih = im.naturalHeight; this.cw = null; this.resize(); res(); };
-        im.onerror = () => { this.dead = true; this.root.classList.add("seq-empty"); res(); };
-        im.src = this.src(0);
-      });
-    }
     resize() {
       /* Densité plafonnée : 1,5 sur ordinateur, 2 sur téléphone. Sur téléphone, la barre d'adresse
          qui apparaît ou disparaît ne redimensionne pas le canvas (seule la largeur compte). */
@@ -264,7 +218,13 @@
       this.canvas.width = Math.max(1, Math.round(r.width * dpr)); this.canvas.height = Math.max(1, Math.round(r.height * dpr));
       this.draw(true);
     }
-    set(p) { this.prog = clamp(p, 0, 1); this.want = Math.round(this.prog * (this.count - 1)); this.pump(); this.draw(); }
+    set(p) {
+      this.prog = clamp(p, 0, 1);
+      const f = this.prog * (this.count - 1);
+      this.want = Math.round(f);
+      this.store.set(f);
+      this.draw();
+    }
     /* Géométrie de l'image à l'écran, en pixels du canvas. */
     geom() {
       const cw = this.canvas.width, ch = this.canvas.height, iw = this.iw || 16, ih = this.ih || 9;
@@ -282,23 +242,17 @@
       return { l: (g.x + u0 * g.w) * k, t: (g.y + v0 * g.h) * k, r: (g.x + u1 * g.w) * k, b: (g.y + v1 * g.h) * k };
     }
     draw(force) {
-      let i = this.want, im = null;
-      /* D'abord l'image décodée la plus proche (fenêtre de 16) : jamais de décodage synchrone en plein défilement.
-         Dès que l'image exacte est décodée, keep() la redessine. */
-      for (let d = 0; d <= this.BW && !im; d++) {
-        if (this.bmp[i - d] && this.imgs[i - d]) { im = this.imgs[i - d]; i = i - d; }
-        else if (this.bmp[i + d] && this.imgs[i + d]) { im = this.imgs[i + d]; i = i + d; }
-      }
-      if (!im) for (let d = 0; d < this.count; d++) {
-        if (this.ok[i - d] && this.imgs[i - d]) { im = this.imgs[i - d]; i = i - d; break; }
-        if (this.ok[i + d] && this.imgs[i + d]) { im = this.imgs[i + d]; i = i + d; break; }
-      }
-      if (!im || (!force && i === this.drawn && !this.dirty)) return;
-      this.dirty = false; this.drawn = i;
-      if (this.bmp[i]) im = this.bmp[i];
-      if (!(im.naturalWidth || im.width)) return;
-      const g = this.geom();
-      this.ctx.drawImage(im, g.x, g.y, g.w, g.h);
+      if (!this.iw) return;
+      const f = this.store.f;
+      if (!force && f === this.lastF && !this.dirty) return;
+      const pk = this.store.pick();
+      if (!pk.im) return;
+      this.dirty = false; this.lastF = f;
+      const g = this.geom(), ctx = this.ctx;
+      ctx.globalAlpha = 1;
+      ctx.drawImage(pk.im, g.x, g.y, g.w, g.h);
+      /* Fondu vers l'image suivante selon la position exacte : pas de palier entre deux images */
+      if (pk.nx) { ctx.globalAlpha = pk.t; ctx.drawImage(pk.nx, g.x, g.y, g.w, g.h); ctx.globalAlpha = 1; }
       this.root.classList.add("seq-live");
     }
   }
