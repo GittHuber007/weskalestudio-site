@@ -410,108 +410,176 @@ void main(){
 
   /* =================================================================
      Seq : sequence d'images pilotee par le defilement, sur un canvas.
-     Fenetre glissante : on ne garde qu'une vingtaine d'images decodees
-     autour de la position courante (memoire limitee sur iPhone), et on
-     peint toujours l'image prete la plus proche, jamais un fond vide.
+     Version du 18/11/2026, enchainement fluide :
+     - Les fichiers compresses (webp) de chaque sequence sont telecharges tot,
+       d'abord autour de la position, puis tout le reste en fond, et gardes
+       en memoire (quelques Mo).
+     - Seule une vingtaine d'images decodees est gardee autour de la position
+       (memoire limitee sur iPhone) ; decoder un fichier deja en memoire prend
+       quelques millisecondes, hors du fil principal.
+     - Resolution fixe : l'image ne devient plus floue pendant le defilement.
+     - Fondu entre les deux images voisines selon la position exacte :
+       le mouvement suit le geste, sans palier.
      ================================================================= */
-  /* Image de sequence decodee une seule fois, hors du fil principal (ImageBitmap) ; repli sur une image decodee. */
-  const frameLoad = (u) => (window.createImageBitmap && window.fetch)
-    ? fetch(u).then((r) => { if (!r.ok) throw new Error(r.status); return r.blob(); }).then((b) => createImageBitmap(b))
-    : new Promise((res, rej) => { const im = new Image(); im.onload = () => (im.decode ? im.decode() : Promise.resolve()).then(() => res(im), () => res(im)); im.onerror = rej; im.src = u; });
-  const frameFree = (b) => { if (!b) return; if (b.close) b.close(); else b.src = ""; };
+  const NET = { busy: 0, max: 6, all: false };
+  const SEQS = [];
+  const netPump = () => {
+    while (NET.busy < NET.max) {
+      let best = null, bp = Infinity;
+      for (const s of SEQS) { const r = s.next(); if (r && r[1] < bp) { best = [s, r[0]]; bp = r[1]; } }
+      if (!best) return;
+      const s = best[0], k = best[1];
+      s.bs[k] = 1; NET.busy++;
+      fetch(s.file(k)).then((r) => { if (!r.ok) throw new Error(r.status); return r.blob(); })
+        .then((b) => { s.blob[k] = b; s.bs[k] = 2; s.got(k); }, () => { s.bs[k] = ++s.tries[k] >= 2 ? 3 : 0; })
+        .finally(() => { NET.busy--; netPump(); });
+    }
+  };
+  // Une fois la page chargee, toutes les sequences se telechargent en fond, dans l'ordre de la page
+  const netAll = () => setTimeout(() => { NET.all = true; netPump(); }, 400);
+  if (document.readyState === "complete") netAll(); else addEventListener("load", netAll, { once: true });
+  const bmp = (b) => window.createImageBitmap
+    ? createImageBitmap(b)
+    : new Promise((res, rej) => { const u = URL.createObjectURL(b), im = new Image(); im.onload = () => { URL.revokeObjectURL(u); res(im); }; im.onerror = rej; im.src = u; });
+  const bmpFree = (b) => { if (b && b.close) b.close(); };
   const fw = (im) => im.naturalWidth || im.width, fh = (im) => im.naturalHeight || im.height;
 
   class Seq {
     constructor(canvas, o) {
       this.c = canvas;
       this.ctx = canvas.getContext("2d");
-      this.o = Object.assign({ pad: 3, ext: "webp", win: 14, ahead: 10, bg: "#000", fit: 1, mobileFit: 1.55, poster: null }, o);
+      this.o = Object.assign({ pad: 3, ext: "webp", ahead: 12, behind: 5, bg: "#000", fit: 1, mobileFit: 1.55, poster: null }, o);
       const mob = W.mobile() && this.o.mobileDir;
       this.dir = mob ? this.o.mobileDir : this.o.dir;
       this.n = mob ? this.o.mobileCount : this.o.count;
-      this.imgs = new Array(this.n).fill(null);
-      this.st = new Array(this.n).fill(0); // 0 absente, 1 en cours, 2 prete, 3 echouee
-      this.tries = new Array(this.n).fill(0);
-      this.i = 0; this.last = -1; this.p = 0;
+      const z = () => new Array(this.n).fill(0);
+      this.imgs = new Array(this.n).fill(null); this.st = z(); // images decodees : 0 absente, 1 en cours, 2 prete, 3 echouee
+      this.blob = new Array(this.n).fill(null); this.bs = z(); this.tries = z(); // fichiers : 0 absent, 1 en cours, 2 recu, 3 echoue
+      this.i = 0; this.f = 0; this.d = 1; this.p = 0; this.lastF = -1;
+      // Images cles (une sur KS), decodees en petite taille et gardees tant que la sequence est proche :
+      // en defilement tres rapide, on peint la plus proche en attendant la bonne image en pleine taille
+      this.KS = W.mobile() ? 6 : 8; this.kimg = new Array(this.n).fill(null); this.kst = z();
+      this.order = SEQS.length; this.near = true;
       if (this.o.poster) { this.poster = new Image(); this.poster.onload = () => this.paint(true); this.poster.src = this.o.poster; }
       this.resize();
       addEventListener("resize", () => { this.resize(); this.paint(true); });
+      // Sequence loin de l'ecran : on libere ses images decodees (les fichiers restent en memoire)
+      if ("IntersectionObserver" in window && canvas.isConnected) {
+        new IntersectionObserver((e) => {
+          this.near = e[e.length - 1].isIntersecting;
+          if (this.near) { this.want(this.i, this.d); this.paint(true); } else this.drop();
+          netPump();
+        }, { rootMargin: "150% 0px" }).observe(canvas);
+      }
+      SEQS.push(this);
       this.want(0, 1);
-      // images cles (une sur 16) chargees apres le premier ecran, gardees en memoire
-      const keys = () => setTimeout(() => { for (let k = 0; k < this.n; k += 16) this.req(k); }, 1200);
-      if (document.readyState === "complete") keys(); else addEventListener("load", keys, { once: true });
+      netPump();
     }
     file(k) { return `${this.dir}f_${String(k).padStart(this.o.pad, "0")}.${this.o.ext}`; }
-    req(k) {
-      if (k < 0 || k >= this.n || this.st[k] === 1 || this.st[k] === 2 || this.st[k] === 3) return;
+    // Prochain fichier a telecharger : le plus proche de la position, en avance dans le sens du geste
+    next() {
+      if (!this.near && !NET.all) return null;
+      const base = this.near ? 0 : 1e5 + this.order * 1e3;
+      let bk = -1, bp = Infinity;
+      for (let k = 0; k < this.n; k++) {
+        if (this.bs[k] !== 0) continue;
+        // Une image sur six passe d'abord (du grossier au fin) : en defilement rapide, l'image peinte reste a 3 images au plus de la bonne
+        const dk = (k - this.i) * this.d, pr = base + (dk >= 0 ? dk : -2 * dk) * (k % 6 ? 1 : 0.2);
+        if (pr < bp) { bp = pr; bk = k; }
+      }
+      return bk < 0 ? null : [bk, bp];
+    }
+    win(i, d) { const a = this.o.ahead, b = this.o.behind; return d > 0 ? [i - b, i + a] : [i - a, i + b]; }
+    got(k) {
+      if (!this.near) return;
+      if (k % this.KS === 0 || k === this.n - 1) this.decodeKey(k);
+      const w = this.win(this.i, this.d); if (k >= w[0] && k <= w[1]) this.decode(k);
+    }
+    decodeKey(k) {
+      if (this.kst[k] || !this.blob[k]) return;
+      this.kst[k] = 1;
+      const b = this.blob[k], o = { resizeWidth: 640, resizeQuality: "medium" };
+      (window.createImageBitmap ? createImageBitmap(b, o).catch(() => createImageBitmap(b)) : bmp(b)).then((bm) => {
+        if (this.kst[k] !== 1) { bmpFree(bm); return; }
+        this.kimg[k] = bm; this.kst[k] = 2;
+      }, () => { if (this.kst[k] === 1) this.kst[k] = 3; });
+    }
+    decode(k) {
+      if (k < 0 || k >= this.n || this.st[k] || !this.blob[k]) return;
       const tok = {};
       this.imgs[k] = tok; this.st[k] = 1;
-      frameLoad(this.file(k)).then((bm) => {
-        if (this.imgs[k] !== tok) { frameFree(bm); return; }
+      bmp(this.blob[k]).then((bm) => {
+        if (this.imgs[k] !== tok) { bmpFree(bm); return; }
         this.imgs[k] = bm; this.st[k] = 2;
-        if (Math.abs(k - this.i) < 3) this.paint(true);
-      }, () => { if (this.imgs[k] !== tok) return; this.imgs[k] = null; this.st[k] = ++this.tries[k] >= 2 ? 3 : 0; });
+        if (Math.abs(k - this.f) < 2.5) this.paint(true);
+      }, () => { if (this.imgs[k] === tok) { this.imgs[k] = null; this.st[k] = 3; } });
     }
-    want(i, dir) {
-      const ahead = this.o.ahead, behind = this.o.win - ahead;
-      const lo = Math.max(0, i - (dir > 0 ? behind : ahead)), hi = Math.min(this.n - 1, i + (dir > 0 ? ahead : behind));
+    free(k) { if (this.st[k] === 2) bmpFree(this.imgs[k]); this.imgs[k] = null; this.st[k] = 0; }
+    drop() {
       for (let k = 0; k < this.n; k++) {
-        if ((k < lo - 2 || k > hi + 2) && this.st[k] === 2 && k % 16) { frameFree(this.imgs[k]); this.imgs[k] = null; this.st[k] = 0; }
+        if (this.st[k] === 1 || this.st[k] === 2) this.free(k);
+        if (this.kst[k] === 2) bmpFree(this.kimg[k]);
+        if (this.kst[k] === 1 || this.kst[k] === 2) { this.kimg[k] = null; this.kst[k] = 0; }
       }
-      this.req(i);
-      for (let d = 1; d <= Math.max(ahead, behind); d++) {
-        const f = i + d * dir, b = i - d * dir;
-        if (f >= lo && f <= hi) this.req(f);
-        if (b >= lo && b <= hi) this.req(b);
+    }
+    want(i, d) {
+      const w = this.win(i, d), lo = w[0], hi = w[1];
+      for (let k = 0; k < this.n; k++) if ((k < lo - 3 || k > hi + 3) && (this.st[k] === 1 || this.st[k] === 2)) this.free(k);
+      if (!this.near) return;
+      for (let k = 0; k < this.n; k += this.KS) this.decodeKey(k);
+      this.decodeKey(this.n - 1);
+      this.decode(i);
+      for (let s = 1; s <= Math.max(this.o.ahead, this.o.behind); s++) {
+        const a = i + s * d, b = i - s * d;
+        if (a >= lo && a <= hi) this.decode(a);
+        if (b >= lo && b <= hi) this.decode(b);
       }
+    }
+    // Image a peindre si la bonne n'est pas encore prete : pleine taille a 2 images pres, sinon image cle la plus proche
+    close(f) {
+      const i = Math.round(f);
+      for (let d = 1; d <= 2; d++) { if (this.st[i - d] === 2) return this.imgs[i - d]; if (this.st[i + d] === 2) return this.imgs[i + d]; }
+      let bk = -1, bd = Infinity;
+      for (let k = 0; k < this.n; k++) if (this.kst[k] === 2 && Math.abs(k - f) < bd) { bd = Math.abs(k - f); bk = k; }
+      return bk >= 0 ? this.kimg[bk] : this.nearest(i);
     }
     nearest(i) {
-      const ok = (k) => k >= 0 && k < this.n && this.st[k] === 2 && this.imgs[k] && fw(this.imgs[k]);
+      const ok = (k) => k >= 0 && k < this.n && this.st[k] === 2;
       if (ok(i)) return this.imgs[i];
       for (let d = 1; d < this.n; d++) { if (ok(i - d)) return this.imgs[i - d]; if (ok(i + d)) return this.imgs[i + d]; }
       return null;
     }
-    // Resolution dynamique, comme Stage : densite reduite pendant le defilement (0,67 sur ordinateur,
-    // 1 sur ecran tactile), pleine densite 180 ms apres l'arret, avec un dernier dessin. Identique au repos.
+    // Resolution fixe, la meme pendant le defilement et au repos
     resize() {
-      const full = Math.min(devicePixelRatio || 1, W.touch ? 2 : 1.5);
-      const dpr = this.low ? Math.min(full, W.touch ? 1 : 0.67) : full;
+      const dpr = Math.min(devicePixelRatio || 1, W.touch ? 2 : 1.5);
       this.c.width = Math.round(this.c.clientWidth * dpr);
       this.c.height = Math.round(this.c.clientHeight * dpr);
     }
-    motion() {
-      const sy = scrollY; // lecture sans mise en page
-      if (sy === this.sy) return;
-      const first = this.sy === undefined;
-      this.sy = sy;
-      if (first || !this.c.isConnected) return;
-      this.movedAt = performance.now();
-      if (!this.low) { this.low = true; this.resize(); this.last = -1; }
-      if (!this.idleT) {
-        const chk = () => {
-          if (performance.now() - this.movedAt < (W.touch ? 400 : 180)) { this.idleT = setTimeout(chk, 60); return; }
-          this.idleT = 0; this.low = false; this.resize(); this.paint(true);
-        };
-        this.idleT = setTimeout(chk, 200);
-      }
-    }
+    motion() {}
     set(p) {
       this.p = Math.max(0, Math.min(1, p));
-      const i = Math.round(this.p * (this.n - 1));
-      const dir = i >= this.i ? 1 : -1;
-      this.i = i;
-      this.want(i, dir);
+      const f = this.p * (this.n - 1), i = Math.round(f);
+      this.f = f;
+      if (i !== this.i || !this.ready) {
+        if (i !== this.i) this.d = i > this.i ? 1 : -1;
+        this.i = i; this.ready = true;
+        this.want(i, this.d);
+        netPump();
+      }
       this.paint();
     }
     paint(force) {
-      this.motion();
-      if (!force && this.i === this.last && !this.o.render) return;
-      let im = this.nearest(this.i);
-      // Rendu personnalise (cadrage anime, fondus) : il recoit l'image prete la plus proche
-      if (this.o.render) { this.last = this.i; this.o.render(this.ctx, im, this.c.width, this.c.height, this.p); return; }
+      if (!force && this.f === this.lastF && !this.o.render) return;
+      // Les deux images qui encadrent la position exacte, fondues l'une dans l'autre
+      const a = Math.floor(this.f), b = Math.min(this.n - 1, a + 1), t = this.f - a;
+      const A = this.st[a] === 2 ? this.imgs[a] : null, B = this.st[b] === 2 ? this.imgs[b] : null;
+      let im = A || (t > 0.5 ? B : null) || this.close(this.f);
+      const nx = A && B && b !== a && t > 0.01 ? B : null;
+      // Rendu personnalise (cadrage anime, fondus) : il recoit l'image courante, la suivante et la part de fondu
+      if (this.o.render) { this.lastF = this.f; this.o.render(this.ctx, im, this.c.width, this.c.height, this.p, im === A ? nx : null, t); return; }
       if (!im && this.poster && this.poster.naturalWidth) im = this.poster;
       if (!im) return;
-      this.last = this.i;
+      this.lastF = this.f;
       const cw = this.c.width, ch = this.c.height, ctx = this.ctx;
       const iw = fw(im), ih = fh(im);
       const contain = Math.min(cw / iw, ch / ih), cover = Math.max(cw / iw, ch / ih);
@@ -519,13 +587,16 @@ void main(){
       const s = Math.min(cover, contain * (k <= 1 ? 1 : k)) * (k < 1 ? k : 1) || cover;
       const sc = this.o.fit === 1 && !W.mobile() ? cover : s;
       const w = iw * sc, h = ih * sc;
+      ctx.globalAlpha = 1;
       ctx.fillStyle = this.o.bg;
       ctx.fillRect(0, 0, cw, ch);
       // Point de l'image a garder au centre (produit souvent decentre)
       const fx = W.mobile() ? (this.o.mobileFocusX ?? 0.5) : (this.o.focusX ?? 0.5);
       let x = cw / 2 - w * fx;
       if (w > cw) x = Math.min(0, Math.max(cw - w, x)); else x = (cw - w) / 2;
-      ctx.drawImage(im, x, (ch - h) / 2 + (this.o.offsetY || 0) * ch, w, h);
+      const y = (ch - h) / 2 + (this.o.offsetY || 0) * ch;
+      ctx.drawImage(im, x, y, w, h);
+      if (nx && im === A) { ctx.globalAlpha = t; ctx.drawImage(nx, x, y, w, h); ctx.globalAlpha = 1; }
     }
   }
   W.Seq = Seq;

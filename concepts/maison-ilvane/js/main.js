@@ -126,7 +126,7 @@
       g.addColorStop(0, "rgba(2,2,2,1)"); g.addColorStop(1, "rgba(2,2,2,0)");
       ctx.fillStyle = g; ctx.fillRect(rx, ry, rw, rh);
     };
-    function render(ctx, frame, cw, ch) {
+    function render(ctx, frame, cw, ch, p, next, t) {
       const v = view(P);
       const base = mob ? cw / 1600 : Math.max(cw / 1600, ch / 900);
       const w = 1600 * base * v[1], h = 900 * base * v[1];
@@ -139,7 +139,11 @@
       const aS = frame ? 1 - smooth(0.012, 0.06, P) : 1;
       const aV = 1 - smooth(0.77, 0.797, P);
       const aL = smooth(0.783, 0.815, P);
-      if (frame && aS < 1 && aV > 0) { ctx.globalAlpha = aV; ctx.drawImage(frame, x, y, w, h); }
+      if (frame && aS < 1 && aV > 0) {
+        ctx.globalAlpha = aV; ctx.drawImage(frame, x, y, w, h);
+        // Fondu vers l'image suivante selon la position exacte : pas de palier entre deux images
+        if (next) { ctx.globalAlpha = aV * t; ctx.drawImage(next, x, y, w, h); }
+      }
       if (aS > 0 && aV > 0 && ok(imgs.still)) { ctx.globalAlpha = aS * aV; ctx.drawImage(imgs.still, x, y, w, h); }
       if (aL > 0) {
         // La premiere image de la video de fin est la photo a la plaque : on la garde tant que la video n'est pas prete
