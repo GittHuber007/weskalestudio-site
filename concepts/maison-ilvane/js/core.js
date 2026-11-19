@@ -553,7 +553,8 @@ void main(){
     }
     // Resolution fixe, la meme pendant le defilement et au repos
     resize() {
-      const dpr = Math.min(devicePixelRatio || 1, W.touch ? 2 : 1.5);
+      // Ecran Retina d'ordinateur : pleine densite (2), sinon le navigateur agrandit le canevas et l'image s'adoucit
+      const dpr = Math.min(devicePixelRatio || 1, 2);
       this.c.width = Math.round(this.c.clientWidth * dpr);
       this.c.height = Math.round(this.c.clientHeight * dpr);
     }

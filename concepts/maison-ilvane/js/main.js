@@ -12,9 +12,12 @@
 
   const CFG = {
     // Video d'orbite (1280 x 720, 24 i/s, 190 images) decoupee en sequence
-    seq: { dir: "assets/seq/", count: 190, mobileDir: "assets/seq-m/", mobileCount: 95 },
+    // JPEG (qualite 3) : decode 4 fois plus vite que le WebP, meme nettete. Ordinateur : 1920 px, accentuee. Telephone : toutes les images, recadrees sur la partie visible
+    // (x de 333 a 1049 sur 1280), agrandies a 952 px et accentuees : plus de detail a poids egal.
+    seq: { dir: "assets/seq-j/", count: 190, mobileDir: "assets/seq-mj/", mobileCount: 190, mobileCrop: [333 / 1280, 716 / 1280] },
     // Video de fin (1280 x 720, 24 i/s, 192 images) : la bague scintille au-dessus de la plaque gravee
-    seq2: { dir: "assets/seq2/", count: 192, mobileDir: "assets/seq2-m/", mobileCount: 96 },
+    // Telephone : une image sur deux, recadree sur la partie visible (x de 205 a 1127 sur 1280)
+    seq2: { dir: "assets/seq2-j/", count: 192, mobileDir: "assets/seq2-mj/", mobileCount: 96, mobileCrop: [205 / 1280, 922 / 1280] },
     // Photo d'ouverture : la premiere image de la video, en 2K (meme cadrage)
     still: mob ? "assets/ilvane-m.webp" : "assets/ilvane.webp",
     // Meme photo avec la plaque gravee Maison Ilvane : fin du plan et configurateur
@@ -47,7 +50,7 @@
   const setP = (p) => { const v = Math.round(p * 100); if (v >= shown) { shown = v; pct && (pct.textContent = v); } };
   if (X.hasGsap && !X.reduce) gsap.to(".gem__p", { strokeDashoffset: 0, duration: 2.2, stagger: 0.3, ease: "power2.inOut" });
   const S = CFG.seq, sdir = mob ? S.mobileDir : S.dir;
-  const first = [0, 1, 2, 3, 4, 5].map((k) => `${sdir}f_${String(k).padStart(3, "0")}.webp`);
+  const first = [0, 1, 2, 3, 4, 5].map((k) => `${sdir}f_${String(k).padStart(3, "0")}.jpg`);
 
   Promise.all([
     X.preload([CFG.still, CFG.logo].concat(first), setP),
@@ -139,17 +142,22 @@
       const aS = frame ? 1 - smooth(0.012, 0.06, P) : 1;
       const aV = 1 - smooth(0.77, 0.797, P);
       const aL = smooth(0.783, 0.815, P);
+      ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high";
+      // Images du telephone recadrees : elles occupent seulement leur bande du cadre
+      const c1 = mob ? CFG.seq.mobileCrop : [0, 1], c2 = mob ? CFG.seq2.mobileCrop : [0, 1];
       if (frame && aS < 1 && aV > 0) {
-        ctx.globalAlpha = aV; ctx.drawImage(frame, x, y, w, h);
-        // Fondu vers l'image suivante selon la position exacte : pas de palier entre deux images
-        if (next) { ctx.globalAlpha = aV * t; ctx.drawImage(next, x, y, w, h); }
+        ctx.globalAlpha = aV; ctx.drawImage(frame, x + c1[0] * w, y, c1[1] * w, h);
+        // Fondu court vers l'image suivante, au milieu du passage seulement : le reste du temps une seule
+        // image nette est affichee (pas de double image), sans palier visible
+        const tt = smooth(0.3, 0.7, t);
+        if (next && tt > 0.01) { ctx.globalAlpha = aV * tt; ctx.drawImage(next, x + c1[0] * w, y, c1[1] * w, h); }
       }
       if (aS > 0 && aV > 0 && ok(imgs.still)) { ctx.globalAlpha = aS * aV; ctx.drawImage(imgs.still, x, y, w, h); }
       if (aL > 0) {
         // La premiere image de la video de fin est la photo a la plaque : on la garde tant que la video n'est pas prete
         const im2 = seq2 && P > 0.8 ? seq2.nearest(seq2.i) : null;
         const pic = im2 || (ok(imgs.logo) ? imgs.logo : null);
-        if (pic) { ctx.globalAlpha = aL; ctx.drawImage(pic, x, y, w, h); }
+        if (pic) { ctx.globalAlpha = aL; if (pic === im2) ctx.drawImage(pic, x + c2[0] * w, y, c2[1] * w, h); else ctx.drawImage(pic, x, y, w, h); }
       }
       ctx.globalAlpha = 1;
       // Bords fondus dans le noir : la piece flotte, sans cadre visible
@@ -175,10 +183,10 @@
       }
       if (!canvas.classList.contains("is-ready") && (frame || ok(imgs.still))) canvas.classList.add("is-ready");
     }
-    seq = new X.Seq(canvas, { dir: S.dir, count: S.count, mobileDir: S.mobileDir, mobileCount: S.mobileCount, bg: "#020202", render });
+    seq = new X.Seq(canvas, { dir: S.dir, count: S.count, mobileDir: S.mobileDir, mobileCount: S.mobileCount, ext: "jpg", bg: "#020202", render });
     // Deuxieme sequence : chargee par la meme fenetre glissante, peinte par le rendu ci-dessus
     const S2 = CFG.seq2, c2 = document.createElement("canvas");
-    seq2 = new X.Seq(c2, { dir: S2.dir, count: S2.count, mobileDir: S2.mobileDir, mobileCount: S2.mobileCount, render: () => seq.paint(true) });
+    seq2 = new X.Seq(c2, { dir: S2.dir, count: S2.count, mobileDir: S2.mobileDir, mobileCount: S2.mobileCount, ext: "jpg", render: () => seq.paint(true) });
 
     // Point du diamant a l'ecran (pixels CSS)
     const diamond = () => {
