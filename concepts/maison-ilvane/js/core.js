@@ -341,10 +341,10 @@ void main(){
     // Resolution dynamique adaptative : pendant le defilement, la densite suit W.DRS.k (voir plus haut), qui ne
     // baisse que si les images depassent 16,7 ms ; pleine densite 180 ms apres l'arret. Au repos l'image est
     // identique ; sur une machine rapide la densite reste pleine meme en mouvement.
+    // 19/11/2026 : densite fixe et pleine (2 sur Retina), meme pendant le defilement : l'image est nette des
+    // qu'elle apparait, sans passage flou (l'ancienne densite adaptative descendait a 50 % en defilant).
     resize() {
-      const full = Math.min(devicePixelRatio || 1, 1.5);
-      this.k = DRS.k;
-      const dpr = this.low ? full * DRS.k : full;
+      const dpr = Math.min(devicePixelRatio || 1, 2);
       const w = Math.max(2, Math.round(this.c.clientWidth * dpr)), h = Math.max(2, Math.round(this.c.clientHeight * dpr));
       if (this.c.width !== w || this.c.height !== h) { this.c.width = w; this.c.height = h; }
       this.gl.viewport(0, 0, w, h);
@@ -376,10 +376,6 @@ void main(){
       if (!this.visible) return;
       const A = this.items[this.a];
       if (!A || !A.ready) return;
-      const sy = scrollY; // lecture sans mise en page
-      if (sy !== this.sy) { this.sy = sy; this.movedAt = now; if (!this.low && this.sy0 !== undefined) { this.low = true; this.resize(); } this.sy0 = sy; }
-      else if (this.low && now - this.movedAt > (W.touch ? 400 : 180)) { this.low = false; this.resize(); }
-      if (this.low && this.k !== DRS.k) this.resize();
       this.m[0] += (this.mt[0] - this.m[0]) * 0.06;
       this.m[1] += (this.mt[1] - this.m[1]) * 0.06;
       const gl = this.gl, u = this.u, o = this.o;

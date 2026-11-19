@@ -31,7 +31,7 @@ html:not(.anim) .loader{display:none}
 
 /* nav */
 .nav{position:fixed;inset:0 0 auto;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:24px var(--pad);transition:transform .8s var(--ease),background .5s,padding .5s}
-.nav.is-scrolled{background:linear-gradient(rgba(12,9,7,.9),rgba(12,9,7,0));padding-top:14px;padding-bottom:14px}
+.nav.is-scrolled{background:rgba(12,9,7,.9);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06);padding-top:14px;padding-bottom:14px} /* bande pleine : le contenu ne passe plus sous le menu (19/11) */
 .nav.is-hidden{transform:translateY(-110%)}
 .nav__mark{display:flex;align-items:baseline;gap:10px}
 .nav__mark small{font-size:9.5px;letter-spacing:.48em;text-transform:uppercase;color:var(--mute)}

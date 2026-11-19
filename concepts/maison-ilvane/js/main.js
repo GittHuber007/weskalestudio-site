@@ -22,15 +22,17 @@
     still: mob ? "assets/ilvane-m.webp" : "assets/ilvane.webp",
     // Meme photo avec la plaque gravee Maison Ilvane : fin du plan et configurateur
     logo: mob ? "assets/ilvane-logo-m.webp" : "assets/ilvane-logo.webp",
+    // Configurateur : meme photo, sans etoile de scintillement ni bokeh decoratif (retouche du 19/11, alignee sur ring-mask)
+    config: mob ? "assets/ilvane-config-m.webp" : "assets/ilvane-config.webp",
     // Centre du diamant dans la video (x, une mesure toutes les 10 images, la derniere a 189)
     track: [0.461, 0.469, 0.474, 0.488, 0.52, 0.535, 0.553, 0.557, 0.57, 0.585, 0.599, 0.614, 0.63, 0.644, 0.652, 0.659, 0.666, 0.664, 0.683, 0.689],
     stoneStill: [0.479, 0.478],
     // Textes de chaque piece dans js/i18n.js (meme ordre)
     gallery: [
-      { img: "assets/g-aube.webp", n: 24800 },
-      { img: "assets/g-six.webp", n: 21600 },
-      { img: "assets/g-blanc.webp", n: 21900 },
-      { img: "assets/g-rose.webp", n: 25000 },
+      { img: "assets/g2-aube.webp", n: 24800 },
+      { img: "assets/g2-six.webp", n: 21600 },
+      { img: "assets/g2-blanc.webp", n: 21900 },
+      { img: "assets/g2-rose.webp", n: 25000 },
       // Ajoutees automatiquement des que les visuels existent (voir GENERATIONS.md)
       { img: "assets/j-boucles.webp", n: 11400 },
       { img: "assets/j-pendentif.webp", n: 8900 },
@@ -53,7 +55,7 @@
   const first = [0, 1, 2, 3, 4, 5].map((k) => `${sdir}f_${String(k).padStart(3, "0")}.jpg`);
 
   Promise.all([
-    X.preload([CFG.still, CFG.logo].concat(first), setP),
+    X.preload([CFG.still, CFG.logo, CFG.config].concat(first), setP),
     Promise.all(CFG.gallery.map((g) => exists(g.img))).then((ok) => CFG.gallery.forEach((g, i) => (g.ok = ok[i]))),
   ]).then(start);
 
@@ -336,11 +338,11 @@ void main(){
     let st = null;
     const names = { metal: TX.metals, stone: TX.stones };
     const u = { metalA: 0, metalB: 0, mixM: 0, stoneA: 0, stoneB: 0, mixS: 0 };
-    $(".config__fallback").src = CFG.logo;
+    $(".config__fallback").src = CFG.config;
     try {
       st = new X.Stage($(".config__gl"), { fs: CFS, uniforms: ["stonePos", "stoneRad", "ctr", "metalA", "metalB", "mixM", "stoneA", "stoneB", "mixS"], mouse: true });
       // t0 = la photo, t1 = le masque de la monture (deuxieme element, jamais affiche seul)
-      st.add(CFG.logo);
+      st.add(CFG.config);
       st.add("assets/ring-mask.webp");
       st.a = 0; st.b = 1; st.prog = 0;
       st.zoom = mob ? 1 : 1.06;
