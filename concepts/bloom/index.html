@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bracelet Bloom, serti</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#efefef">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/viewer.css">
+<link rel="preload" href="assets/bracelet-bloom-serti.glb" as="fetch" crossorigin>
+<link rel="preload" href="assets/studio-cycles.hdr" as="fetch" crossorigin>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<main class="stage">
+  <canvas id="scene" class="scene3d" role="img" tabindex="0" aria-label="Bracelet Bloom, serti"></canvas>
+
+  <header class="top">
+    <h1 class="title">Bracelet Bloom, serti</h1>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">EN</button>
+      <span aria-hidden="true">/</span>
+      <button type="button" data-lang="fr" aria-pressed="false">FR</button>
+    </div>
+  </header>
+
+  <p class="hint" data-i18n="hint">Turn the piece</p>
+
+  <nav class="views" aria-label="Views">
+    <button type="button" data-view="front" aria-pressed="true" data-i18n="front">Front</button>
+    <button type="button" data-view="side" aria-pressed="false" data-i18n="side">Profile</button>
+    <button type="button" data-view="top" aria-pressed="false" data-i18n="top">Top</button>
+  </nav>
+
+  <p class="credit" data-i18n="credit">Concept Weskale Studio</p>
+
+  <div class="loader" id="loader" role="status" aria-live="polite">
+    <span class="loader__label" data-i18n="loading">Loading</span>
+    <span class="loader__bar"><span id="loaderFill"></span></span>
+  </div>
+  <p class="nogl" id="nogl" hidden data-i18n="nogl">3D display is not available on this device.</p>
+</main>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
