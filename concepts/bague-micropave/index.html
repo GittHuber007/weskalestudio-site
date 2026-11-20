@@ -104,6 +104,16 @@ var viewer = createViewer({
   onViewChange: function(v){ views.querySelectorAll("button").forEach(function(o){ o.setAttribute("aria-pressed", String(o.getAttribute("data-v") === v)); }); }
 });
 if (viewer) views.querySelectorAll("button").forEach(function(b){ b.addEventListener("click", function(){ viewer.setView(b.getAttribute("data-v")); }); });
+// filet de securite telephones : 10,5 s sans geste, vue Front, la photo du site revient quoi qu'il arrive
+var safeT = 0;
+function safeHome(){ clearTimeout(safeT); safeT = setTimeout(function(){
+  var f = views.querySelector('[data-v="front"]');
+  if (f && f.getAttribute("aria-pressed") === "true" && +getComputedStyle(still).opacity < 0.5) {
+    still.src = "references/render-1.jpg"; still.style.transition = "opacity 300ms linear"; still.style.opacity = "1";
+  }
+}, 10500); }
+["pointerdown","pointerup","pointercancel","touchend"].forEach(function(t){ canvas.addEventListener(t, safeHome, { passive: true }); });
+views.addEventListener("click", safeHome);
 // page blanche (photos du site) ou noire (memes photos, detourees)
 var modeNav = document.getElementById("mode");
 modeNav.querySelectorAll("button").forEach(function(b){
