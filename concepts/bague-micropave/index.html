@@ -47,6 +47,9 @@ canvas.pt{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;o
   .credit{left:0;right:0;text-align:center}
 }
 @media (prefers-reduced-motion:reduce){.hint,.views button{transition:none}}
+@media (pointer:coarse){#still{-webkit-mask-image:none!important;mask-image:none!important}}
+#still{-webkit-transform:translateZ(0);transform:translateZ(0);will-change:opacity}
+#dbg{position:fixed;left:6px;right:6px;bottom:6px;z-index:99;font:11px/1.35 monospace;color:#c00;background:rgba(255,255,255,.92);padding:6px;white-space:pre-wrap;pointer-events:none}
 </style>
 </head>
 <body>
@@ -126,6 +129,21 @@ modeNav.querySelectorAll("button").forEach(function(b){
     still.src = stillLogical;
   });
 });
+
+// telephones : quand la photo est affichee, la 3D est masquee dessous (evite que le canvas WebGL passe devant sur iOS)
+function syncCanvas(){ var o = +getComputedStyle(still).opacity; canvas.style.opacity = (o > 0.98) ? "0" : "1"; }
+new MutationObserver(function(){ if (still.style.opacity === "0") canvas.style.opacity = "1"; setTimeout(syncCanvas, 380); }).observe(still, { attributes: true, attributeFilter: ["style", "src"] });
+setTimeout(syncCanvas, 50);
+// diagnostic : ajouter ?debug=1 a l'adresse
+if (/[?&]debug=1/.test(location.search)) {
+  var dbg = document.createElement("div"); dbg.id = "dbg"; document.body.appendChild(dbg); var errs = [];
+  window.addEventListener("error", function(e){ errs.push(String(e.message).slice(0,120)); });
+  setInterval(function(){ var cs = getComputedStyle(still);
+    dbg.textContent = "photo op=" + cs.opacity + " vis=" + cs.visibility + " w=" + still.naturalWidth + " src=" + still.getAttribute("src") +
+      "\ncanvas op=" + getComputedStyle(canvas).opacity + " mask=" + (cs.webkitMaskImage || cs.maskImage || "").slice(0,20) +
+      "\n" + innerWidth + "x" + innerHeight + " dpr=" + devicePixelRatio + "\n" + navigator.userAgent.slice(0,140) + (errs.length ? "\nERR " + errs.join(" | ") : "");
+  }, 500);
+}
 </script>
 </body>
 </html>
