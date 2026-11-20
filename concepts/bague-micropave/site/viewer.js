@@ -60,22 +60,32 @@ const qa = (axis, deg) => new THREE.Quaternion().setFromAxisAngle(axis, THREE.Ma
 // Pose de la photo produit du site Liori (references/render-1.jpg, 1100 px) : point de depart de la camera Cycles
 // "dessus" de render.py (direction, roulis 180, cible, cadre de 19,6 mm), puis ajustement fin par superposition
 // des silhouettes (controle/photo-site/ajuste.js) : petites rotations (degres), zoom, decalage de cadre (mm).
-export const PHOTO = {
-  src: 'references/render-1.jpg',
-  dir: [0, 0.36, 0.933], roll: 180, target: [0, 0.6, 11.2], frame: 19.6,
-  // controle/photo-site/ajuste.js : IoU des silhouettes 0,904 avant ajustement, 0,936 apres
-  fit: { yaw: -0.875, pitch: -2.625, roll: -0.0625, zoom: 1.0394, sx: 0.1875, sy: -0.3375 },
+export const PHOTOS = {
+  // Front : references/render-1.jpg ; ajustement controle/photo-site/ajuste.js (IoU des silhouettes 0,904 -> 0,936)
+  front: {
+    src: 'references/render-1.jpg', dir: [0, 0.36, 0.933], roll: 180, target: [0, 0.6, 11.2], frame: 19.6,
+    fit: { yaw: -0.875, pitch: -2.625, roll: -0.0625, zoom: 1.0394, sx: 0.1875, sy: -0.3375 },
+  },
+  // Profile : references/render-3.jpg (camera "face" de render.py)
+  profile: {
+    src: 'references/render-3.jpg', dir: [0, -0.985, 0.17], roll: 0, target: [0, 0, 4.5], frame: 29.5,
+    // controle/photo-site/ajuste.js profile render-3.jpg : IoU des silhouettes 0,899 -> 0,955
+    fit: { yaw: 10.625, pitch: 6.125, roll: 4, zoom: 1.03, sx: 0.3, sy: 0 },
+  },
 };
-export function photoPose(fit = PHOTO.fit) {
-  const q = fromCycles(PHOTO.dir, PHOTO.roll);
+export const PHOTO = PHOTOS.front;
+export function photoPose(fit, key = 'front') {
+  const P = PHOTOS[key];
+  fit = fit || P.fit;
+  const q = fromCycles(P.dir, P.roll);
   q.premultiply(qa(Y, fit.yaw)).premultiply(qa(X, fit.pitch)).premultiply(qa(CAM_DIR, fit.roll));
-  const t = new THREE.Vector3(PHOTO.target[0], PHOTO.target[2] - PIVOT_Z, -PHOTO.target[1]).applyQuaternion(q);
+  const t = new THREE.Vector3(P.target[0], P.target[2] - PIVOT_Z, -P.target[1]).applyQuaternion(q);
   const up = Y.clone().sub(CAM_DIR.clone().multiplyScalar(CAM_DIR.y)).normalize();
   t.addScaledVector(X, fit.sx).addScaledVector(up, fit.sy);
   // la composante de la cible le long de l'axe de visee est reportee sur la distance (camera identique) : la cible
   // reste dans le plan du pivot, et le recentrage pendant l'interaction ne fait que glisser l'image, sans changer sa taille
   const K = (FRAME_MM / 2) / Math.tan(THREE.MathUtils.degToRad(VFOV / 2));
-  const zoom = FRAME_MM / PHOTO.frame * fit.zoom;
+  const zoom = FRAME_MM / P.frame * fit.zoom;
   const d = t.dot(CAM_DIR);
   t.addScaledVector(CAM_DIR, -d);
   return { q, zoom: K / (K / zoom + d), target: t };
@@ -85,7 +95,8 @@ export const VIEWS = {
   profil: qa(Y, 90),                                                   // de cote : la tete et les lames de profil
   dessus: fromCycles([0, 0.36, 0.933], 180),                           // vue "dessus" de render.py (rendu 1) : table, gravure lisible
   dos: fromCycles([-0.70, 0.58, -0.30], 0, 25),                        // vue "dos" de render.py (rendu 4) : de dessous et de l'arriere
-  dessous: qa(X, -90 - 16),                                            // le dessous de l'anneau face a l'objectif
+  dessous: qa(X, -90 - 16),
+  top: fromCycles([0, 0.0001, 1], 180),                               // vue de dessus, a la verticale (table vers l'objectif)                                            // le dessous de l'anneau face a l'objectif
   biais: qa(Y, -38).multiply(qa(X, 8)),                                // trois quarts (proche de premier-rendu.jpg)
 };
 
@@ -294,7 +305,7 @@ const PT_TARGET = 128;            // echantillons par pixel (minimum sur l'image
 const PT_SHOW = 8;                // premier affichage, en fondu
 const PT_MAX_SECONDS = 90;        // au-dela (estime apres 4 s de rendu), l'appareil est juge trop lent
 
-export function createViewer({ canvas, overlay = null, base = '', pathTracing = false, cyclesFrames = false, shadow: withShadow = false, onProgress = () => {}, onReady = () => {}, onError = () => {}, onFirstInteraction = () => {}, onViewChange = () => {}, onMode = () => {} }) {
+export function createViewer({ canvas, overlay = null, base = '', fill = 1, pathTracing = false, cyclesFrames = false, shadow: withShadow = false, onProgress = () => {}, onReady = () => {}, onError = () => {}, onFirstInteraction = () => {}, onViewChange = () => {}, onMode = () => {} }) {
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
@@ -315,7 +326,8 @@ export function createViewer({ canvas, overlay = null, base = '', pathTracing = 
   scene.add(pivot);
 
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const HOME = photoPose();
+  const HOME = photoPose(null, 'front');
+  const POSES = { front: HOME, profile: photoPose(null, 'profile'), top: { q: VIEWS.top.clone(), zoom: 1.25, target: new THREE.Vector3() } };
   const state = {
     q: HOME.q.clone(),
     target: HOME.target.clone(),          // point vise par la camera (le pivot, ou le cadrage de la photo)
@@ -429,7 +441,7 @@ export function createViewer({ canvas, overlay = null, base = '', pathTracing = 
   }
   function placeCamera() {
     const half = FRAME_MM / 2;
-    const dist = half / Math.tan(THREE.MathUtils.degToRad(VFOV / 2)) / Math.min(1, camera.aspect) / state.zoom;
+    const dist = half / Math.tan(THREE.MathUtils.degToRad(VFOV / 2)) / Math.min(1, camera.aspect) / state.zoom / fill;   // fill : part du petit cote occupee par le cadre
     camera.position.copy(state.target).addScaledVector(CAM_DIR, dist);
     camera.lookAt(state.target);
   }
@@ -538,11 +550,13 @@ export function createViewer({ canvas, overlay = null, base = '', pathTracing = 
     invalidate();
   }
   const ttYaw = (f) => -TT_STEP * f;                            // image f du turntable : rotation de -5 f degres
-  const atPhotoPose = () => state.q.angleTo(HOME.q) < 1e-5 && Math.abs(state.zoom - HOME.zoom) < 1e-6 && state.target.distanceTo(HOME.target) < 1e-6;
+  const atPose = (P) => state.q.angleTo(P.q) < 1e-5 && Math.abs(state.zoom - P.zoom) < 1e-6 && state.target.distanceTo(P.target) < 1e-6;
+  const atPhotoPose = () => atPose(HOME);
   function decideRest() {
     if (state.mode !== 'direct' || isMoving() || !ringRoot) return;
     if (dpr !== DPR_MAX) { scheduleRest(); return; }
-    if (overlay && atPhotoPose()) { showPhoto(); return; }
+    if (overlay && atPhotoPose()) { showPhoto('front'); return; }
+    if (overlay && atPose(POSES.profile)) { showPhoto('profile'); return; }
     const up = Y.clone().applyQuaternion(state.q);
     const tilt = up.angleTo(Y);
     if (overlay && cyclesFrames && tilt < SNAP_TILT && Math.abs(state.zoom - 1) < 0.02 && state.target.lengthSq() < 1e-6) {
@@ -585,7 +599,7 @@ export function createViewer({ canvas, overlay = null, base = '', pathTracing = 
       }
     }).catch(() => { if (tok === token) setMode('repos'); });
   }
-  function showPhoto() { stats.photoShown = (stats.photoShown || 0) + 1; showOverlay(base + PHOTO.src, 'photo'); }
+  function showPhoto(key) { stats.photoShown = (stats.photoShown || 0) + 1; state.photo = key; showOverlay(base + PHOTOS[key].src, 'photo'); }
   function showCycles(f) {
     const tok = ++token;
     setMode('cycles');
@@ -683,7 +697,7 @@ export function createViewer({ canvas, overlay = null, base = '', pathTracing = 
   function armHome() { clearTimeout(homeTimer); homeTimer = setTimeout(goHome, homeDelay); }
   function goHome() {
     if (state.dragging) { armHome(); return; }
-    onViewChange(null);
+    onViewChange('front');
     if (atPhotoPose() && state.mode !== 'direct') return;
     leaveRest();
     state.vel.set(0, 0);
@@ -780,12 +794,12 @@ export function createViewer({ canvas, overlay = null, base = '', pathTracing = 
   });
 
   function setView(name, instant = false) {
-    const to = VIEWS[name];
-    if (!to) return;
+    const P = POSES[name] || (VIEWS[name] && { q: VIEWS[name], zoom: 1, target: new THREE.Vector3() });
+    if (!P) return;
     userGesture(name);
     state.vel.set(0, 0);
-    if (instant || reduceMotion) { state.q.copy(to); state.zoom = 1; state.target.set(0, 0, 0); placeCamera(); state.shadowDirty = true; invalidate(); return; }
-    state.tween = { t: 0, dur: 0.95, from: state.q.clone(), to: to.clone(), z0: state.zoom, z1: 1, p0: state.target.clone(), p1: new THREE.Vector3() };
+    if (instant || reduceMotion) { state.q.copy(P.q); state.zoom = P.zoom; state.target.copy(P.target); placeCamera(); state.shadowDirty = true; invalidate(); return; }
+    state.tween = { t: 0, dur: 0.95, from: state.q.clone(), to: P.q.clone(), z0: state.zoom, z1: P.zoom, p0: state.target.clone(), p1: P.target.clone() };
     invalidate();
   }
   function setMetal(m) {
@@ -808,10 +822,10 @@ export function createViewer({ canvas, overlay = null, base = '', pathTracing = 
       hold: (on = true) => { if (on) { clearTimeout(homeTimer); token++; clearTimeout(restTimer); setMode('maintien'); if (overlay) { overlay.style.transition = 'none'; overlay.style.opacity = '0'; } state.dirty = true; invalidate(); } else { setMode('direct'); invalidate(); } },
       setHomeDelay: (ms) => { homeDelay = ms; },
       setGems: (on) => { scene.traverse((o) => { if (o.isMesh && (o.material === diamondC || o.material === diamondP)) o.visible = on; }); invalidate(); },
-      HOME, photoPose,
+      HOME, POSES, photoPose,
       // pose de la photo avec un ajustement donne, rendu immediat, masque alpha sous-echantillonne (pas = step px)
-      fitRender: (fit, step = 4) => {
-        const P = photoPose(fit);
+      fitRender: (fit, step = 4, key = 'front') => {
+        const P = photoPose(fit, key);
         state.q.copy(P.q); state.zoom = P.zoom; state.target.copy(P.target); placeCamera();
         pivot.quaternion.copy(state.q); pivot.updateMatrixWorld();
         renderer.render(scene, camera);

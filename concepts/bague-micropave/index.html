@@ -2,241 +2,97 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Six-Prong Micropavé Ring · 3D Study</title>
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="data:,">
+<title>Six-prong micropavé, petite</title>
 <style>
 :root{
-  --bg:#ffffff; --bg2:#ffffff; --ink:#1d1d22; --mute:#6c6c76; --line:#d3d3da; --card:#f3f3f6; --acc:#3a4a6b;
-  --serif: "Didot","Bodoni 72","Bodoni MT","Playfair Display",Georgia,"Times New Roman",serif;
-  --sans: "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --bg:#ffffff; --ink:#1d1d22; --muted:#7c7c86; --line:rgba(29,29,34,.18);
+  --serif:"Didot","Bodoni 72","Bodoni MT","Playfair Display","Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Segoe UI",Arial,sans-serif;
 }
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
-a{color:inherit}
-header.top{display:flex;justify-content:space-between;align-items:center;padding:18px 28px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
-header.top .lang a{text-decoration:none;margin-left:12px;padding-bottom:2px}
-header.top .lang a.on{color:var(--ink);border-bottom:1px solid var(--ink)}
-.hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:24px;align-items:center;max-width:1400px;margin:0 auto;padding:0 28px 40px}
-.viewer{position:relative;aspect-ratio:1/1;width:100%;background:#fff;user-select:none;-webkit-user-select:none;overflow:hidden}
-.viewer canvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:none;outline:none}
-.viewer canvas.is-drag{cursor:grabbing}
-.viewer canvas:focus-visible{box-shadow:inset 0 0 0 1px var(--acc)}
-.viewer img.still{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none;z-index:1}
-.viewer .views,.viewer .load{z-index:2}
-.viewer canvas.pt{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0;z-index:0}
-.stage{min-width:0}
-.stage .hint{margin:12px auto 0;max-width:92%;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);display:flex;gap:10px;align-items:center;justify-content:center;text-align:center;transition:opacity .6s}
-.stage .hint svg{width:22px;height:22px;flex:none}
-.viewer .load{position:absolute;left:0;top:0;height:2px;background:var(--acc);width:0;transition:width .2s,opacity .4s}
-.viewer .views{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;gap:4px;padding:4px;border-radius:999px;background:rgba(243,243,246,.72);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
-.viewer .views button{appearance:none;border:0;background:none;font:inherit;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);padding:8px 14px;border-radius:999px;cursor:pointer;transition:background .2s,color .2s}
-.viewer .views button[aria-pressed=true]{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
-.viewer .views[hidden]{display:none}
-.copy h1{font-family:var(--serif);font-weight:400;font-size:clamp(30px,3.4vw,50px);line-height:1.08;margin:0 0 14px;letter-spacing:.005em}
-.copy .kicker{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute);margin-bottom:16px}
-.copy p{color:#3d3d45;line-height:1.65;font-size:15px;max-width:42ch}
-.metals{display:flex;gap:14px;margin:26px 0 8px;flex-wrap:wrap}
-.metals button{appearance:none;border:0;background:none;padding:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;font:inherit;font-size:11px;letter-spacing:.08em;color:var(--mute);width:72px}
-.metals .sw{width:30px;height:30px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);outline:1px solid transparent;outline-offset:4px;transition:outline-color .2s}
-.metals button[aria-pressed=true]{color:var(--ink)}
-.metals button[aria-pressed=true] .sw{outline-color:var(--ink)}
-.sw.blanc{background:linear-gradient(135deg,#fbfbfd,#c9cbd2 55%,#f4f5f8)}
-.sw.platine{background:linear-gradient(135deg,#f1f0ee,#aeaba6 55%,#e7e5e1)}
-.sw.jaune{background:linear-gradient(135deg,#fbe7b2,#c99a45 55%,#f5d792)}
-.sw.rose{background:linear-gradient(135deg,#f9dccf,#c48a76 55%,#f2c6b4)}
-.specs{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;font-size:13px;margin-top:22px;color:#3d3d45}
-.specs dt{color:var(--mute)}
-.specs dd{margin:0}
-section{max-width:1400px;margin:0 auto;padding:64px 28px}
-section h2{font-family:var(--serif);font-weight:400;font-size:clamp(26px,2.6vw,38px);margin:0 0 10px}
-section .lead{color:#4a4a52;max-width:62ch;line-height:1.6;margin:0 0 28px}
-.macros{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.macros figure{margin:0;background:var(--card)}
-.macros img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover}
-.macros figcaption{padding:12px 14px 16px;font-size:13px;color:#4a4a52;line-height:1.5}
-.macros figcaption b{display:block;font-weight:500;color:var(--ink);font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px}
-.vs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:16px}
-.vs figure{margin:0;background:#fff}
-.vs img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:contain;background:#fff}
-.vs figcaption{font-size:12px;letter-spacing:.06em;color:var(--mute);padding:10px 12px;background:var(--bg)}
-.vs figcaption b{color:var(--ink);font-weight:500}
-table.score{width:100%;border-collapse:collapse;font-size:14px;margin-top:20px}
-table.score th,table.score td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
-table.score th{font-weight:500;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
-.win{color:#1f6b3a;font-weight:500}.tie{color:#8a6a12;font-weight:500}.loss{color:#9a2b2b;font-weight:500}
-footer{padding:40px 28px 56px;text-align:center;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute)}
-@media (max-width:900px){
-  .hero{grid-template-columns:1fr;padding:0 16px 24px}
-  header.top{padding:14px 16px}
-  section{padding:44px 16px}
-  .macros,.vs{grid-template-columns:1fr}
-  .metals{justify-content:space-between}
-  .metals button{width:auto}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink)}
+body{font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden}
+.stage{position:fixed;inset:0;background:var(--bg)}
+#ring3d{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none;cursor:grab;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#ring3d.is-drag{cursor:grabbing}
+#ring3d:focus-visible{box-shadow:inset 0 0 0 2px var(--line)}
+/* photo du site Liori, telle quelle, posee exactement sur la vue 3D (placement calcule par le script) */
+#still{position:absolute;display:block;pointer-events:none;user-select:none;-webkit-user-drag:none;z-index:1}
+canvas.pt{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0;z-index:0}
+.top{position:absolute;top:0;left:0;right:0;z-index:2;display:flex;justify-content:space-between;align-items:baseline;padding:calc(22px + env(safe-area-inset-top)) clamp(20px,4vw,48px) 0;pointer-events:none}
+.title{margin:0;font-family:var(--serif);font-weight:400;font-size:clamp(22px,2.6vw,34px);letter-spacing:.01em;line-height:1.15}
+.lang{pointer-events:auto;display:flex;gap:6px;align-items:center;color:var(--muted);font-size:12px;letter-spacing:.12em}
+.lang a{color:inherit;text-decoration:none;padding:6px 2px}
+.lang a.on{color:var(--ink)}
+.hint{position:absolute;left:0;right:0;z-index:2;bottom:calc(92px + env(safe-area-inset-bottom));margin:0;text-align:center;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);transition:opacity .8s ease;pointer-events:none}
+.views{position:absolute;z-index:2;left:50%;transform:translateX(-50%);bottom:calc(34px + env(safe-area-inset-bottom));display:flex;gap:clamp(14px,3vw,34px);font-size:12px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}
+.views button{font:inherit;color:var(--muted);background:none;border:0;cursor:pointer;padding:10px 0;border-bottom:1px solid transparent;transition:color .3s,border-color .3s}
+.views button[aria-pressed=true]{color:var(--ink);border-bottom-color:var(--ink)}
+.views button:hover{color:var(--ink)}
+.lang a:focus-visible,.views button:focus-visible{outline:1px solid var(--ink);outline-offset:3px}
+.credit{position:absolute;z-index:2;right:clamp(20px,4vw,48px);bottom:calc(14px + env(safe-area-inset-bottom));margin:0;font-size:10px;letter-spacing:.14em;color:var(--muted);opacity:.8}
+.load{position:absolute;left:0;top:0;height:2px;background:var(--ink);width:0;z-index:3;transition:width .2s,opacity .4s}
+@media (max-width:560px){
+  .views{font-size:11px;letter-spacing:.12em;gap:18px;bottom:calc(40px + env(safe-area-inset-bottom))}
+  .hint{bottom:calc(96px + env(safe-area-inset-bottom))}
+  .credit{left:0;right:0;text-align:center}
 }
-@media (max-width:480px){.viewer .views button{padding:8px 11px;letter-spacing:.1em}.stage .hint{letter-spacing:.12em}}
-@media (prefers-reduced-motion:reduce){.stage .hint{transition:none}}
+@media (prefers-reduced-motion:reduce){.hint,.views button{transition:none}}
 </style>
 </head>
 <body>
-<header class="top">
-  <span data-i18n="brand">3D study · private preview</span>
-  <nav class="lang"><a href="?lang=en" data-l="en">EN</a><a href="?lang=fr" data-l="fr">FR</a></nav>
-</header>
-
-<div class="hero">
-  <div class="stage">
-  <div class="viewer" id="viewer">
-    <img class="still" id="still" alt="" src="references/render-1.jpg">
-    <canvas id="ring3d" tabindex="0" role="img" aria-label="Real-time 3D view of the ring: drag to rotate it in any direction" data-i18n-aria="viewerAria"></canvas>
-    <div class="load" id="load"></div>
-    <div class="views" id="views" role="group" aria-label="Views" data-i18n-aria="viewsAria" hidden>
-      <button type="button" data-v="face" aria-pressed="false" data-i18n="v_face">Front</button>
-      <button type="button" data-v="profil" aria-pressed="false" data-i18n="v_profil">Profile</button>
-      <button type="button" data-v="dessus" aria-pressed="false" data-i18n="v_dessus">Top</button>
-    </div>
-  </div>
-  <div class="hint" id="hint"><svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1"><circle cx="11" cy="11" r="8.5"/><path d="M11 1v4M11 17v4M1 11h4M17 11h4"/></svg><span data-i18n="drag">Drag to rotate in any direction</span></div>
-  </div>
-  <div class="copy">
-    <div class="kicker" data-i18n="kicker">4.50 ctw · Round brilliant · F VS1</div>
-    <h1 data-i18n="title">Six-prong micropavé, petite</h1>
-    <p data-i18n="intro">A procedural 3D rebuild of the ring, rendered in Blender 5.2 with Cycles. Every stone is a 57-facet round brilliant with spectral dispersion; every bead, scallop and the engraving inside the shank is modelled, not painted.</p>
-    <div class="metals" id="metals" role="group" aria-label="Metal">
-      <button type="button" data-m="blanc" aria-pressed="true"><span class="sw blanc"></span><span data-i18n="m_blanc">14K white</span></button>
-      <button type="button" data-m="jaune" aria-pressed="false"><span class="sw jaune"></span><span data-i18n="m_jaune">14K yellow</span></button>
-      <button type="button" data-m="rose" aria-pressed="false"><span class="sw rose"></span><span data-i18n="m_rose">14K rose</span></button>
-      <button type="button" data-m="platine" aria-pressed="false"><span class="sw platine"></span><span data-i18n="m_platine">Platinum</span></button>
-    </div>
-    <dl class="specs">
-      <dt data-i18n="s_center">Centre stone</dt><dd data-i18n="s_center_v">Round brilliant, 57 facets, table 56 %, crown 34.5°, pavilion 40.75°</dd>
-      <dt data-i18n="s_head">Head</dt><dd data-i18n="s_head_v">6 tulip blades, 6 micropavé stones each, drop-shaped tips</dd>
-      <dt data-i18n="s_band">Shank</dt><dd data-i18n="s_band_v">32 graduated U-cut stones, 1.55 → 1.15 mm, hook prongs</dd>
-      <dt data-i18n="s_view">Viewer</dt><dd data-i18n="s_view_v">72 frames, seamless 360°, no watermark</dd>
-    </dl>
-  </div>
-</div>
-
-<section id="macro">
-  <h2 data-i18n="macroT">Up close</h2>
-  <p class="lead" data-i18n="macroL">Macro renders at 2200 px. This is the scale where a jeweller judges a setting: bead by bead, scallop by scallop.</p>
-  <div class="macros">
-    <figure><img loading="lazy" alt="" src="site/img/macro-griffes-1080.webp" srcset="site/img/macro-griffes-1080.webp 1080w, site/img/macro-griffes-2200.webp 2200w" sizes="(max-width:900px) 100vw, 2200px"><figcaption><b data-i18n="mg">Prongs</b><span data-i18n="mgT">Drop-shaped claw tips folding over the crown, with a soft central ridge.</span></figcaption></figure>
-    <figure><img loading="lazy" alt="" src="site/img/macro-pave-griffe-1080.webp" srcset="site/img/macro-pave-griffe-1080.webp 1080w, site/img/macro-pave-griffe-2200.webp 2200w" sizes="(max-width:900px) 100vw, 2200px"><figcaption><b data-i18n="mp">Micropavé blades</b><span data-i18n="mpT">Six 1.0 mm brilliants per blade, held by shared beads on both edges.</span></figcaption></figure>
-    <figure><img loading="lazy" alt="" src="site/img/macro-anneau-1080.webp" srcset="site/img/macro-anneau-1080.webp 1080w, site/img/macro-anneau-2200.webp 2200w" sizes="(max-width:900px) 100vw, 2200px"><figcaption><b data-i18n="ma">U-cut shank</b><span data-i18n="maT">A clean scallop under every stone; light enters each pavilion from the side.</span></figcaption></figure>
-    <figure><img loading="lazy" alt="" src="site/img/macro-gravure-1080.webp" srcset="site/img/macro-gravure-1080.webp 1080w, site/img/macro-gravure-2200.webp 2200w" sizes="(max-width:900px) 100vw, 2200px"><figcaption><b data-i18n="me">Engraving</b><span data-i18n="meT">Cut into the inside of the shank, opposite the head.</span></figcaption></figure>
-  </div>
-</section>
-
-<section id="compare">
-  <h2 data-i18n="cmpT">Side by side</h2>
-  <p class="lead" data-i18n="cmpL">Left: the current product renders. Right: this study, at a matching angle and on the same white background.</p>
-  <div id="vs"></div>
-  <table class="score" id="score">
-    <thead><tr><th data-i18n="c1">Criterion</th><th data-i18n="c2">Result</th><th data-i18n="c3">Why</th></tr></thead>
-    <tbody></tbody>
-  </table>
-</section>
-
-<footer>Concept Weskale Studio</footer>
-
-<script src="site/data.js"></script>
-<script>
-(function(){
-  "use strict";
-  var N = 72;
-  var I18N = {
-    en:{brand:"3D study · private preview",drag:"Drag to rotate in any direction",viewerAria:"Real-time 3D view of the ring: drag to rotate it in any direction",viewsAria:"Views",v_face:"Front",v_profil:"Profile",v_dessus:"Top",
-      kicker:"4.50 ctw · Round brilliant · F VS1",title:"Six-prong micropavé, petite",
-      intro:"A procedural 3D rebuild of the ring. The viewer renders it live in your browser; the close-ups below are rendered in Blender 5.2 with Cycles. Every stone is a 57-facet round brilliant with spectral dispersion; every bead, scallop and the engraving inside the shank is modelled, not painted.",
-      m_blanc:"14K white",m_jaune:"14K yellow",m_rose:"14K rose",m_platine:"Platinum",
-      s_center:"Centre stone",s_center_v:"Round brilliant, 57 facets, table 56 %, crown 34.5°, pavilion 40.75°",
-      s_head:"Head",s_head_v:"6 tulip blades, 6 micropavé stones each, drop-shaped tips",
-      s_band:"Shank",s_band_v:"32 graduated U-cut stones, 1.55 → 1.15 mm, hook prongs",
-      s_view:"Viewer",s_view_v:"Real-time 3D, free rotation in every direction, no watermark",
-      macroT:"Up close",macroL:"Macro renders at 2200 px. This is the scale where a jeweller judges a setting: bead by bead, scallop by scallop.",
-      mg:"Prongs",mgT:"Drop-shaped claw tips folding over the crown, with a soft central ridge.",
-      mp:"Micropavé blades",mpT:"Six 1.0 mm brilliants per blade, held by shared beads on both edges.",
-      ma:"U-cut shank",maT:"A clean scallop under every stone; light enters each pavilion from the side.",
-      me:"Engraving",meT:"Cut into the inside of the shank, opposite the head.",
-      cmpT:"Side by side",cmpL:"Left: the current product renders. Right: this study, at a matching angle and on the same white background.",
-      c1:"Criterion",c2:"Result",c3:"Why",theirs:"Current render",ours:"This study",
-      win:"Win",tie:"Tie",loss:"Loss"},
-    fr:{brand:"Étude 3D · aperçu privé",drag:"Glissez pour tourner dans tous les sens",viewerAria:"Vue 3D en temps réel de la bague : faites glisser pour la tourner dans tous les sens",viewsAria:"Vues",v_face:"Face",v_profil:"Profil",v_dessus:"Dessus",
-      kicker:"4,50 ct au total · Rond brillant · F VS1",title:"Six griffes micropavé, petite",
-      intro:"Reconstruction 3D procédurale de la bague. La visionneuse la calcule en direct dans votre navigateur ; les gros plans ci-dessous sont rendus dans Blender 5.2 avec Cycles. Chaque pierre est un rond brillant de 57 facettes avec dispersion spectrale ; chaque grain, chaque feston et la gravure intérieure sont modélisés, pas peints.",
-      m_blanc:"Or blanc 14K",m_jaune:"Or jaune 14K",m_rose:"Or rose 14K",m_platine:"Platine",
-      s_center:"Pierre centrale",s_center_v:"Rond brillant, 57 facettes, table 56 %, couronne 34,5°, pavillon 40,75°",
-      s_head:"Tête",s_head_v:"6 lames tulipe, 6 pierres de micropavé chacune, bouts en goutte",
-      s_band:"Anneau",s_band_v:"32 pierres graduées serties en U, 1,55 → 1,15 mm, griffes en crochet",
-      s_view:"Visionneuse",s_view_v:"3D en temps réel, rotation libre dans tous les sens, sans filigrane",
-      macroT:"De près",macroL:"Rendus macro en 2200 px. C'est l'échelle à laquelle un joaillier juge un serti : grain par grain, feston par feston.",
-      mg:"Griffes",mgT:"Bouts de griffes en goutte rabattus sur la couronne, avec une arête centrale douce.",
-      mp:"Lames micropavé",mpT:"Six brillants de 1,0 mm par lame, tenus par des grains partagés sur les deux bords.",
-      ma:"Anneau serti en U",maT:"Un feston net sous chaque pierre ; la lumière entre par le côté dans chaque pavillon.",
-      me:"Gravure",meT:"Gravée à l'intérieur de l'anneau, à l'opposé de la tête.",
-      cmpT:"Côte à côte",cmpL:"À gauche : les rendus produit actuels. À droite : cette étude, au même angle et sur le même fond blanc.",
-      c1:"Critère",c2:"Résultat",c3:"Pourquoi",theirs:"Rendu actuel",ours:"Cette étude",
-      win:"Gagné",tie:"Égalité",loss:"Perdu"}
-  };
-  var lang = /[?&]lang=fr\b/.test(location.search) ? "fr" : "en";
-  var T = I18N[lang];
-  document.documentElement.lang = lang;
-  document.title = lang === "fr" ? "Bague six griffes micropavé · étude 3D" : "Six-Prong Micropavé Ring · 3D Study";
-  Array.prototype.forEach.call(document.querySelectorAll("[data-i18n]"), function(el){ var k = el.getAttribute("data-i18n"); if (T[k]) el.textContent = T[k]; });
-  Array.prototype.forEach.call(document.querySelectorAll("[data-i18n-aria]"), function(el){ el.setAttribute("aria-label", T[el.getAttribute("data-i18n-aria")]); });
-  Array.prototype.forEach.call(document.querySelectorAll(".lang a"), function(a){ if (a.getAttribute("data-l") === lang) a.className = "on"; });
-
-  // ---------------- visionneuse 3D (site/viewer.js, module) : choix du metal
-  window.LIORI_METAL = "blanc";
-  Array.prototype.forEach.call(document.querySelectorAll("#metals button"), function(b){
-    b.addEventListener("click", function(){
-      Array.prototype.forEach.call(document.querySelectorAll("#metals button"), function(o){ o.setAttribute("aria-pressed", String(o === b)); });
-      window.LIORI_METAL = b.getAttribute("data-m");
-      document.dispatchEvent(new CustomEvent("liori:metal", { detail: window.LIORI_METAL }));
-    });
-  });
-
-  // ---------------- comparaison + tableau (donnees ecrites a la fin du travail, cf. controle/RAPPORT.md)
-  var PAIRS = window.LIORI_PAIRS || [];
-  var vs = document.getElementById("vs");
-  PAIRS.forEach(function(p){
-    var row = document.createElement("div"); row.className = "vs";
-    row.innerHTML = '<figure><img loading="lazy" alt="" src="' + p.a + '"><figcaption><b>' + T.theirs + '</b> · ' + p.na + '</figcaption></figure>' +
-                    '<figure><img loading="lazy" alt="" src="' + p.b + '" srcset="' + p.b + ' 1080w, ' + p.b2 + ' 1600w" sizes="(max-width:900px) 100vw, 1600px"><figcaption><b>' + T.ours + '</b> · ' + p.nb + '</figcaption></figure>';
-    vs.appendChild(row);
-  });
-  var SCORE = window.LIORI_SCORE || [];
-  var tb = document.querySelector("#score tbody");
-  SCORE.forEach(function(r){
-    var tr = document.createElement("tr");
-    tr.innerHTML = "<td>" + r[lang][0] + "</td><td class='" + r.v + "'>" + T[r.v] + "</td><td>" + r[lang][1] + "</td>";
-    tb.appendChild(tr);
-  });
-})();
-</script>
+<main class="stage" id="viewer">
+  <canvas id="ring3d" tabindex="0" role="img" aria-label="Real-time 3D view of the ring: drag to rotate it in any direction" data-i18n-aria="viewerAria"></canvas>
+  <img id="still" src="references/render-1.jpg" alt="Six-prong micropavé, petite" data-i18n-alt="title" draggable="false" fetchpriority="high">
+  <div class="load" id="load"></div>
+  <header class="top">
+    <h1 class="title" data-i18n="title">Six-prong micropavé, petite</h1>
+  </header>
+  <p class="hint" id="hint" data-i18n="drag">Drag to rotate in any direction</p>
+  <nav class="views" id="views" aria-label="Views" data-i18n-aria="viewsAria">
+    <button type="button" data-v="front" aria-pressed="true" data-i18n="v_front">Front</button>
+    <button type="button" data-v="profile" aria-pressed="false" data-i18n="v_profile">Profile</button>
+    <button type="button" data-v="top" aria-pressed="false" data-i18n="v_top">Top</button>
+  </nav>
+  <p class="credit">Concept Weskale Studio</p>
+</main>
 <script type="module">
-import { createViewer } from "./site/build/viewer.js";   // construit depuis site/viewer.js et site/pathtrace.js (site/build/construire.mjs)
-var root = document.getElementById("viewer"), bar = document.getElementById("load"), hint = document.getElementById("hint"), views = document.getElementById("views");
+import { createViewer } from "./site/build/viewer.js";   // construit depuis site/viewer.js (site/build/construire.mjs)
+var I18N = {
+  en: { title: "Six-prong micropavé, petite", drag: "Drag to rotate in any direction", viewerAria: "Real-time 3D view of the ring: drag to rotate it in any direction", viewsAria: "Views", v_front: "Front", v_profile: "Profile", v_top: "Top" },
+  fr: { title: "Six griffes micropavé, petite", drag: "Glissez pour tourner dans tous les sens", viewerAria: "Vue 3D en temps réel de la bague : faites glisser pour la tourner dans tous les sens", viewsAria: "Vues", v_front: "Face", v_profile: "Profil", v_top: "Dessus" }
+};
+var lang = "en", T = I18N[lang];
+document.documentElement.lang = lang;
+document.title = T.title;
+document.querySelectorAll("[data-i18n]").forEach(function(el){ el.textContent = T[el.getAttribute("data-i18n")]; });
+document.querySelectorAll("[data-i18n-aria]").forEach(function(el){ el.setAttribute("aria-label", T[el.getAttribute("data-i18n-aria")]); });
+document.querySelectorAll("[data-i18n-alt]").forEach(function(el){ el.setAttribute("alt", T[el.getAttribute("data-i18n-alt")]); });
+document.querySelectorAll(".lang a").forEach(function(a){ if (a.getAttribute("data-l") === lang) a.className = "on"; });
+
+var FILL = 0.84;                       // part du petit cote de la fenetre occupee par le cadre de la photo
+var canvas = document.getElementById("ring3d"), still = document.getElementById("still");
+var bar = document.getElementById("load"), hint = document.getElementById("hint"), views = document.getElementById("views");
+function placeStill(){                 // meme cadre que la camera 3D : carre centre, cote = FILL x petit cote
+  var w = canvas.clientWidth, h = canvas.clientHeight, s = FILL * Math.min(w, h);
+  still.style.width = s + "px"; still.style.height = s + "px";
+  still.style.left = (w - s) / 2 + "px"; still.style.top = (h - s) / 2 + "px";
+}
+placeStill();
+new ResizeObserver(placeStill).observe(canvas);
 var viewer = createViewer({
-  canvas: document.getElementById("ring3d"),
-  overlay: document.getElementById("still"),
-  pathTracing: /[?&]pt=1\b/.test(location.search),   // path tracing WebGPU a l'arret : en essai, desactive par defaut
+  canvas: canvas, overlay: still, fill: FILL,
   onProgress: function(p){ bar.style.width = Math.round(100 * p) + "%"; },
-  onReady: function(){ root.classList.add("ready"); views.hidden = false; bar.style.opacity = 0; },
+  onReady: function(){ bar.style.opacity = 0; },
   onError: function(){ bar.style.opacity = 0; hint.style.opacity = 0; },
   onFirstInteraction: function(){ hint.style.opacity = 0; },
-  onViewChange: function(v){ Array.prototype.forEach.call(views.querySelectorAll("button"), function(o){ o.setAttribute("aria-pressed", String(o.getAttribute("data-v") === v)); }); }
+  onViewChange: function(v){ views.querySelectorAll("button").forEach(function(o){ o.setAttribute("aria-pressed", String(o.getAttribute("data-v") === v)); }); }
 });
-if (viewer) {
-  viewer.setMetal(window.LIORI_METAL || "blanc");
-  document.addEventListener("liori:metal", function(e){ viewer.setMetal(e.detail); });
-  Array.prototype.forEach.call(views.querySelectorAll("button"), function(b){
-    b.addEventListener("click", function(){
-      viewer.setView(b.getAttribute("data-v"));
-    });
-  });
-}
+if (viewer) views.querySelectorAll("button").forEach(function(b){ b.addEventListener("click", function(){ viewer.setView(b.getAttribute("data-v")); }); });
 </script>
 </body>
 </html>
