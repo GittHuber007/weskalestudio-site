@@ -14,26 +14,30 @@
   --sans:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Segoe UI",Arial,sans-serif;
 }
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:var(--bg);color:var(--ink)}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);transition:background-color .35s ease,color .35s ease}
+html.noir{--bg:#000000;--ink:#ededf0;--muted:#8d8d96;--line:rgba(237,237,240,.25)}
 body{font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden}
-.stage{position:fixed;inset:0;background:var(--bg)}
+.stage{position:fixed;inset:0;background:var(--bg);transition:background-color .35s ease}
 #ring3d{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none;cursor:grab;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 #ring3d.is-drag{cursor:grabbing}
 #ring3d:focus-visible{box-shadow:inset 0 0 0 2px var(--line)}
 /* photo du site Liori, telle quelle, posee exactement sur la vue 3D (placement calcule par le script) */
 #still{position:absolute;display:block;pointer-events:none;user-select:none;-webkit-user-drag:none;z-index:1}
+/* bords fondus dans le blanc de la page (l'image de la video a un fond gris) ; l'image n'est pas retouchee */
+#still{-webkit-mask-image:linear-gradient(to right,transparent 0,#000 7%,#000 93%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 7%,#000 93%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent 0,#000 7%,#000 93%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 7%,#000 93%,transparent 100%);mask-composite:intersect}
 canvas.pt{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0;z-index:0}
 .top{position:absolute;top:0;left:0;right:0;z-index:2;display:flex;justify-content:space-between;align-items:baseline;padding:calc(22px + env(safe-area-inset-top)) clamp(20px,4vw,48px) 0;pointer-events:none}
 .title{margin:0;font-family:var(--serif);font-weight:400;font-size:clamp(22px,2.6vw,34px);letter-spacing:.01em;line-height:1.15}
-.lang{pointer-events:auto;display:flex;gap:6px;align-items:center;color:var(--muted);font-size:12px;letter-spacing:.12em}
-.lang a{color:inherit;text-decoration:none;padding:6px 2px}
-.lang a.on{color:var(--ink)}
+.mode{pointer-events:auto;display:flex;gap:clamp(12px,2vw,22px);font-size:12px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}
+.mode button{font:inherit;color:var(--muted);background:none;border:0;cursor:pointer;padding:6px 0;border-bottom:1px solid transparent;transition:color .3s,border-color .3s}
+.mode button[aria-pressed=true]{color:var(--ink);border-bottom-color:var(--ink)}
+.mode button:hover{color:var(--ink)}
 .hint{position:absolute;left:0;right:0;z-index:2;bottom:calc(92px + env(safe-area-inset-bottom));margin:0;text-align:center;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);transition:opacity .8s ease;pointer-events:none}
 .views{position:absolute;z-index:2;left:50%;transform:translateX(-50%);bottom:calc(34px + env(safe-area-inset-bottom));display:flex;gap:clamp(14px,3vw,34px);font-size:12px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}
 .views button{font:inherit;color:var(--muted);background:none;border:0;cursor:pointer;padding:10px 0;border-bottom:1px solid transparent;transition:color .3s,border-color .3s}
 .views button[aria-pressed=true]{color:var(--ink);border-bottom-color:var(--ink)}
 .views button:hover{color:var(--ink)}
-.lang a:focus-visible,.views button:focus-visible{outline:1px solid var(--ink);outline-offset:3px}
+.mode button:focus-visible,.views button:focus-visible{outline:1px solid var(--ink);outline-offset:3px}
 .credit{position:absolute;z-index:2;right:clamp(20px,4vw,48px);bottom:calc(14px + env(safe-area-inset-bottom));margin:0;font-size:10px;letter-spacing:.14em;color:var(--muted);opacity:.8}
 .load{position:absolute;left:0;top:0;height:2px;background:var(--ink);width:0;z-index:3;transition:width .2s,opacity .4s}
 @media (max-width:560px){
@@ -51,6 +55,7 @@ canvas.pt{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;o
   <div class="load" id="load"></div>
   <header class="top">
     <h1 class="title" data-i18n="title">Six-prong micropavé, petite</h1>
+    <nav class="mode" id="mode" aria-label="Page"><button type="button" data-m="blanc" aria-pressed="true" data-i18n="m_white">White</button><button type="button" data-m="noir" aria-pressed="false" data-i18n="m_black">Black</button></nav>
   </header>
   <p class="hint" id="hint" data-i18n="drag">Drag to rotate in any direction</p>
   <nav class="views" id="views" aria-label="Views" data-i18n-aria="viewsAria">
@@ -63,8 +68,8 @@ canvas.pt{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;o
 <script type="module">
 import { createViewer } from "./site/build/viewer.js";   // construit depuis site/viewer.js (site/build/construire.mjs)
 var I18N = {
-  en: { title: "Six-prong micropavé, petite", drag: "Drag to rotate in any direction", viewerAria: "Real-time 3D view of the ring: drag to rotate it in any direction", viewsAria: "Views", v_front: "Front", v_profile: "Profile", v_top: "Top" },
-  fr: { title: "Six griffes micropavé, petite", drag: "Glissez pour tourner dans tous les sens", viewerAria: "Vue 3D en temps réel de la bague : faites glisser pour la tourner dans tous les sens", viewsAria: "Vues", v_front: "Face", v_profile: "Profil", v_top: "Dessus" }
+  en: { m_white: "White", m_black: "Black", title: "Six-prong micropavé, petite", drag: "Drag to rotate in any direction", viewerAria: "Real-time 3D view of the ring: drag to rotate it in any direction", viewsAria: "Views", v_front: "Front", v_profile: "Profile", v_top: "Top" },
+  fr: { m_white: "Blanc", m_black: "Noir", title: "Six griffes micropavé, petite", drag: "Glissez pour tourner dans tous les sens", viewerAria: "Vue 3D en temps réel de la bague : faites glisser pour la tourner dans tous les sens", viewsAria: "Vues", v_front: "Face", v_profile: "Profil", v_top: "Dessus" }
 };
 var lang = "en", T = I18N[lang];
 document.documentElement.lang = lang;
@@ -72,7 +77,6 @@ document.title = T.title;
 document.querySelectorAll("[data-i18n]").forEach(function(el){ el.textContent = T[el.getAttribute("data-i18n")]; });
 document.querySelectorAll("[data-i18n-aria]").forEach(function(el){ el.setAttribute("aria-label", T[el.getAttribute("data-i18n-aria")]); });
 document.querySelectorAll("[data-i18n-alt]").forEach(function(el){ el.setAttribute("alt", T[el.getAttribute("data-i18n-alt")]); });
-document.querySelectorAll(".lang a").forEach(function(a){ if (a.getAttribute("data-l") === lang) a.className = "on"; });
 
 var FILL = 0.84;                       // part du petit cote de la fenetre occupee par le cadre de la photo
 var canvas = document.getElementById("ring3d"), still = document.getElementById("still");
@@ -93,6 +97,17 @@ var viewer = createViewer({
   onViewChange: function(v){ views.querySelectorAll("button").forEach(function(o){ o.setAttribute("aria-pressed", String(o.getAttribute("data-v") === v)); }); }
 });
 if (viewer) views.querySelectorAll("button").forEach(function(b){ b.addEventListener("click", function(){ viewer.setView(b.getAttribute("data-v")); }); });
+// page blanche (par defaut, avec les photos du site) ou noire (3D seule : les photos ont un fond clair)
+var modeNav = document.getElementById("mode");
+modeNav.querySelectorAll("button").forEach(function(b){
+  b.addEventListener("click", function(){
+    var noir = b.getAttribute("data-m") === "noir";
+    modeNav.querySelectorAll("button").forEach(function(o){ o.setAttribute("aria-pressed", String(o === b)); });
+    document.documentElement.classList.toggle("noir", noir);
+    document.querySelector('meta[name="theme-color"]').setAttribute("content", noir ? "#000000" : "#ffffff");
+    if (viewer) viewer.setPhotos(!noir);
+  });
+});
 </script>
 </body>
 </html>

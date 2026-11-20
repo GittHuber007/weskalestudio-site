@@ -66,7 +66,13 @@ export const PHOTOS = {
     src: 'references/render-1.jpg', dir: [0, 0.36, 0.933], roll: 180, target: [0, 0.6, 11.2], frame: 19.6,
     fit: { yaw: -0.875, pitch: -2.625, roll: -0.0625, zoom: 1.0394, sx: 0.1875, sy: -0.3375 },
   },
-  // Profile : references/render-3.jpg (camera "face" de render.py)
+  // Profile : image de la video produit Liori a 3,3 s (references/profil-video-3s3.jpg, 720 px, fond gris)
+  video: {
+    src: 'references/profil-video-3s3.jpg', dir: [0, -0.9613, 0.2756], roll: 0, target: [0, 0, 4.6], frame: 33,
+    // controle/photo-site/ajuste.js video (balayage puis descente) : IoU des silhouettes 0,640 -> 0,815
+    fit: { yaw: 57.9375, pitch: -6.75, roll: 83.0625, zoom: 0.8, sx: 1.5938, sy: 0.375 },
+  },
+  // Top : references/render-3.jpg (camera "face" de render.py)
   profile: {
     src: 'references/render-3.jpg', dir: [0, -0.985, 0.17], roll: 0, target: [0, 0, 4.5], frame: 29.5,
     // controle/photo-site/ajuste.js profile render-3.jpg : IoU des silhouettes 0,899 -> 0,955
@@ -327,7 +333,7 @@ export function createViewer({ canvas, overlay = null, base = '', fill = 1, path
 
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const HOME = photoPose(null, 'front');
-  const POSES = { front: HOME, profile: photoPose(null, 'profile'), top: { q: VIEWS.top.clone(), zoom: 1.25, target: new THREE.Vector3() } };
+  const POSES = { front: HOME, profile: photoPose(null, 'video'), top: photoPose(null, 'profile') };
   const state = {
     q: HOME.q.clone(),
     target: HOME.target.clone(),          // point vise par la camera (le pivot, ou le cadrage de la photo)
@@ -343,7 +349,7 @@ export function createViewer({ canvas, overlay = null, base = '', fill = 1, path
     frame: 0,
   };
   pivot.quaternion.copy(state.q);
-  let last = 0, frames = 0, token = 0, homeDelay = HOME_DELAY;
+  let last = 0, frames = 0, token = 0, homeDelay = HOME_DELAY, photosOn = true;
   const frameTimes = [];
   const stats = { ptBuildMs: null, ptCompileMs: null, ptConvergeMs: null, ptMsPerSample: null, ptAbort: null, cyclesShown: 0 };
   function setMode(m) { if (state.mode !== m) { state.mode = m; onMode(m); } }
@@ -555,8 +561,9 @@ export function createViewer({ canvas, overlay = null, base = '', fill = 1, path
   function decideRest() {
     if (state.mode !== 'direct' || isMoving() || !ringRoot) return;
     if (dpr !== DPR_MAX) { scheduleRest(); return; }
-    if (overlay && atPhotoPose()) { showPhoto('front'); return; }
-    if (overlay && atPose(POSES.profile)) { showPhoto('profile'); return; }
+    if (overlay && photosOn && atPhotoPose()) { showPhoto('front'); return; }
+    if (overlay && photosOn && atPose(POSES.profile)) { showPhoto('video'); return; }
+    if (overlay && photosOn && atPose(POSES.top)) { showPhoto('profile'); return; }
     const up = Y.clone().applyQuaternion(state.q);
     const tilt = up.angleTo(Y);
     if (overlay && cyclesFrames && tilt < SNAP_TILT && Math.abs(state.zoom - 1) < 0.02 && state.target.lengthSq() < 1e-6) {
@@ -802,6 +809,19 @@ export function createViewer({ canvas, overlay = null, base = '', fill = 1, path
     state.tween = { t: 0, dur: 0.95, from: state.q.clone(), to: P.q.clone(), z0: state.zoom, z1: P.zoom, p0: state.target.clone(), p1: P.target.clone() };
     invalidate();
   }
+  // page noire : les photos (fond blanc ou gris) ne s'affichent plus, seule la 3D reste, sur les memes poses
+  function setPhotos(on) {
+    photosOn = !!on;
+    if (!photosOn && overlay) {
+      token++;
+      overlay.style.transition = reduceMotion ? 'none' : 'opacity 300ms linear';
+      overlay.style.opacity = '0';
+      if (state.mode === 'photo') setMode('repos');
+    } else if (photosOn && (state.mode === 'repos' || state.mode === 'direct') && !isMoving()) {
+      setMode('direct');
+      scheduleRest();
+    }
+  }
   function setMetal(m) {
     if (m === currentMetal) return;
     userGesture(null, true);
@@ -812,6 +832,7 @@ export function createViewer({ canvas, overlay = null, base = '', fill = 1, path
   const api = {
     setMetal,
     setView,
+    setPhotos,
     // controles automatises (captures de verification)
     debug: {
       THREE, renderer, scene, camera, state, VIEWS, stats,
