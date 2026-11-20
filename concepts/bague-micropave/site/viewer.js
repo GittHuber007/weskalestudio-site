@@ -16,7 +16,7 @@ const DRACO_PATH = 'site/vendor/three/examples/jsm/libs/draco/gltf/';
 
 // couleurs de base lineaires et rugosite : memes valeurs que blender/render.py
 export const METALS = {
-  blanc: { base: [0.870, 0.872, 0.880], rough: 0.030 },
+  blanc: { base: [0.790, 0.820, 0.885], rough: 0.020 },   // or blanc rhodie : argent froid (photo Liori)
   platine: { base: [0.700, 0.690, 0.665], rough: 0.045 },
   jaune: { base: [0.960, 0.700, 0.390], rough: 0.035 },
   rose: { base: [0.950, 0.610, 0.505], rough: 0.035 },
@@ -57,6 +57,29 @@ function fromCycles(dirB, rollDeg = 0, headAngDeg = null) {
   return new THREE.Quaternion().setFromRotationMatrix(Bm.multiply(Bc.transpose()));
 }
 const qa = (axis, deg) => new THREE.Quaternion().setFromAxisAngle(axis, THREE.MathUtils.degToRad(deg));
+// Pose de la photo produit du site Liori (references/render-1.jpg, 1100 px) : point de depart de la camera Cycles
+// "dessus" de render.py (direction, roulis 180, cible, cadre de 19,6 mm), puis ajustement fin par superposition
+// des silhouettes (controle/photo-site/ajuste.js) : petites rotations (degres), zoom, decalage de cadre (mm).
+export const PHOTO = {
+  src: 'references/render-1.jpg',
+  dir: [0, 0.36, 0.933], roll: 180, target: [0, 0.6, 11.2], frame: 19.6,
+  // controle/photo-site/ajuste.js : IoU des silhouettes 0,904 avant ajustement, 0,936 apres
+  fit: { yaw: -0.875, pitch: -2.625, roll: -0.0625, zoom: 1.0394, sx: 0.1875, sy: -0.3375 },
+};
+export function photoPose(fit = PHOTO.fit) {
+  const q = fromCycles(PHOTO.dir, PHOTO.roll);
+  q.premultiply(qa(Y, fit.yaw)).premultiply(qa(X, fit.pitch)).premultiply(qa(CAM_DIR, fit.roll));
+  const t = new THREE.Vector3(PHOTO.target[0], PHOTO.target[2] - PIVOT_Z, -PHOTO.target[1]).applyQuaternion(q);
+  const up = Y.clone().sub(CAM_DIR.clone().multiplyScalar(CAM_DIR.y)).normalize();
+  t.addScaledVector(X, fit.sx).addScaledVector(up, fit.sy);
+  // la composante de la cible le long de l'axe de visee est reportee sur la distance (camera identique) : la cible
+  // reste dans le plan du pivot, et le recentrage pendant l'interaction ne fait que glisser l'image, sans changer sa taille
+  const K = (FRAME_MM / 2) / Math.tan(THREE.MathUtils.degToRad(VFOV / 2));
+  const zoom = FRAME_MM / PHOTO.frame * fit.zoom;
+  const d = t.dot(CAM_DIR);
+  t.addScaledVector(CAM_DIR, -d);
+  return { q, zoom: K / (K / zoom + d), target: t };
+}
 export const VIEWS = {
   face: new THREE.Quaternion(),                                        // axe du doigt vers l'objectif (turntable, rendu 3)
   profil: qa(Y, 90),                                                   // de cote : la tete et les lames de profil
@@ -271,7 +294,7 @@ const PT_TARGET = 128;            // echantillons par pixel (minimum sur l'image
 const PT_SHOW = 8;                // premier affichage, en fondu
 const PT_MAX_SECONDS = 90;        // au-dela (estime apres 4 s de rendu), l'appareil est juge trop lent
 
-export function createViewer({ canvas, overlay = null, base = '', pathTracing = false, onProgress = () => {}, onReady = () => {}, onError = () => {}, onFirstInteraction = () => {}, onViewChange = () => {}, onMode = () => {} }) {
+export function createViewer({ canvas, overlay = null, base = '', pathTracing = false, cyclesFrames = false, shadow: withShadow = false, onProgress = () => {}, onReady = () => {}, onError = () => {}, onFirstInteraction = () => {}, onViewChange = () => {}, onMode = () => {} }) {
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
@@ -292,17 +315,19 @@ export function createViewer({ canvas, overlay = null, base = '', pathTracing = 
   scene.add(pivot);
 
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const HOME = photoPose();
   const state = {
-    q: VIEWS.face.clone(),
+    q: HOME.q.clone(),
+    target: HOME.target.clone(),          // point vise par la camera (le pivot, ou le cadrage de la photo)
     vel: new THREE.Vector2(),          // vitesse angulaire (rad/s) : x autour de la verticale, y autour de l'horizontale
-    zoom: 1,
+    zoom: HOME.zoom,
     tween: null,
     dirty: true,
     shadowDirty: true,
     raf: 0,
     interacted: false,
     dragging: false,
-    mode: overlay ? 'cycles' : 'direct',   // l'image Cycles 0 (or blanc) est deja affichee par la page
+    mode: overlay ? 'photo' : 'direct',    // la photo du site est deja affichee par la page
     frame: 0,
   };
   pivot.quaternion.copy(state.q);
@@ -343,12 +368,14 @@ export function createViewer({ canvas, overlay = null, base = '', pathTracing = 
   const loadJSON = () => fetch(base + ASSETS + 'pierres.json').then((r) => { if (!r.ok) throw new Error('pierres.json ' + r.status); return r.json(); });
 
   let shadow = null, ringRoot = null, envData = null;
-  Promise.all([loadGLB(), loadEXR(base + ASSETS + 'studio-metal.exr'), loadEXR(base + ASSETS + 'studio-diamant.exr'), loadJSON()])
-    .then(([gltf, texMetal, texDiam, stones]) => {
+  Promise.all([loadGLB(), loadEXR(base + ASSETS + 'studio-metal.exr'), loadEXR(base + ASSETS + 'studio-diamant.exr'), loadJSON(), loadEXR(base + ASSETS + 'studio-argent.exr')])
+    .then(([gltf, texMetal, texDiam, stones, texArgent]) => {
       // studio du metal : prefiltre (PMREM) ; les donnees equirect restent pour le path tracing
       texMetal.mapping = THREE.EquirectangularReflectionMapping;
       const pmrem = new THREE.PMREMGenerator(renderer);
-      const envMetal = pmrem.fromEquirectangular(texMetal).texture;
+      // metal temps reel : studio argent (blender/studio_argent.py), reflets sombres et bandes nettes comme la photo Liori
+      texArgent.mapping = THREE.EquirectangularReflectionMapping;
+      const envMetal = pmrem.fromEquirectangular(texArgent).texture;
       pmrem.dispose();
       metal.envMap = envMetal;
       engraving.envMap = envMetal;
@@ -376,8 +403,10 @@ export function createViewer({ canvas, overlay = null, base = '', pathTracing = 
       root.position.y = -PIVOT_Z;
       pivot.add(root);
       ringRoot = root;
-      shadow = contactShadow(renderer, pivot);
-      scene.add(shadow.plane);
+      if (withShadow) {                       // le studio blanc de la photo n'a pas d'ombre portee visible
+        shadow = contactShadow(renderer, pivot);
+        scene.add(shadow.plane);
+      }
       progress.glb = 1; progress.env = 1; report();
       state.shadowDirty = true;
       renderer.compile(scene, camera);         // compilation des shaders avant la premiere image
@@ -401,8 +430,8 @@ export function createViewer({ canvas, overlay = null, base = '', pathTracing = 
   function placeCamera() {
     const half = FRAME_MM / 2;
     const dist = half / Math.tan(THREE.MathUtils.degToRad(VFOV / 2)) / Math.min(1, camera.aspect) / state.zoom;
-    camera.position.copy(CAM_DIR).multiplyScalar(dist);
-    camera.lookAt(0, 0, 0);
+    camera.position.copy(state.target).addScaledVector(CAM_DIR, dist);
+    camera.lookAt(state.target);
   }
   new ResizeObserver(resize).observe(canvas);
 
@@ -431,21 +460,35 @@ export function createViewer({ canvas, overlay = null, base = '', pathTracing = 
     let moving = false;
     if (state.tween) {
       const tw = state.tween;
-      tw.t = Math.min(1, tw.t + dt / tw.dur);
+      if (tw.start === undefined) tw.start = now;
+      tw.t = Math.min(1, (now - tw.start) / 1000 / tw.dur);   // duree reelle, meme si les images sont lentes
       state.q.slerpQuaternions(tw.from, tw.to, ease(tw.t));
       state.zoom = tw.z0 + (tw.z1 - tw.z0) * ease(tw.t);
+      state.target.lerpVectors(tw.p0 || state.target, tw.p1 || state.target, ease(tw.t));
       placeCamera();
-      if (tw.t >= 1) { state.q.copy(tw.to); state.zoom = tw.z1; placeCamera(); state.tween = null; }
+      if (tw.t >= 1) { state.q.copy(tw.to); state.zoom = tw.z1; if (tw.p1) state.target.copy(tw.p1); placeCamera(); state.tween = null; }
       state.shadowDirty = true;
       moving = true;
+    }
+    // hors de la pose photo, la camera revient doucement sur le pivot (rotation autour du centre de la bague)
+    if (!state.tween && (state.dragging || state.vel.lengthSq() > 1e-6) && state.target.lengthSq() > 1e-6) {
+      state.target.multiplyScalar(Math.exp(-dt * 2.5));
+      if (state.target.lengthSq() < 1e-4) state.target.set(0, 0, 0);
+      placeCamera();
+      moving = true;
+    }
+    if (state.tween) {
+      // deja traite
     } else if (!state.dragging && state.vel.lengthSq() > 1e-6) {
       rotateBy(state.vel.x * dt, state.vel.y * dt, 0);
       state.vel.multiplyScalar(Math.exp(-dt * 3.2));
       if (state.vel.lengthSq() < 4e-4) state.vel.set(0, 0);
       moving = true;
     }
-    if (moving) state.dirty = true;
+    if (moving || state.wasMoving) state.dirty = true;     // une derniere image complete a l'arret
+    state.wasMoving = moving;
     if (state.dirty) {
+      if (diamondC) { diamondC.uniforms.uBounces.value = moving ? 3 : 6; diamondP.uniforms.uBounces.value = moving ? 2 : 4; }
       pivot.quaternion.copy(state.q);
       pivot.updateMatrixWorld();
       if (shadow && state.shadowDirty) { shadow.update(); state.shadowDirty = false; }
@@ -467,8 +510,8 @@ export function createViewer({ canvas, overlay = null, base = '', pathTracing = 
   function adaptQuality(moving) {
     if (moving && frameTimes.length >= 2) {
       const gap = frameTimes[frameTimes.length - 1] - frameTimes[frameTimes.length - 2];
-      slowFrames = gap > 24 ? slowFrames + 1 : Math.max(0, slowFrames - 1);       // moins de ~42 images/s
-      if (frames > 20 && slowFrames > 8 && dpr > 1) { dpr = Math.max(1, dpr - 0.5); slowFrames = 0; resize(); }
+      slowFrames = gap > 60 ? slowFrames + 4 : gap > 24 ? slowFrames + 1 : Math.max(0, slowFrames - 1);   // moins de ~42 images/s
+      if (frames > 5 && slowFrames > 8 && dpr > 1) { dpr = Math.max(1, dpr - 0.5); slowFrames = 0; resize(); }
     }
     clearTimeout(dprTimer);
     if (dpr < DPR_MAX) {
@@ -486,18 +529,23 @@ export function createViewer({ canvas, overlay = null, base = '', pathTracing = 
   function leaveRest() {
     clearTimeout(restTimer);
     token++;
-    if (overlay) { overlay.style.transition = 'none'; overlay.style.opacity = '0'; }
+    if (overlay) {
+      overlay.style.transition = state.mode === 'photo' && !reduceMotion ? 'opacity 250ms linear' : 'none';
+      overlay.style.opacity = '0';
+    }
     hidePT();
     setMode('direct');
     invalidate();
   }
   const ttYaw = (f) => -TT_STEP * f;                            // image f du turntable : rotation de -5 f degres
+  const atPhotoPose = () => state.q.angleTo(HOME.q) < 1e-5 && Math.abs(state.zoom - HOME.zoom) < 1e-6 && state.target.distanceTo(HOME.target) < 1e-6;
   function decideRest() {
     if (state.mode !== 'direct' || isMoving() || !ringRoot) return;
     if (dpr !== DPR_MAX) { scheduleRest(); return; }
+    if (overlay && atPhotoPose()) { showPhoto(); return; }
     const up = Y.clone().applyQuaternion(state.q);
     const tilt = up.angleTo(Y);
-    if (overlay && tilt < SNAP_TILT && Math.abs(state.zoom - 1) < 0.02) {
+    if (overlay && cyclesFrames && tilt < SNAP_TILT && Math.abs(state.zoom - 1) < 0.02 && state.target.lengthSq() < 1e-6) {
       const fwd = Z.clone().applyQuaternion(state.q);
       const yaw = THREE.MathUtils.radToDeg(Math.atan2(fwd.x, fwd.z));
       const f = (((Math.round(-yaw / TT_STEP)) % TT_FRAMES) + TT_FRAMES) % TT_FRAMES;
@@ -505,7 +553,7 @@ export function createViewer({ canvas, overlay = null, base = '', pathTracing = 
       if (state.q.angleTo(target) > 1e-5 || state.zoom !== 1) {
         // calage doux sur l'angle du turntable
         const dur = reduceMotion ? 0.001 : 0.18 + 0.12 * Math.min(1, state.q.angleTo(target) / THREE.MathUtils.degToRad(6));
-        state.tween = { t: 0, dur, from: state.q.clone(), to: target, z0: state.zoom, z1: 1 };
+        state.tween = { t: 0, dur, from: state.q.clone(), to: target, z0: state.zoom, z1: 1, p0: state.target.clone(), p1: new THREE.Vector3() };
         invalidate();
         return;
       }
@@ -519,6 +567,25 @@ export function createViewer({ canvas, overlay = null, base = '', pathTracing = 
     const size = w > 1100 ? 1600 : 1080;
     return base + 'site/tt/' + currentMetal + '/' + size + '/' + String(f).padStart(3, '0') + '.webp';
   }
+  function showOverlay(url, mode) {
+    const tok = ++token;
+    setMode(mode);
+    const im = new Image();
+    im.src = url;
+    im.decode().then(() => {
+      if (tok !== token) return;
+      overlay.removeAttribute('srcset');
+      if (overlay.getAttribute('src') !== url || +getComputedStyle(overlay).opacity < 1) {
+        overlay.style.transition = 'none';
+        overlay.style.opacity = '0';
+        overlay.src = url;
+        void overlay.offsetWidth;
+        overlay.style.transition = reduceMotion ? 'none' : 'opacity 300ms linear';
+        overlay.style.opacity = '1';
+      }
+    }).catch(() => { if (tok === token) setMode('repos'); });
+  }
+  function showPhoto() { stats.photoShown = (stats.photoShown || 0) + 1; showOverlay(base + PHOTO.src, 'photo'); }
   function showCycles(f) {
     const tok = ++token;
     setMode('cycles');
@@ -616,13 +683,12 @@ export function createViewer({ canvas, overlay = null, base = '', pathTracing = 
   function armHome() { clearTimeout(homeTimer); homeTimer = setTimeout(goHome, homeDelay); }
   function goHome() {
     if (state.dragging) { armHome(); return; }
-    onViewChange('face');
-    const atHome = state.q.angleTo(VIEWS.face) < 1e-5 && state.zoom === 1;
-    if (atHome && state.mode !== 'direct') return;
+    onViewChange(null);
+    if (atPhotoPose() && state.mode !== 'direct') return;
     leaveRest();
     state.vel.set(0, 0);
-    if (atHome) return;
-    state.tween = { t: 0, dur: reduceMotion ? 0.001 : 1.0, from: state.q.clone(), to: VIEWS.face.clone(), z0: state.zoom, z1: 1 };
+    if (atPhotoPose()) return;
+    state.tween = { t: 0, dur: reduceMotion ? 0.001 : 1.0, from: state.q.clone(), to: HOME.q.clone(), z0: state.zoom, z1: HOME.zoom, p0: state.target.clone(), p1: HOME.target.clone() };
     invalidate();
   }
 
@@ -718,8 +784,8 @@ export function createViewer({ canvas, overlay = null, base = '', pathTracing = 
     if (!to) return;
     userGesture(name);
     state.vel.set(0, 0);
-    if (instant || reduceMotion) { state.q.copy(to); state.zoom = 1; placeCamera(); state.shadowDirty = true; invalidate(); return; }
-    state.tween = { t: 0, dur: 0.95, from: state.q.clone(), to: to.clone(), z0: state.zoom, z1: 1 };
+    if (instant || reduceMotion) { state.q.copy(to); state.zoom = 1; state.target.set(0, 0, 0); placeCamera(); state.shadowDirty = true; invalidate(); return; }
+    state.tween = { t: 0, dur: 0.95, from: state.q.clone(), to: to.clone(), z0: state.zoom, z1: 1, p0: state.target.clone(), p1: new THREE.Vector3() };
     invalidate();
   }
   function setMetal(m) {
@@ -741,6 +807,22 @@ export function createViewer({ canvas, overlay = null, base = '', pathTracing = 
       // pose figee sans repos automatique (captures du temps reel seul)
       hold: (on = true) => { if (on) { clearTimeout(homeTimer); token++; clearTimeout(restTimer); setMode('maintien'); if (overlay) { overlay.style.transition = 'none'; overlay.style.opacity = '0'; } state.dirty = true; invalidate(); } else { setMode('direct'); invalidate(); } },
       setHomeDelay: (ms) => { homeDelay = ms; },
+      setGems: (on) => { scene.traverse((o) => { if (o.isMesh && (o.material === diamondC || o.material === diamondP)) o.visible = on; }); invalidate(); },
+      HOME, photoPose,
+      // pose de la photo avec un ajustement donne, rendu immediat, masque alpha sous-echantillonne (pas = step px)
+      fitRender: (fit, step = 4) => {
+        const P = photoPose(fit);
+        state.q.copy(P.q); state.zoom = P.zoom; state.target.copy(P.target); placeCamera();
+        pivot.quaternion.copy(state.q); pivot.updateMatrixWorld();
+        renderer.render(scene, camera);
+        const gl = renderer.getContext(), w = gl.drawingBufferWidth, h = gl.drawingBufferHeight;
+        const px = new Uint8Array(w * h * 4);
+        gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, px);
+        const W = Math.floor(w / step), H = Math.floor(h / step), m = new Uint8Array(W * H);
+        for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) m[y * W + x] = px[((h - 1 - y * step) * w + x * step) * 4 + 3] > 127 ? 1 : 0;
+        return { W, H, m };
+      },
+      setHome: (fit) => { const P = photoPose(fit); HOME.q.copy(P.q); HOME.zoom = P.zoom; HOME.target.copy(P.target); },
       frames: () => frames,
       dpr: () => dpr,
       idle: () => !state.raf,

@@ -11,7 +11,9 @@ const MODEL_URL = 'assets/bracelet-bloom-serti.glb';
 const ENV_URL = 'assets/studio-cycles.hdr';
 const FLOOR_OCCLUSION = 0.85;
 
-/* Vue principale : le bracelet en 3D temps reel. La piece tourne librement (glisser horizontal, vertical,
+/* Vue principale : le bracelet en 3D temps reel pendant le mouvement ; a l'arret, l'image Cycles d'origine
+   quand la pose correspond a un angle deja rendu, sinon un rendu par lancer de rayons (js/pathtracer.js).
+   Vue en 3D temps reel : La piece tourne librement (glisser horizontal, vertical,
    rotation a deux doigts), la camera reste celle du packshot Cycles (107,6 mm, 19,5 degres au dessus),
    le studio reste fixe comme dans les images Cycles. Rendu seulement quand quelque chose bouge. */
 export function startViewer({ onProgress, onReady, onError }) {
@@ -210,8 +212,13 @@ export function startViewer({ onProgress, onReady, onError }) {
   const qAxis = (axis, deg) => new THREE.Quaternion().setFromAxisAngle(axis, THREE.MathUtils.degToRad(deg));
   // pose du packshot : posee a plat, legere bascule de 2,7 degres pour reposer sur 4 boules (comme dans Cycles)
   const BASE = qAxis(X, -2.7);
+  // Photo du site Kara.S (assets/photo-site-bloom.jpg, 1024 px, non retouchee) posee sur la 3D :
+  // taille et centre exprimes en fraction du carre de cadrage (memes unites que la camera), mesures par
+  // superposition des zones or de la photo et du rendu 3D (recouvrement maximal).
+  const PHOTO = { tiltDeg: 1, size: 1.031359, dx: -0.004115, dy: 0.021004 };
   const VIEWS = {
-    front: BASE.clone(),
+    // vue de depart : l'angle de la photo du site (recale par superposition : bascule +1 degre sur la pose Cycles)
+    front: qAxis(X, PHOTO.tiltDeg).multiply(BASE),
     side: qAxis(Y, 90).multiply(BASE),
     top: qAxis(X, 70.5).multiply(BASE),   // 70,5 + 19,5 = la camera regarde le dessus de face
   };
@@ -220,12 +227,24 @@ export function startViewer({ onProgress, onReady, onError }) {
   /* ------------------------------------------------------------------ cadrage (identique a la page precedente) */
   // L'image Cycles carree (19 degres de champ) occupait un carre de cote min(largeur / 0,9, hauteur x 1,3),
   // centre et remonte de 2 % de la hauteur. On reprend exactement la meme focale en pixels.
-  let cw = 1, ch = 1, focalPx = 1;
+  let cw = 1, ch = 1, focalPx = 1, squarePx = 1;
+  const stillEl = document.getElementById('still');
+  const photoEl = document.getElementById('photo');
   const SAFE = { top: 84, bottom: 128, side: 14 };
   function layout() {
     cw = canvas.clientWidth; ch = canvas.clientHeight;
     const square = Math.min(cw / 0.9, ch * 1.3);
     focalPx = square * LENS_RATIO;
+    squarePx = square;
+    Object.assign(stillEl.style, {
+      width: `${square}px`, height: `${square}px`,
+      left: `${(cw - square) / 2}px`, top: `${(ch - square) / 2 - 0.02 * ch}px`,
+    });
+    const ps = square * PHOTO.size;
+    Object.assign(photoEl.style, {
+      width: `${ps}px`, height: `${ps}px`,
+      left: `${cw / 2 + square * PHOTO.dx - ps / 2}px`, top: `${0.48 * ch + square * PHOTO.dy - ps / 2}px`,
+    });
     camera.fov = THREE.MathUtils.radToDeg(2 * Math.atan((ch / 2) / focalPx));
     camera.aspect = cw / ch;
     applyOffset();
@@ -294,7 +313,7 @@ export function startViewer({ onProgress, onReady, onError }) {
   }
 
   /* ------------------------------------------------------------------ ombre de contact (suit la rotation, reste au sol) */
-  const SH = { size: 150, height: 24, res: 256, darkness: 2.2, opacity: 0.92, blur: 1.5 };
+  const SH = { size: 150, height: 24, res: 256, darkness: 2.4, opacity: 0.95, blur: 1.5 };
   const shadowGroup = new THREE.Group();
   scene.add(shadowGroup);
   const rtShadow = new THREE.WebGLRenderTarget(SH.res, SH.res);
@@ -307,6 +326,9 @@ export function startViewer({ onProgress, onReady, onError }) {
   }));
   shadowPlane.renderOrder = -1;
   shadowPlane.scale.y = -1;
+  // l'ombre Cycles part un peu vers l'avant (sol eclaire surtout par le haut et l'arriere) : meme decalage,
+  // pour que le passage du temps reel a l'image Cycles ne fasse pas bouger l'ombre
+  shadowPlane.position.z = 4;
   shadowGroup.add(shadowPlane);
   const blurPlane = new THREE.Mesh(planeGeo);
   blurPlane.visible = false;
@@ -359,7 +381,7 @@ export function startViewer({ onProgress, onReady, onError }) {
   const omega = new THREE.Vector3();        // vitesse angulaire (rad/s) autour de X, Y, Z du monde
   const RAD_PER_PX = () => Math.PI / Math.max(360, Math.min(cw, ch) * 0.9);
   const pointers = new Map();
-  let dragging = false, lastT = 0, userZoom = 1, fitNow = 1, idleSince = performance.now(), autoSpeed = 0;
+  let dragging = false, lastT = 0, userZoom = 1, fitNow = 1;
   let tween = null, twoFinger = null, hintHidden = false;
 
   function hideHint() {
@@ -377,10 +399,22 @@ export function startViewer({ onProgress, onReady, onError }) {
     document.querySelectorAll('.views button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.view === name)));
   }
   function interrupt() {
-    tween = null; autoSpeed = 0; setPressed(null); hideHint();
+    tween = null; setPressed(null); hideHint(); leaveRest(); markGesture();
+  }
+  // 8 s apres le dernier geste (boutons de vue compris), la piece revient d'elle meme a la vue de depart
+  const HOME_DELAY = 8000;
+  let lastGesture = performance.now(), homeTimer = 0;
+  function markGesture() {
+    lastGesture = performance.now();
+    clearTimeout(homeTimer);
+    homeTimer = setTimeout(() => schedule(), HOME_DELAY + 20);
+  }
+  function atHome() {
+    return pivot.quaternion.angleTo(VIEWS.front) < 1e-4 && userZoom === 1 && pan.x === 0 && pan.y === 0;
   }
 
   canvas.addEventListener('pointerdown', (e) => {
+    if (!ready) return;                          // la photo reste tant que la 3D n'est pas prete
     try { canvas.setPointerCapture(e.pointerId); } catch (err) { /* pointeur deja relache */ }
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
     interrupt();
@@ -403,6 +437,7 @@ export function startViewer({ onProgress, onReady, onError }) {
       p.x = e.clientX; p.y = e.clientY;
       const k = RAD_PER_PX();
       rotateBy(dy * k, dx * k, 0);
+      markGesture();
       // vitesse lissee pour l'inertie au lacher
       omega.lerp(new THREE.Vector3(dy * k / dt, dx * k / dt, 0), 0.35);
     } else if (pointers.size === 2 && twoFinger) {
@@ -415,6 +450,7 @@ export function startViewer({ onProgress, onReady, onError }) {
       omega.lerp(new THREE.Vector3(0, 0, -da / dt), 0.35);
       if (twoFinger.dist > 0) zoomAt(g.dist / twoFinger.dist, g.cx, g.cy);
       twoFinger = g;
+      markGesture();
     }
     requestRender();
   });
@@ -422,11 +458,11 @@ export function startViewer({ onProgress, onReady, onError }) {
     if (!pointers.has(e.pointerId)) return;
     pointers.delete(e.pointerId);
     twoFinger = pointers.size === 2 ? gesture() : null;
+    markGesture();
     if (pointers.size === 0) {
       dragging = false;
       // pas d'elan si le doigt s'est arrete avant de lacher
       if (e.timeStamp - lastT > 80) omega.set(0, 0, 0);
-      idleSince = performance.now();
     }
     requestRender();
   };
@@ -434,11 +470,12 @@ export function startViewer({ onProgress, onReady, onError }) {
   canvas.addEventListener('pointercancel', endPointer);
   canvas.addEventListener('wheel', (e) => {
     e.preventDefault();
+    if (!ready) return;
     zoomAt(Math.exp(-e.deltaY * (e.deltaMode === 1 ? 0.05 : 0.0015)), e.clientX, e.clientY);
-    interrupt(); idleSince = performance.now();
+    interrupt();
     requestRender();
   }, { passive: false });
-  canvas.addEventListener('dblclick', () => { userZoom = 1; pan.x = pan.y = 0; requestRender(); });
+  canvas.addEventListener('dblclick', () => { leaveRest(); markGesture(); userZoom = 1; pan.x = pan.y = 0; requestRender(); });
   // zoom vers le point vise : ce qui est sous le curseur (ou entre les deux doigts) reste en place
   function zoomAt(factor, clientX, clientY) {
     const z1 = userZoom;
@@ -459,6 +496,7 @@ export function startViewer({ onProgress, onReady, onError }) {
     pan.y = THREE.MathUtils.clamp(pan.y, -my, my);
   }
   canvas.addEventListener('keydown', (e) => {
+    if (!ready) return;
     const s = Math.PI / 12;
     if (e.key === 'ArrowLeft') rotateBy(0, -s, 0);
     else if (e.key === 'ArrowRight') rotateBy(0, s, 0);
@@ -468,18 +506,17 @@ export function startViewer({ onProgress, onReady, onError }) {
     else if (e.key === '-') { userZoom = Math.max(1, userZoom / 1.15); clampPan(); }
     else return;
     e.preventDefault();
-    interrupt(); omega.set(0, 0, 0); idleSince = performance.now();
+    interrupt(); omega.set(0, 0, 0);
     requestRender();
   });
 
   function goTo(name) {
-    hideHint();
-    omega.set(0, 0, 0); autoSpeed = 0; userZoom = 1; pan.x = pan.y = 0;
+    hideHint(); leaveRest(); markGesture();
+    omega.set(0, 0, 0); userZoom = 1; pan.x = pan.y = 0;
     setPressed(name);
     const to = VIEWS[name];
     if (reduceMotion) { pivot.quaternion.copy(to); tween = null; requestRender(); return; }
     tween = { t: 0, dur: 1.1, from: pivot.quaternion.clone(), to };
-    idleSince = performance.now();
     requestRender();
   }
   document.querySelectorAll('.views button').forEach((b) => b.addEventListener('click', () => goTo(b.dataset.view)));
@@ -488,7 +525,10 @@ export function startViewer({ onProgress, onReady, onError }) {
   /* ------------------------------------------------------------------ boucle (rendu a la demande) */
   let ready = false, frameQueued = false, dirty = true, wakeTimer = 0, last = performance.now();
   let slowFrames = 0, measuredFrames = 0, frameIdx = 0, shadowStale = false, halfRateShadow = false;
-  const AUTO_DELAY = 6000, AUTO_SPEED = THREE.MathUtils.degToRad(12);   // rotation lente au repos, comme avant
+  // Pas de rotation automatique : a l'arret, la page montre le rendu final (image Cycles ou lancer de rayons).
+  const REST_DELAY = 200;          // ms sans mouvement avant le rendu final
+  const SNAP_MAX_SWING = 4;        // degres de bascule toleres pour caler sur une image Cycles
+  let lastMotion = performance.now(), lastMinY = -6, pt = null, ptBusy = false;
   function schedule() {
     if (frameQueued) return;
     frameQueued = true;
@@ -500,26 +540,42 @@ export function startViewer({ onProgress, onReady, onError }) {
     const dt = Math.min(0.05, (now - last) / 1000);
     const frameMs = now - last;
     last = now;
-    let moving = dragging;
+    let moving = dragging, snapDone = false;
+    // retour a la vue de depart, 8 s apres le dernier geste (remplace la rotation automatique)
+    if (ready && !dragging && !tween && !window.__bloomFreeze && !window.__bloomNoHome && omega.lengthSq() <= 4e-4 && now - lastGesture >= HOME_DELAY && !atHome()) {
+      leaveRest();
+      setPressed('front');
+      const fromZoom = userZoom, fromPan = { x: pan.x, y: pan.y };
+      if (reduceMotion) {
+        pivot.quaternion.copy(VIEWS.front); userZoom = 1; pan.x = pan.y = 0;
+        lastMotion = -Infinity; dirty = true;
+      } else {
+        tween = { t: 0, dur: 1.0, from: pivot.quaternion.clone(), to: VIEWS.front, snap: true, home: true, fromZoom, fromPan };
+      }
+    }
 
     if (tween) {
       tween.t = Math.min(1, tween.t + dt / tween.dur);
-      pivot.quaternion.slerpQuaternions(tween.from, tween.to, ease(tween.t));
-      if (tween.t >= 1) tween = null;
+      const kk = ease(tween.t);
+      pivot.quaternion.slerpQuaternions(tween.from, tween.to, kk);
+      if (tween.home) {
+        userZoom = tween.fromZoom + (1 - tween.fromZoom) * kk;
+        pan.x = tween.fromPan.x * (1 - kk); pan.y = tween.fromPan.y * (1 - kk);
+        if (tween.t >= 1) { userZoom = 1; pan.x = pan.y = 0; }
+      }
+      if (tween.t >= 1) {
+        // fin de calage sur un angle Cycles : rendu final tout de suite
+        if (tween.snap) snapDone = true;
+        tween = null;
+      }
       moving = true;
     } else if (!dragging) {
       if (omega.lengthSq() > 4e-4) {
         rotateBy(omega.x * dt, omega.y * dt, omega.z * dt);
         omega.multiplyScalar(Math.exp(-dt * 3.0));
-        idleSince = now;
         moving = true;
       } else {
         omega.set(0, 0, 0);
-        if (!reduceMotion && ready && !window.__bloomFreeze && now - idleSince > AUTO_DELAY && document.visibilityState === 'visible') {
-          autoSpeed = Math.min(AUTO_SPEED, autoSpeed + dt * AUTO_SPEED * 0.6);
-          rotateBy(0, autoSpeed * dt, 0);
-          moving = true;
-        }
       }
     }
 
@@ -532,6 +588,12 @@ export function startViewer({ onProgress, onReady, onError }) {
     applyOffset();
     camera.updateProjectionMatrix();
 
+    lastMinY = m.minY;
+    if (moving) {
+      // le temps reel reprend la main : plus d'image fixe ni de rendu final (ils montraient la meme pose)
+      lastMotion = snapDone || (tween && tween.snap) ? -Infinity : now;
+      leaveRest();
+    }
     if (moving || dirty || shadowStale) {
       if (ready) {
         // appareil lent : pendant le mouvement, l'ombre (tres floue) se recalcule une image sur deux
@@ -559,19 +621,128 @@ export function startViewer({ onProgress, onReady, onError }) {
         measuredFrames = 0; slowFrames = 0;
       }
     }
-    // au repos : plus aucune image calculee ; un seul reveil programme pour la rotation lente
+    // a l'arret : image Cycles, ou lancer de rayons jusqu'a convergence, puis plus aucun calcul
     clearTimeout(wakeTimer);
-    if (moving || !ready || shadowStale) schedule();
-    else if (!reduceMotion && !window.__bloomFreeze) wakeTimer = setTimeout(schedule, Math.max(50, AUTO_DELAY - (now - idleSince) + 20));
+    ptBusy = false;
+    if (!moving && ready && !window.__bloomFreeze) {
+      const since = now - lastMotion;
+      if (since < REST_DELAY) wakeTimer = setTimeout(schedule, REST_DELAY - since + 5);
+      else ptBusy = rest();
+    }
+    if (moving || !ready || shadowStale || ptBusy || tween) schedule();
+  }
+
+  /* ------------------------------------------------------------------ rendu final a l'arret */
+  let manifest = null, stillKey = '';
+  fetch('assets/rot-manifest.json').then((r) => r.json()).then((j) => { manifest = j; }).catch(() => { /* pas d'images Cycles : lancer de rayons partout */ });
+  const qInvBase = BASE.clone().invert();
+  function poseKey() {
+    const q = pivot.quaternion;
+    return [q.x, q.y, q.z, q.w, camera.zoom, pan.x, pan.y, cw, ch, renderer.getPixelRatio()].map((v) => v.toFixed(4)).join(',');
+  }
+  // la pose est elle une rotation sur la verticale proche d'une vue Cycles (a plat, meme cadrage) ?
+  function cyclesMatch() {
+    if (!manifest || window.__bloomNoStill || userZoom > 1.001 || Math.abs(fitNow - 1) > 1e-3) return null;
+    const qr = pivot.quaternion.clone().multiply(qInvBase);
+    const tw = new THREE.Quaternion(0, qr.y, 0, qr.w).normalize();
+    const swing = qr.clone().multiply(tw.clone().invert());
+    const swingDeg = THREE.MathUtils.radToDeg(2 * Math.acos(Math.min(1, Math.abs(swing.w))));
+    if (swingDeg > SNAP_MAX_SWING) return null;
+    const theta = THREE.MathUtils.radToDeg(2 * Math.atan2(tw.y, tw.w));
+    const stepDeg = manifest.degreesPerView, n = manifest.views;
+    const k = ((Math.round(theta / stepDeg) % n) + n) % n;
+    // angle 0 : la vue de depart, montree avec la photo du site (jamais l'image Cycles 0)
+    const target = k === 0 ? VIEWS.front : qAxis(Y, k * stepDeg).multiply(BASE);
+    // garde-fou : jamais plus d'une demi-vue d'ecart (7,5 degres pour 24 vues)
+    const err = THREE.MathUtils.radToDeg(pivot.quaternion.angleTo(target));
+    if (err > stepDeg / 2 + SNAP_MAX_SWING) return null;
+    return { index: k, target, err, photo: k === 0 };
+  }
+  function stillUrl(index) {
+    const dir = squarePx * Math.min(window.devicePixelRatio || 1, 3) > 1100 ? 'assets/rot-1600' : 'assets/rot-1080';
+    return `${dir}/v${String(index).padStart(2, '0')}.jpg`;
+  }
+  function showStill(index, key) {
+    if (stillKey === key) return;
+    stillKey = key;
+    const url = stillUrl(index);
+    if (stillEl.getAttribute('src') !== url) stillEl.setAttribute('src', url);
+    // le temps reel reste visible tant que l'image n'est pas decodee
+    stillEl.decode().then(() => {
+      if (stillKey !== key) return;
+      stillEl.classList.add('is-on');
+      window.__bloomStill = { index, url, at: performance.now() };
+    }).catch(() => { if (stillKey === key) stillKey = ''; });
+  }
+  function hideStill() {
+    stillKey = '';
+    if (!stillEl.classList.contains('is-on')) return;
+    stillEl.style.transition = 'none';             // s'efface d'un coup : le temps reel montre deja la meme pose
+    stillEl.classList.remove('is-on');
+    void stillEl.offsetWidth;
+    stillEl.style.transition = '';
+    window.__bloomStill = null;
+  }
+  function showPhoto() {
+    hideStill();
+    if (photoEl.classList.contains('is-on')) return;
+    photoEl.classList.add('is-on');              // fondu de la 3D vers la photo
+    window.__bloomPhoto = true;
+  }
+  function hidePhoto() {
+    if (!ready || !photoEl.classList.contains('is-on')) return;
+    photoEl.classList.remove('is-on');           // fondu de la photo vers la 3D alignee dessous
+    window.__bloomPhoto = false;
+  }
+  function leaveRest() {
+    hideStill();
+    hidePhoto();
+    if (pt) pt.stop();
+  }
+  // true tant qu'il reste du calcul a faire
+  function rest() {
+    const key = poseKey();
+    const match = cyclesMatch();
+    if (match) {
+      if (match.err > 0.02 && !reduceMotion) {
+        tween = { t: 0, dur: THREE.MathUtils.clamp(0.3 + match.err / 7.5 * 0.2, 0.3, 0.5), from: pivot.quaternion.clone(), to: match.target, snap: true };
+        return true;
+      }
+      if (match.err > 0.02) { pivot.quaternion.copy(match.target); requestRender(); return true; }
+      if (match.photo) showPhoto(); else { hidePhoto(); showStill(match.index, key); }
+      return false;
+    }
+    if (!pt || pt.state.disabled) return false;
+    if (!pt.state.ready) { pt.readyP.then(() => schedule()); return false; }
+    if (pt.state.key !== key) {
+      pt.start({ key, position: pivot.position, quaternion: pivot.quaternion, floorY: lastMinY + 0.02 });
+    }
+    const r = pt.step();
+    if (r === 'wait') { wakeTimer = setTimeout(schedule, 250); return false; }
+    return r;
+  }
+  function rasterize() {
+    renderShadow();
+    renderer.render(scene, camera);
+  }
+  // ombre seule (sous l'image du lancer de rayons)
+  function rasterizeShadow() {
+    renderShadow();
+    pivot.visible = false;
+    renderer.render(scene, camera);
+    pivot.visible = true;
   }
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { last = performance.now(); requestRender(); } });
 
+  // perte du contexte graphique (pilote, onglet en veille) : plus de lancer de rayons ; on recharge proprement au retour
+  canvas.addEventListener('webglcontextlost', () => { if (pt) pt.state.disabled = true; });
+  canvas.addEventListener('webglcontextrestored', () => { location.reload(); });
   window.addEventListener('resize', layout);
   matchMedia(`(resolution: ${window.devicePixelRatio || 1}dppx)`).addEventListener?.('change', () => { maxDpr = Math.min(window.devicePixelRatio || 1, 3); layout(); });
   layout();
 
   /* ------------------------------------------------------------------ chargement */
-  let pModel = 0, pEnv = 0;
+  let pModel = 0, pEnv = 0, envEquirect = null;
   const progress = () => onProgress(Math.round((pModel * 0.6 + pEnv * 0.4) * 100));
   const draco = new DRACOLoader().setDecoderPath(`https://cdn.jsdelivr.net/npm/three@${THREE_VERSION}/examples/jsm/libs/draco/gltf/`);
   const gltfLoader = new GLTFLoader().setDRACOLoader(draco);
@@ -590,7 +761,8 @@ export function startViewer({ onProgress, onReady, onError }) {
       tex.needsUpdate = true;
       const pmrem = new THREE.PMREMGenerator(renderer);
       const rt = pmrem.fromEquirectangular(tex);
-      pmrem.dispose(); tex.dispose();
+      pmrem.dispose();
+      envEquirect = tex;
       scene.environment = rt.texture;
       // l'avant du studio Cycles (boite a lumiere face a la piece) se place du cote de la camera
       scene.environmentRotation.set(0, Math.PI / 2, 0);
@@ -624,10 +796,21 @@ export function startViewer({ onProgress, onReady, onError }) {
     renderer.compile(scene, camera);
     ready = true;
     fitNow = measure(pivot.quaternion).fit;
-    idleSince = performance.now();
     requestRender();
     onReady();
     window.__bloomReady = true;
+    // Rendu par lancer de rayons : en essai seulement (?pt=1). Mesure du 20/11 sur le Mac de controle
+    // (Intel Iris Plus) : trop lent, il se coupait de lui-meme ; non verifie sur un Mac recent ni sur iPhone.
+    // Version livree : temps reel, calage sur les images Cycles, retour a la vue de depart.
+    if (!/[?&]pt=1/.test(location.search)) return;
+    import('./pathtracer.js').then((mod) => {
+      pt = mod.createPathTracer({
+        renderer, camera, model: root, pivotPosition: pivot.position.clone(), envTex: envEquirect, envRotation: scene.environmentRotation,
+        rasterize, rasterizeShadow,
+      });
+      window.__bloomPT = pt;
+      schedule();
+    }).catch((err) => { console.warn('Lancer de rayons indisponible, temps reel seul.', err); });
   }).catch((err) => {
     console.error(err);
     onError('load');
@@ -637,16 +820,19 @@ export function startViewer({ onProgress, onReady, onError }) {
   window.__bloom = {
     THREE, renderer, camera, pivot, goTo,
     setOrientation(xDeg, yDeg, zDeg) {
-      tween = null; omega.set(0, 0, 0); autoSpeed = 0;
+      tween = null; omega.set(0, 0, 0); leaveRest();
       pivot.quaternion.copy(BASE);
       rotateBy(THREE.MathUtils.degToRad(xDeg), THREE.MathUtils.degToRad(yDeg), THREE.MathUtils.degToRad(zDeg || 0));
       fitNow = measure(pivot.quaternion).fit;
-      idleSince = performance.now();
+      lastMotion = performance.now();
+      markGesture();
       requestRender();
     },
     zoom(z, x, y) { zoomAt(z / userZoom, x ?? cw / 2, y ?? 0.48 * ch); requestRender(); },
     tune: { SH, shadowPlane, depthMat, roseGold, whiteGold, diamond },
-    spin(wx, wy, wz) { tween = null; omega.set(wx, wy, wz); requestRender(); },
+    spin(wx, wy, wz) { tween = null; leaveRest(); omega.set(wx, wy, wz); requestRender(); },
+    get pt() { return pt; },
+    get still() { return window.__bloomStill || null; },
     render: requestRender,
     get dpr() { return renderer.getPixelRatio(); },
     get halfRateShadow() { return halfRateShadow; },

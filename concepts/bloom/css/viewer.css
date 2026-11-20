@@ -1,5 +1,5 @@
 :root {
-  --bg: #efefef;
+  --bg: #f1f1f1;           /* gris du fond de la photo du site (mediane 240, moyenne 241) */
   --ink: #2b2623;
   --muted: #8a827c;
   --line: rgba(43, 38, 35, 0.18);
@@ -20,6 +20,30 @@ body { font-family: var(--sans); -webkit-font-smoothing: antialiased; overflow: 
   -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
 }
 #scene:active { cursor: grabbing; }
+/* image Cycles d'origine, posee exactement sur la vue 3D quand la piece est arretee sur un angle deja rendu */
+.still {
+  position: absolute; display: block; pointer-events: none; user-select: none;
+  opacity: 0; transition: opacity 0.2s ease;
+}
+.still.is-on { opacity: 1; }
+/* images Cycles (fond #efefef) ramenees sur le gris de la page : aucun cadre visible */
+.still { filter: brightness(1.0084); }
+/* photo du site : aucune retouche, seulement ses bords fondus dans le gris de la page */
+.photo {
+  /* meme placement que js/viewer.js (PHOTO), deja juste avant que le script ne tourne */
+  --sq: min(calc(100vw / 0.9), calc(100vh * 1.3));
+  --ps: calc(var(--sq) * 1.031359);
+  width: var(--ps); height: var(--ps);
+  left: calc(50vw + var(--sq) * -0.004115 - var(--ps) / 2);
+  top: calc(48vh + var(--sq) * 0.021004 - var(--ps) / 2);
+  position: absolute; display: block; pointer-events: none; user-select: none;
+  opacity: 0; transition: opacity 0.25s ease;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 7%, #000 93%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 7%, #000 93%, transparent 100%);
+  mask-composite: intersect;
+}
+.photo.is-on { opacity: 1; }
 #scene:focus-visible { box-shadow: inset 0 0 0 2px var(--line); }
 
 .top {
@@ -77,5 +101,5 @@ body { font-family: var(--sans); -webkit-font-smoothing: antialiased; overflow: 
   .credit { left: 0; right: 0; text-align: center; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hint, .loader, .views button { transition: none; }
+  .hint, .loader, .views button, .still, .photo { transition: none; }
 }
