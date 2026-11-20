@@ -88,6 +88,12 @@ function placeStill(){                 // meme cadre que la camera 3D : carre ce
 }
 placeStill();
 new ResizeObserver(placeStill).observe(canvas);
+// page noire : memes photos du site, detourees (references/noir/*.webp, fond transparent)
+var srcDesc = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, "src"), stillLogical = still.getAttribute("src");
+function stillMap(u){ return document.documentElement.classList.contains("noir") ? String(u).replace(/references\/([^\/?#]+)\.jpg/, "references/noir/$1.webp") : u; }
+Object.defineProperty(still, "src", { configurable: true,
+  get: function(){ return srcDesc.get.call(still); },
+  set: function(v){ stillLogical = v; srcDesc.set.call(still, stillMap(v)); } });
 var viewer = createViewer({
   canvas: canvas, overlay: still, fill: FILL,
   onProgress: function(p){ bar.style.width = Math.round(100 * p) + "%"; },
@@ -97,7 +103,7 @@ var viewer = createViewer({
   onViewChange: function(v){ views.querySelectorAll("button").forEach(function(o){ o.setAttribute("aria-pressed", String(o.getAttribute("data-v") === v)); }); }
 });
 if (viewer) views.querySelectorAll("button").forEach(function(b){ b.addEventListener("click", function(){ viewer.setView(b.getAttribute("data-v")); }); });
-// page blanche (par defaut, avec les photos du site) ou noire (3D seule : les photos ont un fond clair)
+// page blanche (photos du site) ou noire (memes photos, detourees)
 var modeNav = document.getElementById("mode");
 modeNav.querySelectorAll("button").forEach(function(b){
   b.addEventListener("click", function(){
@@ -105,7 +111,8 @@ modeNav.querySelectorAll("button").forEach(function(b){
     modeNav.querySelectorAll("button").forEach(function(o){ o.setAttribute("aria-pressed", String(o === b)); });
     document.documentElement.classList.toggle("noir", noir);
     document.querySelector('meta[name="theme-color"]').setAttribute("content", noir ? "#000000" : "#ffffff");
-    if (viewer) viewer.setPhotos(!noir);
+    if (noir) ["render-1","render-3","profil-video-3s3"].forEach(function(n){ new Image().src = "references/noir/" + n + ".webp"; });
+    still.src = stillLogical;
   });
 });
 </script>
