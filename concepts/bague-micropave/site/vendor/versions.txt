@@ -1,5 +1,0 @@
-Bibliotheques servies en local (versions figees, integrees et minifiees dans site/build/ par site/build/construire.sh) :
-three 0.187.0 (MIT)
-three-gpu-pathtracer 0.0.28 (MIT)
-three-mesh-bvh 0.9.18 (MIT)
-Decodeur Draco : site/vendor/three/examples/jsm/libs/draco/gltf/ (Apache 2.0, livre avec three)
