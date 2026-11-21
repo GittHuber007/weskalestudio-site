@@ -2,17 +2,148 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Private preview</title>
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="data:,">
+<title>Six-prong micropavé, petite</title>
 <style>
-:root{--bg:#ffffff;--ink:#1d1d22;--muted:#6c6c76}
-@media (prefers-color-scheme:dark){:root{--bg:#0b0b0c;--ink:#ededf0;--muted:#8d8d96}}
-html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-main{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 16px;box-sizing:border-box}
-h1{font-family:"Didot","Bodoni 72",Georgia,serif;font-weight:400;font-size:clamp(26px,5vw,40px);margin:0 0 12px}
-p{color:var(--muted);font-size:15px;margin:0}
+:root{
+  --bg:#ffffff; --ink:#1d1d22; --muted:#7c7c86; --line:rgba(29,29,34,.18);
+  --serif:"Didot","Bodoni 72","Bodoni MT","Playfair Display","Times New Roman",serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Helvetica Neue","Segoe UI",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);transition:background-color .35s ease,color .35s ease}
+html.noir{--bg:#000000;--ink:#ededf0;--muted:#8d8d96;--line:rgba(237,237,240,.25)}
+html.noir #still{background:#000;-webkit-mask-image:none;mask-image:none}
+body{font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden}
+.stage{position:fixed;inset:0;background:var(--bg);transition:background-color .35s ease}
+#ring3d{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none;cursor:grab;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#ring3d.is-drag{cursor:grabbing}
+#ring3d:focus-visible{box-shadow:inset 0 0 0 2px var(--line)}
+/* photo du site Liori, telle quelle, posee exactement sur la vue 3D (placement calcule par le script) */
+#still{position:absolute;display:block;pointer-events:none;user-select:none;-webkit-user-drag:none;z-index:1}
+/* bords fondus dans le blanc de la page (l'image de la video a un fond gris) ; l'image n'est pas retouchee */
+#still{-webkit-mask-image:linear-gradient(to right,transparent 0,#000 7%,#000 93%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 7%,#000 93%,transparent 100%);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent 0,#000 7%,#000 93%,transparent 100%),linear-gradient(to bottom,transparent 0,#000 7%,#000 93%,transparent 100%);mask-composite:intersect}
+canvas.pt{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0;z-index:0}
+.top{position:absolute;top:0;left:0;right:0;z-index:2;display:flex;justify-content:space-between;align-items:baseline;padding:calc(22px + env(safe-area-inset-top)) clamp(20px,4vw,48px) 0;pointer-events:none}
+.title{margin:0;font-family:var(--serif);font-weight:400;font-size:clamp(22px,2.6vw,34px);letter-spacing:.01em;line-height:1.15}
+.mode{pointer-events:auto;display:flex;gap:clamp(12px,2vw,22px);font-size:12px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}
+.mode button{font:inherit;color:var(--muted);background:none;border:0;cursor:pointer;padding:6px 0;border-bottom:1px solid transparent;transition:color .3s,border-color .3s}
+.mode button[aria-pressed=true]{color:var(--ink);border-bottom-color:var(--ink)}
+.mode button:hover{color:var(--ink)}
+.hint{position:absolute;left:0;right:0;z-index:2;bottom:calc(92px + env(safe-area-inset-bottom));margin:0;text-align:center;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);transition:opacity .8s ease;pointer-events:none}
+.views{position:absolute;z-index:2;left:50%;transform:translateX(-50%);bottom:calc(34px + env(safe-area-inset-bottom));display:flex;gap:clamp(14px,3vw,34px);font-size:12px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}
+.views button{font:inherit;color:var(--muted);background:none;border:0;cursor:pointer;padding:10px 0;border-bottom:1px solid transparent;transition:color .3s,border-color .3s}
+.views button[aria-pressed=true]{color:var(--ink);border-bottom-color:var(--ink)}
+.views button:hover{color:var(--ink)}
+.mode button:focus-visible,.views button:focus-visible{outline:1px solid var(--ink);outline-offset:3px}
+.credit{position:absolute;z-index:2;right:clamp(20px,4vw,48px);bottom:calc(14px + env(safe-area-inset-bottom));margin:0;font-size:10px;letter-spacing:.14em;color:var(--muted);opacity:.8}
+.load{position:absolute;left:0;top:0;height:2px;background:var(--ink);width:0;z-index:3;transition:width .2s,opacity .4s}
+@media (max-width:560px){
+  .views{font-size:11px;letter-spacing:.12em;gap:18px;bottom:calc(40px + env(safe-area-inset-bottom))}
+  .hint{bottom:calc(96px + env(safe-area-inset-bottom))}
+  .credit{left:0;right:0;text-align:center}
+}
+@media (prefers-reduced-motion:reduce){.hint,.views button{transition:none}}
+@media (pointer:coarse){#still{-webkit-mask-image:none!important;mask-image:none!important}}
+#still{-webkit-transform:translateZ(0);transform:translateZ(0);will-change:opacity}
+#dbg{position:fixed;left:6px;right:6px;bottom:6px;z-index:99;font:11px/1.35 monospace;color:#c00;background:rgba(255,255,255,.92);padding:6px;white-space:pre-wrap;pointer-events:none}
 </style>
 </head>
-<body><main><h1>This private preview is no longer available.</h1><p>Weskale Studio</p></main></body>
+<body>
+<main class="stage" id="viewer">
+  <canvas id="ring3d" tabindex="0" role="img" aria-label="Real-time 3D view of the ring: drag to rotate it in any direction" data-i18n-aria="viewerAria"></canvas>
+  <img id="still" src="references/render-1.jpg" alt="Six-prong micropavé, petite" data-i18n-alt="title" draggable="false" fetchpriority="high">
+  <div class="load" id="load"></div>
+  <header class="top">
+    <h1 class="title" data-i18n="title">Six-prong micropavé, petite</h1>
+    <nav class="mode" id="mode" aria-label="Page"><button type="button" data-m="blanc" aria-pressed="true" data-i18n="m_white">White</button><button type="button" data-m="noir" aria-pressed="false" data-i18n="m_black">Black</button></nav>
+  </header>
+  <p class="hint" id="hint" data-i18n="drag">Drag to rotate in any direction</p>
+  <nav class="views" id="views" aria-label="Views" data-i18n-aria="viewsAria">
+    <button type="button" data-v="front" aria-pressed="true" data-i18n="v_front">Front</button>
+    <button type="button" data-v="profile" aria-pressed="false" data-i18n="v_profile">Profile</button>
+    <button type="button" data-v="top" aria-pressed="false" data-i18n="v_top">Top</button>
+  </nav>
+  <p class="credit">Concept Weskale Studio</p>
+</main>
+<script type="module">
+import { createViewer } from "./site/build/viewer.js";   // construit depuis site/viewer.js (site/build/construire.mjs)
+var I18N = {
+  en: { m_white: "White", m_black: "Black", title: "Six-prong micropavé, petite", drag: "Drag to rotate in any direction", viewerAria: "Real-time 3D view of the ring: drag to rotate it in any direction", viewsAria: "Views", v_front: "Front", v_profile: "Profile", v_top: "Top" },
+  fr: { m_white: "Blanc", m_black: "Noir", title: "Six griffes micropavé, petite", drag: "Glissez pour tourner dans tous les sens", viewerAria: "Vue 3D en temps réel de la bague : faites glisser pour la tourner dans tous les sens", viewsAria: "Vues", v_front: "Face", v_profile: "Profil", v_top: "Dessus" }
+};
+var lang = "en", T = I18N[lang];
+document.documentElement.lang = lang;
+document.title = T.title;
+document.querySelectorAll("[data-i18n]").forEach(function(el){ el.textContent = T[el.getAttribute("data-i18n")]; });
+document.querySelectorAll("[data-i18n-aria]").forEach(function(el){ el.setAttribute("aria-label", T[el.getAttribute("data-i18n-aria")]); });
+document.querySelectorAll("[data-i18n-alt]").forEach(function(el){ el.setAttribute("alt", T[el.getAttribute("data-i18n-alt")]); });
+
+var FILL = 0.84;                       // part du petit cote de la fenetre occupee par le cadre de la photo
+var canvas = document.getElementById("ring3d"), still = document.getElementById("still");
+var bar = document.getElementById("load"), hint = document.getElementById("hint"), views = document.getElementById("views");
+function placeStill(){                 // meme cadre que la camera 3D : carre centre, cote = FILL x petit cote
+  var w = canvas.clientWidth, h = canvas.clientHeight, s = FILL * Math.min(w, h);
+  still.style.width = s + "px"; still.style.height = s + "px";
+  still.style.left = (w - s) / 2 + "px"; still.style.top = (h - s) / 2 + "px";
+}
+placeStill();
+new ResizeObserver(placeStill).observe(canvas);
+// page noire : memes photos du site, detourees (references/noir/*.webp, fond transparent)
+var srcDesc = Object.getOwnPropertyDescriptor(HTMLImageElement.prototype, "src"), stillLogical = still.getAttribute("src");
+function stillMap(u){ return document.documentElement.classList.contains("noir") ? String(u).replace(/references\/([^\/?#]+)\.jpg/, "references/noir/$1.webp") : u; }
+Object.defineProperty(still, "src", { configurable: true,
+  get: function(){ return srcDesc.get.call(still); },
+  set: function(v){ stillLogical = v; srcDesc.set.call(still, stillMap(v)); } });
+var viewer = createViewer({
+  canvas: canvas, overlay: still, fill: FILL,
+  onProgress: function(p){ bar.style.width = Math.round(100 * p) + "%"; },
+  onReady: function(){ bar.style.opacity = 0; },
+  onError: function(){ bar.style.opacity = 0; hint.style.opacity = 0; },
+  onFirstInteraction: function(){ hint.style.opacity = 0; },
+  onViewChange: function(v){ views.querySelectorAll("button").forEach(function(o){ o.setAttribute("aria-pressed", String(o.getAttribute("data-v") === v)); }); }
+});
+if (viewer) views.querySelectorAll("button").forEach(function(b){ b.addEventListener("click", function(){ viewer.setView(b.getAttribute("data-v")); }); });
+// filet de securite telephones : 10,5 s sans geste, vue Front, la photo du site revient quoi qu'il arrive
+var safeT = 0;
+function safeHome(){ clearTimeout(safeT); safeT = setTimeout(function(){
+  var f = views.querySelector('[data-v="front"]');
+  if (f && f.getAttribute("aria-pressed") === "true" && +getComputedStyle(still).opacity < 0.5) {
+    still.src = "references/render-1.jpg"; still.style.transition = "opacity 300ms linear"; still.style.opacity = "1";
+  }
+}, 10500); }
+["pointerdown","pointerup","pointercancel","touchend"].forEach(function(t){ canvas.addEventListener(t, safeHome, { passive: true }); });
+views.addEventListener("click", safeHome);
+// page blanche (photos du site) ou noire (memes photos, detourees)
+var modeNav = document.getElementById("mode");
+modeNav.querySelectorAll("button").forEach(function(b){
+  b.addEventListener("click", function(){
+    var noir = b.getAttribute("data-m") === "noir";
+    modeNav.querySelectorAll("button").forEach(function(o){ o.setAttribute("aria-pressed", String(o === b)); });
+    document.documentElement.classList.toggle("noir", noir);
+    document.querySelector('meta[name="theme-color"]').setAttribute("content", noir ? "#000000" : "#ffffff");
+    if (noir) ["render-1","render-3","profil-video-3s3"].forEach(function(n){ new Image().src = "references/noir/" + n + ".webp"; });
+    still.src = stillLogical;
+  });
+});
+
+// telephones : quand la photo est affichee, la 3D est masquee dessous (evite que le canvas WebGL passe devant sur iOS)
+function syncCanvas(){ var o = +getComputedStyle(still).opacity; canvas.style.opacity = (o > 0.98) ? "0" : "1"; }
+new MutationObserver(function(){ if (still.style.opacity === "0") canvas.style.opacity = "1"; setTimeout(syncCanvas, 380); }).observe(still, { attributes: true, attributeFilter: ["style", "src"] });
+setTimeout(syncCanvas, 50);
+// diagnostic : ajouter ?debug=1 a l'adresse
+if (/[?&]debug=1/.test(location.search)) {
+  var dbg = document.createElement("div"); dbg.id = "dbg"; document.body.appendChild(dbg); var errs = [];
+  window.addEventListener("error", function(e){ errs.push(String(e.message).slice(0,120)); });
+  setInterval(function(){ var cs = getComputedStyle(still);
+    dbg.textContent = "photo op=" + cs.opacity + " vis=" + cs.visibility + " w=" + still.naturalWidth + " src=" + still.getAttribute("src") +
+      "\ncanvas op=" + getComputedStyle(canvas).opacity + " mask=" + (cs.webkitMaskImage || cs.maskImage || "").slice(0,20) +
+      "\n" + innerWidth + "x" + innerHeight + " dpr=" + devicePixelRatio + "\n" + navigator.userAgent.slice(0,140) + (errs.length ? "\nERR " + errs.join(" | ") : "");
+  }, 500);
+}
+</script>
+</body>
 </html>
