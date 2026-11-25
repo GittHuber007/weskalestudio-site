@@ -1,139 +1,130 @@
-document.documentElement.classList.add('js');
-(function () {
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var fine = window.matchMedia('(pointer: fine)').matches;
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
-  /* header: solid after the first screen, light text over dark sections */
-  var header = document.querySelector('.site-header');
-  var cta = document.querySelector('.mobile-cta');
-  var darks = [].slice.call(document.querySelectorAll('[data-dark]'));
-  function onScroll() {
-    var y = window.scrollY;
-    if (header) {
-      header.classList.toggle('solid', y > 40);
-      var mid = 35, onDark = darks.some(function (s) { var r = s.getBoundingClientRect(); return r.top <= mid && r.bottom >= mid; });
-      header.classList.toggle('on-dark', onDark);
-    }
-    if (cta) {
-      var book = document.getElementById('book');
-      var hide = y < 300 || (book && book.getBoundingClientRect().top < window.innerHeight);
-      cta.classList.toggle('hide', !!hide);
-    }
-  }
-  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
-
-  /* mobile menu */
-  var tog = document.querySelector('.menu-toggle'), menu = document.getElementById('menu');
-  if (tog && menu) {
-    tog.addEventListener('click', function () {
-      var open = tog.getAttribute('aria-expanded') === 'true';
-      tog.setAttribute('aria-expanded', String(!open)); menu.hidden = open;
+  // Mobile menu
+  const toggle = $('.menu-toggle'), menu = $('#menu');
+  if (toggle && menu) {
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!open));
+      toggle.setAttribute('aria-label', open ? 'Open menu' : 'Close menu');
+      menu.hidden = open;
       document.body.style.overflow = open ? '' : 'hidden';
     });
-    menu.addEventListener('click', function (e) { if (e.target.closest('a')) { tog.setAttribute('aria-expanded', 'false'); menu.hidden = true; document.body.style.overflow = ''; } });
+    $$('a', menu).forEach(a => a.addEventListener('click', () => {
+      toggle.setAttribute('aria-expanded', 'false'); menu.hidden = true; document.body.style.overflow = '';
+    }));
   }
 
-  /* reveal on scroll */
-  var rev = [].slice.call(document.querySelectorAll('[data-reveal], .cut-svg'));
-  if ('IntersectionObserver' in window && !reduce) {
-    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -8% 0px' });
-    rev.forEach(function (el) { io.observe(el); });
-  } else rev.forEach(function (el) { el.classList.add('in'); });
-  document.querySelectorAll('.cut-svg .draw').forEach(function (p) { try { p.style.setProperty('--len', Math.ceil(p.getTotalLength())); } catch (e) {} });
-
-  /* the 10x loupe: follows the pointer, drifts on its own when idle */
-  function loupe(stage) {
-    var lens = stage.querySelector('.lens'), img = stage.querySelector('img');
-    if (!lens || !img) return;
-    var zoom = 3.2, idle = true, t = 0, raf;
-    function src() { return img.getAttribute('data-zoom') || img.currentSrc || img.src; }
-    function place(x, y) {
-      var r = stage.getBoundingClientRect(), w = r.width, h = r.height, lw = lens.offsetWidth;
-      lens.style.left = x + 'px'; lens.style.top = y + 'px';
-      lens.style.backgroundImage = 'url("' + src() + '")';
-      lens.style.backgroundSize = (w * zoom) + 'px ' + (h * zoom) + 'px';
-      lens.style.backgroundPosition = (-(x * zoom - lw / 2)) + 'px ' + (-(y * zoom - lw / 2)) + 'px';
-    }
-    function drift() {
-      if (!idle) return;
-      t += 0.006;
-      var r = stage.getBoundingClientRect();
-      place(r.width * (0.5 + 0.17 * Math.cos(t * 1.3)), r.height * (0.47 + 0.15 * Math.sin(t * 2.1)));
-      raf = requestAnimationFrame(drift);
-    }
-    function move(e) {
-      var r = stage.getBoundingClientRect(), p = e.touches ? e.touches[0] : e;
-      idle = false; cancelAnimationFrame(raf);
-      place(p.clientX - r.left, p.clientY - r.top);
-    }
-    stage.addEventListener('pointermove', move);
-    stage.addEventListener('touchmove', move, { passive: true });
-    stage.addEventListener('pointerleave', function () { if (stage.hasAttribute('data-drift') && !reduce) { idle = true; drift(); } else stage.classList.remove('live'); });
-    stage.addEventListener('pointerenter', function () { stage.classList.add('live'); });
-    if (stage.hasAttribute('data-drift') && !reduce) {
-      var started = false;
-      var o = new IntersectionObserver(function (es) { if (es[0].isIntersecting && !started) { started = true; stage.classList.add('live'); drift(); } });
-      o.observe(stage);
-    }
-    stage._loupe = { refresh: function () { if (!idle) return; } };
-  }
-  document.querySelectorAll('[data-loupe]').forEach(loupe);
-
-  /* collections index: floating image follows the cursor */
-  var fl = document.querySelector('.index-float');
-  if (fl && fine) {
-    var items = document.querySelectorAll('.index li');
-    items.forEach(function (li) {
-      li.addEventListener('mouseenter', function () {
-        fl.querySelectorAll('img').forEach(function (im) { im.classList.toggle('cur', im.dataset.k === li.dataset.k); });
-        fl.classList.add('on');
+  // Collection filter (driven by the URL hash)
+  const grid = $('.grid-wrap .grid');
+  if (grid) {
+    const names = { all: 'All pieces' };
+    $$('.chip').forEach(c => { if (c.dataset.filter !== 'all') names[c.dataset.filter] = c.textContent; });
+    const apply = () => {
+      const key = (location.hash || '#all').slice(1);
+      const f = names[key] ? key : 'all';
+      let n = 0;
+      $$('.card', grid).forEach(card => {
+        const show = f === 'all' || card.dataset.cols.split(' ').includes(f);
+        card.hidden = !show; if (show) n++;
       });
-      li.addEventListener('mouseleave', function () { fl.classList.remove('on'); });
-    });
-    window.addEventListener('mousemove', function (e) { fl.style.left = (e.clientX + 170) + 'px'; fl.style.top = e.clientY + 'px'; }, { passive: true });
+      $$('.chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.filter === f)));
+      $$('.col-intro').forEach(p => { p.hidden = p.dataset.for !== f; });
+      $('#col-title').textContent = names[f];
+      $('#count').textContent = n;
+      document.title = names[f] + ' · J. Birnbach';
+    };
+    $$('.chip').forEach(c => c.addEventListener('click', () => {
+      history.replaceState(null, '', c.dataset.filter === 'all' ? location.pathname : '#' + c.dataset.filter);
+      apply();
+    }));
+    window.addEventListener('hashchange', apply);
+    apply();
   }
 
-  /* the vault: drag to scroll with a mouse */
-  document.querySelectorAll('.track').forEach(function (tr) {
-    var down = false, sx = 0, sl = 0, moved = false;
-    tr.addEventListener('mousedown', function (e) { down = true; moved = false; sx = e.pageX; sl = tr.scrollLeft; tr.classList.add('drag'); });
-    window.addEventListener('mouseup', function () { down = false; tr.classList.remove('drag'); });
-    tr.addEventListener('mousemove', function (e) { if (!down) return; var d = e.pageX - sx; if (Math.abs(d) > 4) moved = true; tr.scrollLeft = sl - d; });
-    tr.addEventListener('click', function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
-    tr.querySelectorAll('img').forEach(function (i) { i.draggable = false; });
-  });
-
-  /* collection filters */
-  var chips = document.querySelectorAll('.chip');
-  if (chips.length) {
-    var cards = document.querySelectorAll('.card'), count = document.getElementById('count'), title = document.getElementById('col-title');
-    function apply(f) {
-      var n = 0;
-      cards.forEach(function (c) { var ok = f === 'all' || c.dataset.cols.split(' ').indexOf(f) > -1; c.hidden = !ok; if (ok) n++; });
-      chips.forEach(function (ch) { ch.setAttribute('aria-pressed', String(ch.dataset.filter === f)); if (ch.dataset.filter === f && title) title.textContent = ch.dataset.title || ch.textContent; });
-      document.querySelectorAll('.col-intro').forEach(function (p) { p.hidden = p.dataset.for !== f; });
-      if (count) count.textContent = n;
+  // Product gallery
+  const gallery = $('.gallery');
+  if (gallery) {
+    const track = $('.slides', gallery), slides = $$('.slide', gallery), thumbs = $$('.thumb', gallery), counter = $('.gc-i', gallery);
+    const go = i => track.scrollTo({ left: slides[i].offsetLeft - track.offsetLeft, behavior: 'smooth' });
+    thumbs.forEach(t => t.addEventListener('click', () => go(+t.dataset.i)));
+    const io = new IntersectionObserver(es => es.forEach(en => {
+      if (en.isIntersecting && en.intersectionRatio > .6) {
+        const i = slides.indexOf(en.target);
+        counter.textContent = i + 1;
+        thumbs.forEach((t, k) => k === i ? t.setAttribute('aria-current', 'true') : t.removeAttribute('aria-current'));
+      }
+    }), { root: track, threshold: [.6] });
+    slides.forEach(s => io.observe(s));
+    track.addEventListener('keydown', ev => {
+      const cur = +counter.textContent - 1;
+      if (ev.key === 'ArrowRight' && cur < slides.length - 1) { ev.preventDefault(); go(cur + 1); }
+      if (ev.key === 'ArrowLeft' && cur > 0) { ev.preventDefault(); go(cur - 1); }
+    });
+    // Zoom (desktop only: on a phone the swipe is the gallery)
+    const lb = $('.lightbox'), lbImg = lb && $('img', lb);
+    if (lb && matchMedia('(hover:hover) and (min-width:900px)').matches) {
+      slides.forEach(s => s.addEventListener('click', () => {
+        const im = $('img', s);
+        lbImg.src = im.currentSrc.replace(/-(400|800)\.webp$/, '-1400.webp');
+        lbImg.onerror = () => { lbImg.onerror = null; lbImg.src = im.currentSrc; };
+        lbImg.alt = im.alt; lb.hidden = false; $('.lb-close', lb).focus();
+      }));
+      const close = () => { lb.hidden = true; };
+      $('.lb-close', lb).addEventListener('click', close);
+      lb.addEventListener('click', e => { if (e.target === lb) close(); });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
     }
-    chips.forEach(function (ch) { ch.addEventListener('click', function () { apply(ch.dataset.filter); history.replaceState(null, '', ch.dataset.filter === 'all' ? location.pathname : '#' + ch.dataset.filter); }); });
-    var h = location.hash.slice(1); if (h && document.querySelector('.chip[data-filter="' + h + '"]')) apply(h);
   }
 
-  /* piece gallery: thumbnails swap the main image (the loupe reads it) */
-  var main = document.querySelector('.pdp-main img');
-  document.querySelectorAll('.thumb').forEach(function (b) {
-    b.addEventListener('click', function () {
-      document.querySelectorAll('.thumb').forEach(function (x) { x.setAttribute('aria-current', 'false'); });
-      b.setAttribute('aria-current', 'true');
-      main.style.opacity = 0;
-      setTimeout(function () { main.removeAttribute('srcset'); main.src = b.dataset.src; main.setAttribute('data-zoom', b.dataset.zoom); main.alt = b.dataset.alt; main.style.opacity = 1; }, 200);
-    });
+  // Turn viewer: crossfade between real photographs of the same piece
+  $$('.turn-view').forEach(v => {
+    const frames = $$('.turn-frame', v), range = $('.turn-range', v), stage = $('.turn-stage', v), max = frames.length - 1;
+    const set = t => {
+      t = Math.max(0, Math.min(max, t)); range.value = t;
+      const near = Math.round(t); frames.forEach((f, k) => { f.style.opacity = k === near ? 1 : 0; });
+    };
+    range.addEventListener('input', () => set(+range.value));
+    let drag = null;
+    stage.addEventListener('pointerdown', e => { drag = { x: e.clientX, t: +range.value }; stage.setPointerCapture(e.pointerId); });
+    stage.addEventListener('pointermove', e => { if (drag) set(drag.t + (e.clientX - drag.x) / stage.clientWidth * max * 1.4); });
+    const end = () => { drag = null; };
+    stage.addEventListener('pointerup', end); stage.addEventListener('pointercancel', end);
+    set(+range.value);
   });
 
-  /* booking links scroll to the form; form is a preview */
-  document.querySelectorAll('[data-book]').forEach(function (a) {
-    a.addEventListener('click', function (e) { var b = document.getElementById('book'); if (b) { e.preventDefault(); b.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); } });
-  });
-  document.querySelectorAll('.book-form').forEach(function (f) {
-    f.addEventListener('submit', function (e) { e.preventDefault(); var n = f.querySelector('.form-note'); if (n) n.hidden = false; });
-  });
+  // Booking form: preview only, nothing is sent
+  $$('.book-form').forEach(form => form.addEventListener('submit', ev => {
+    ev.preventDefault();
+    let ok = true;
+    $$('[required]', form).forEach(f => {
+      const bad = !f.value.trim() || (f.type === 'email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.value));
+      f.classList.toggle('invalid', bad); f.setAttribute('aria-invalid', String(bad));
+      if (bad && ok) { f.focus(); ok = false; }
+    });
+    if (!ok) return;
+    const note = $('.form-note', form); note.hidden = false;
+    $('button[type=submit]', form).disabled = true;
+  }));
+
+  // Mobile booking button hides when the booking section is on screen
+  const cta = $('.mobile-cta'), book = $('#book');
+  if (cta && book) {
+    new IntersectionObserver(([en]) => cta.classList.toggle('away', en.isIntersecting), { threshold: .05 }).observe(book);
+    const first = $('.hero .actions, .pdp-info .actions');
+    const onScroll = () => cta.classList.toggle('shown', !first || first.getBoundingClientRect().bottom < 0);
+    addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  }
+
+  // Gentle reveal on scroll
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+    const els = $$('.section-head, .tile, .facts li, .spot-text, .rc-row li, .rc-item, .book-intro, .book-form');
+    els.forEach(el => el.classList.add('reveal'));
+    const ro = new IntersectionObserver(es => es.forEach(en => {
+      if (en.isIntersecting) { en.target.classList.add('in'); ro.unobserve(en.target); }
+    }), { rootMargin: '0px 0px -8% 0px' });
+    els.forEach(el => ro.observe(el));
+  }
 })();
